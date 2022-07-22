@@ -97,6 +97,29 @@ const resolvers = {
         updateProduct: async (parent, { _id, quantity }) => {
             const amount = quantity;
             return await Product.findByIdAndUpdate(_id, { $inc: { quantity: amount } }, { new: true });
+        },
+        deleteUser: async (parent, { _id }) => {
+            return await User.findByIdAndDelete({ _id });
+        },
+        deleteProduct: async (parent, { _id }) => {
+            return await Product.findByIdAndDelete({ _id });
+        },
+        deleteCategory: async (parent, { _id }) => {
+            return await Category.findByIdAndDelete({ _id });
+        },
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+            if (!user) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+
+            const correctPw = await user.isCorrectPw(password);
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+
+            const token = signToken(user);
+            return { token, user };
         }
     }
 };
