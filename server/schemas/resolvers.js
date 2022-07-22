@@ -79,6 +79,14 @@ const resolvers = {
                 return order;
             }
             throw new AuthenticationError("Not logged in");
+        },
+        addProduct: async (parent, args) => {
+            const product = await Product.create(args);
+            return product;
+        },
+        addCategory: async (parent, { name }) => {
+            const category = await Category.create({ name });
+            return category;
         }
     }
 };
