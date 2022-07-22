@@ -31,13 +31,13 @@ const userSchema = new Schema({
         required: true,
         minlength: 4
     },
-    orders: [Order.schema],
-    rating: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Plus'
-        }
-    ]
+    orders: [Order.schema]
+    // rating: [
+    //     {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Plus'
+    //     }
+    // ]
 });
 
 userSchema.pre('save', async function(next) {
