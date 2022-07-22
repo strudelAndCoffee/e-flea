@@ -66,8 +66,20 @@ const resolvers = {
             const user = await User.create(args);
             const token = signToken(user);
 
-            return ( token, user };
+            return { token, user };
         },
+        addOrder: async (parent, { products }, context) => {
+            console.log(context);
+            if (context.user) {
+                const order = new Order({ products });
+                await User.findByIdAndUpdate(context.user._id, {
+                    $push: { orders: order }
+                });
+
+                return order;
+            }
+            throw new AuthenticationError("Not logged in");
+        }
     }
 };
 
