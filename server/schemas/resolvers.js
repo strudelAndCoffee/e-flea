@@ -87,6 +87,16 @@ const resolvers = {
         addCategory: async (parent, { name }) => {
             const category = await Category.create({ name });
             return category;
+        },
+        updateUser: async (parent, args, context) => {
+            if (context.user) {
+                return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+            }
+            throw new AuthenticationError('Not logged in');
+        },
+        updateProduct: async (parent, { _id, quantity }) => {
+            const amount = quantity;
+            return await Product.findByIdAndUpdate(_id, { $inc: { quantity: amount } }, { new: true });
         }
     }
 };
