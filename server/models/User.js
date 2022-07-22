@@ -1,5 +1,4 @@
 const mongoose = require('mogoose');
-
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 const Order = require('./Order');
@@ -33,7 +32,10 @@ const userSchema = new Schema({
         minlength: 4
     },
     orders: [Order.schema],
-    rating: [Plus.schema]
+    rating: {
+        type: Schema.Types.ObjectId,
+        ref: 'Plus'
+    }
 });
 
 userSchema.pre('save', async function(next) {
