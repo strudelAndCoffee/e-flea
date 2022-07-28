@@ -32,12 +32,6 @@ const userSchema = new Schema({
         minlength: 4
     },
     orders: [Order.schema]
-    // rating: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Plus'
-    //     }
-    // ]
 });
 
 userSchema.pre('save', async function(next) {
