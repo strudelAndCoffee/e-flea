@@ -9,6 +9,8 @@ import { setContext } from '@apollo/client/link/context';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
+import NoMatch from './pages/NoMatch';
 import { StoreProvider } from './utils/GlobalState';
 
 const httpLink = createHttpLink({
@@ -44,6 +46,14 @@ function App() {
               <Route
                 path='/login'
                 element={<Login />}
+              />
+              <Route
+                path='/signup'
+                element={<Signup />}
+              />
+              <Route 
+                path="*" 
+                element={<NoMatch />} 
               />
             </Routes>
           </StoreProvider>
