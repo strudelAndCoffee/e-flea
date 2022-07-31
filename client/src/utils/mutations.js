@@ -12,7 +12,6 @@ export const LOGIN = gql`
             token
             user {
                 _id
-                username
             }
         }
     }
@@ -36,7 +35,24 @@ export const ADD_USER = gql`
             token
             user {
                 _id
-                username
+            }
+        }
+    }
+`;
+
+export const ADD_ORDER = gql`
+    mutation addOrder($products: [ID]!) {
+        addOrder(products: $products) {
+            purchaseDate
+            products {
+                _id
+                name
+                description
+                quantity
+                price
+                category {
+                    name
+                }
             }
         }
     }
