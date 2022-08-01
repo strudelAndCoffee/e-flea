@@ -1,3 +1,5 @@
+import '../style/signup.css';
+
 const Signup = () => {
 
     const formSubmitHandler = (e) => {};
@@ -9,7 +11,7 @@ const Signup = () => {
                 className='signup-form'
                 onSubmit={formSubmitHandler}
             >
-                <label htmlFor='username' className='signup-form'>Username</label>
+                <label htmlFor='username'>Username</label>
                 <input
                     type='text'
                     name='username'

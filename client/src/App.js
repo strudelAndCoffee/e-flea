@@ -6,9 +6,9 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import './style/app.css';
 
 import Home from './pages/Home';
-import Login from './pages/Login';
 import Signup from './pages/Signup';
 import NoMatch from './pages/NoMatch';
 import { StoreProvider } from './utils/GlobalState';
@@ -39,17 +39,16 @@ function App() {
         <div className="App">
           <StoreProvider>
             <header>
-              this is the header
+              <h1>
+                eFlea
+              </h1>
             </header>
+
             <main>
               <Routes>
                 <Route
                   path='/'
                   element={<Home />}
-                />
-                <Route
-                  path='/login'
-                  element={<Login />}
                 />
                 <Route
                   path='/signup'
@@ -61,6 +60,7 @@ function App() {
                 />
               </Routes>
             </main>
+
             <footer>
               this is the footer
             </footer>

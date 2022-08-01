@@ -1,0 +1,23 @@
+header {
+    position: absolute;
+    top: 0;
+    min-width: 100vw;
+    height: 10vh;
+    text-align: center;
+    background-color: green;
+}
+
+main {
+    margin: 10vh 0 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    min-width: 100vw;
+    height: 5vh;
+    text-align: center;
+}
