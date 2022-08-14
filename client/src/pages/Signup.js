@@ -5,7 +5,7 @@ import Auth from '../utils/auth';
 import '../style/signup.css';
 
 const Signup = () => {
-    const [formState, setFormState] = useState({ email: '', password: '' });
+    const [formState, setFormState] = useState({ username: '', email: '', password: '' });
     const [addUser, { error }] = useMutation(ADD_USER);
 
     const formChangeHandler = (e) => {
@@ -22,9 +22,9 @@ const Signup = () => {
 
         try {
             const mutationRes = await addUser({
-                variables: { email: formState.email, password: formState.password },
+                variables: { username: formState.username, email: formState.email, password: formState.password },
             });
-            const token = mutationRes.data.login.token;
+            const token = mutationRes.data.addUser.token;
             Auth.login(token);
         }
         catch(err) {
