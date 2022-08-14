@@ -1,8 +1,36 @@
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_USER } from '../utils/mutations';
+import Auth from '../utils/auth';
 import '../style/signup.css';
 
 const Signup = () => {
+    const [formState, setFormState] = useState({ email: '', password: '' });
+    const [addUser, { error }] = useMutation(ADD_USER);
 
-    const formSubmitHandler = (e) => {};
+    const formChangeHandler = (e) => {
+        const { name, value } = e.target;
+
+        setFormState({
+            ...formState,
+            [name]: value
+        });
+    };
+
+    const formSubmitHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            const mutationRes = await addUser({
+                variables: { email: formState.email, password: formState.password },
+            });
+            const token = mutationRes.data.login.token;
+            Auth.login(token);
+        }
+        catch(err) {
+            console.log(err);
+        }
+    };
 
     return (
         <section class="Signup">
@@ -16,20 +44,26 @@ const Signup = () => {
                     type='text'
                     name='username'
                     className='form-input'
+                    onChange={formChangeHandler}
                 />
                 <label htmlFor='email'>Email</label>
                 <input
                     type='text'
                     name='email'
                     className='form-input'
+                    onChange={formChangeHandler}
                 />
                 <label htmlFor='password'>Password</label>
                 <input
                     type='text'
                     name='password'
                     className='form-input'
+                    onChange={formChangeHandler}
                 />
                 <br />
+                {error ? (
+                    <p className='err-txt'>Login failed</p>
+                ) : null}
                 <button
                     type='submit'
                     className='form-btn'
