@@ -10,6 +10,7 @@ import './style/app.css';
 
 import Home from './pages/Home';
 import Signup from './pages/Signup';
+import Login from './pages/Login';
 import NoMatch from './pages/NoMatch';
 import { StoreProvider } from './utils/GlobalState';
 
@@ -53,6 +54,10 @@ function App() {
                 <Route
                   path='/signup'
                   element={<Signup />}
+                />
+                <Route
+                  path='/login'
+                  element={<Login />}
                 />
                 <Route 
                   path="*" 
