@@ -1,0 +1,40 @@
+.Home {
+    margin-inline: auto;
+    margin-top: 100px;
+}
+
+.circle {
+    width: 300px;
+    height: 300px;
+    border-top: 3px solid black;
+    border-bottom: 6px solid black;
+    border-radius: 50%;
+    animation-name: rotate;
+    animation-duration: 14s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    box-shadow: 0 0 85px white;
+}
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+.inside {
+    border-radius: 50%;
+    margin-inline: auto;
+    margin-top: 30%;
+    text-align: center;
+    position: relative;
+    top: -285px;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}

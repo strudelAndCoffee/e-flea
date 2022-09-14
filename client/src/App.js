@@ -39,12 +39,6 @@ function App() {
       <Router>
         <div className="App">
           <StoreProvider>
-            <header>
-              <h1>
-                eFlea
-              </h1>
-            </header>
-
             <main>
               <Routes>
                 <Route
@@ -65,10 +59,6 @@ function App() {
                 />
               </Routes>
             </main>
-
-            <footer>
-              this is the footer
-            </footer>
           </StoreProvider>
         </div>
       </Router>

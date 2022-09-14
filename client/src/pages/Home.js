@@ -1,8 +1,16 @@
+import '../style/home.css';
+
 const Home = () => {
     return (
         <section class="Home">
-            <aside>this is the aside</aside>
-            <div>this is Home</div>
+            <div class="circle">
+            </div>
+            <div class="inside">
+                    <a href="/login" class="link">Login</a>
+                    <br />
+                    <br />
+                    <a href="/signup" class="link">Sign Up</a>
+                </div>
         </section>
     );
 };
