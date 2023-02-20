@@ -1,0 +1,35 @@
+:root {
+  --color-txt-primary-lite: #ffc;
+  --color-bg-primary-dark: #222;
+
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+  color-scheme: light dark;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--color-txt-primary-lite);
+  background-color: var(--color-bg-primary-dark);
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    color: #fff;
+    background-color: #000;
+  }
+}
