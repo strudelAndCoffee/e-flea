@@ -1,31 +1,21 @@
-import { Link } from 'react-router-dom'
-import { Popover, Transition } from '@headlessui/react'
+import { Navbar, Cart, Searchbar } from './'
 import '../css/header.css'
 
 export default function Header() {
   return (
     <header className="header-container">
-      <h1 className="title">eFlea</h1>
+      <div className="header-left">
+        <h1 className="title">eFlea</h1>
+        <Navbar />
+      </div>
 
-      <Popover className="cart">
-        <Popover.Button>Cart</Popover.Button>
+      <div className="header-center">
+        <Cart />
+      </div>
 
-        <Transition
-          enter="enter"
-          enterFrom="cart-panel hidden"
-          enterTo="cart-panel show"
-          leave="leave"
-          leaveFrom="cart-panel show"
-          leaveTo="cart-panel hidden"
-        >
-          <Popover.Panel></Popover.Panel>
-        </Transition>
-      </Popover>
-
-      <nav className="navbar">
-        <Link to="/">Home</Link>
-        <Link to="/vendors">Vendors</Link>
-      </nav>
+      <div className="header-right">
+        <Searchbar />
+      </div>
     </header>
   )
 }
