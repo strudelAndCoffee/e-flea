@@ -1,8 +1,28 @@
-.header-container {
-  display: flex;
-  justify-content: space-between;
+:root {
+  --header-bg-color-dark: black;
+  --header-bg-color-light: rgba(0, 0, 0, 0);
 }
 
-.title {
-  max-width: max-content;
+.header-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  background-image: linear-gradient(
+    to bottom,
+    var(--header-bg-color-dark),
+    var(--header-bg-color-light)
+  );
+}
+
+.title,
+.menu {
+  flex-grow: 0;
+}
+
+.navbar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-evenly;
 }

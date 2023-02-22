@@ -6,18 +6,19 @@ import {
   Outlet,
   RouterProvider,
 } from 'react-router-dom'
-import { Home } from './pages'
-import { Header, Test } from './components'
+import { Home, Vendor } from './pages'
+import { Header } from './components'
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        <Route path="test" element={<Test />} />
+        <Route path="vendor/1" element={<Vendor id={1} />} />
       </Route>
     )
   )
+
   return (
     <>
       <RouterProvider router={router} />
@@ -27,14 +28,10 @@ function App() {
 
 function Root() {
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
-      </div>
       <Outlet />
-    </>
+    </div>
   )
 }
 
