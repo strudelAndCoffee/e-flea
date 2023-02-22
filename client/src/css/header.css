@@ -23,10 +23,23 @@
 }
 
 .cart-panel {
-  z-index: 999;
   height: 30rem;
   width: 50%;
   background-color: var(--cart-bg-color);
+}
+
+/* Cart transition animation */
+.show {
+  opacity: 1;
+  transform: scaleY(1);
+}
+.hidden {
+  opacity: 0;
+  transform: scaleY(0.5);
+}
+.enter,
+.leave {
+  transition: opacity 0.2s ease-in, transform 0.2s ease-out;
 }
 
 .navbar {

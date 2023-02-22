@@ -9,7 +9,17 @@ export default function Header() {
 
       <Popover className="cart">
         <Popover.Button>Cart</Popover.Button>
-        <Popover.Panel className="cart-panel"></Popover.Panel>
+
+        <Transition
+          enter="enter"
+          enterFrom="cart-panel hidden"
+          enterTo="cart-panel show"
+          leave="leave"
+          leaveFrom="cart-panel show"
+          leaveTo="cart-panel hidden"
+        >
+          <Popover.Panel></Popover.Panel>
+        </Transition>
       </Popover>
 
       <nav className="navbar">
