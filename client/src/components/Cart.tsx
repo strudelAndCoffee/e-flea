@@ -5,10 +5,15 @@ export default function Cart() {
 
   return (
     <div className="cart-container">
-      <button onClick={() => setOpenCart((prev) => !prev)}>Cart</button>
+      <button
+        className="open-cart-btn"
+        onClick={() => setOpenCart((prev) => !prev)}
+      >
+        Cart
+      </button>
 
-      <div className={openCart ? 'cart-panel-overlay' : 'hide'}>
-        <div className="cart-panel">
+      <div className={`cart-panel-overlay ${!openCart && 'close'}`}>
+        <div className={`cart-panel ${!openCart && 'close'}`}>
           <button className="close-cart-btn" onClick={() => setOpenCart(false)}>
             &times;
           </button>
