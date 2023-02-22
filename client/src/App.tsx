@@ -5,7 +5,7 @@ import {
   Outlet,
   RouterProvider,
 } from 'react-router-dom'
-import { Home, Vendor } from './pages'
+import { Home, Vendor, VendorList, NotFound } from './pages'
 import { Header } from './components'
 
 function App() {
@@ -13,7 +13,11 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        <Route path="vendor/1" element={<Vendor id={1} />} />
+        <Route path="/vendors">
+          <Route index element={<VendorList />} />
+          <Route path=":id" element={<Vendor id={1} />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   )

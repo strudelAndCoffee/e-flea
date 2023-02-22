@@ -24,7 +24,7 @@ export default function Header() {
 
       <nav className="navbar">
         <Link to="/">Home</Link>
-        <Link to="/vendor/1">Vendor</Link>
+        <Link to="/vendors">Vendors</Link>
       </nav>
     </header>
   )

@@ -5,7 +5,7 @@ interface VendorProps {
 export default function Vendor({ id }: VendorProps) {
   return (
     <section className="app-page">
-      <h1>Vendor Page {id}</h1>
+      <h1>Vendor {id}</h1>
     </section>
   )
 }
