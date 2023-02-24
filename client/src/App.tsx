@@ -2,22 +2,26 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Link,
   Outlet,
   RouterProvider,
 } from 'react-router-dom'
-import { Home } from './pages'
-import { Header, Test } from './components'
+import { Home, Vendor, VendorList, NotFound } from './pages'
+import { Header } from './components'
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        <Route path="test" element={<Test />} />
+        <Route path="/vendors">
+          <Route index element={<VendorList />} />
+          <Route path=":id" element={<Vendor />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   )
+
   return (
     <>
       <RouterProvider router={router} />
@@ -27,14 +31,10 @@ function App() {
 
 function Root() {
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <div>
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
-      </div>
       <Outlet />
-    </>
+    </div>
   )
 }
 

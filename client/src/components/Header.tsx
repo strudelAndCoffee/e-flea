@@ -1,12 +1,21 @@
+import { Navbar, Cart, Searchbar } from './'
 import '../css/header.css'
 
 export default function Header() {
   return (
     <header className="header-container">
-      <h1 className="title">eFlea</h1>
-      <div>Search</div>
-      <div>Menu</div>
-      <div>Cart</div>
+      <div className="header-left">
+        <h1 className="title">eFlea</h1>
+        <Navbar />
+      </div>
+
+      <div className="header-center">
+        <Cart />
+      </div>
+
+      <div className="header-right">
+        <Searchbar />
+      </div>
     </header>
   )
 }
