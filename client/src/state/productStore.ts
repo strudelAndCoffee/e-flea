@@ -1,15 +1,21 @@
 import { create } from 'zustand'
+import { ProductType } from '../components/Main/Product.jsx'
+import { products } from '../test-data/products.json'
 
-interface BearState {
-  bears: number
-  increasePopulation: (by: number) => void
+interface ProductState {
+  products: ProductType[]
+  setProducts: (products: ProductType[]) => void
 }
 
-export const useBearStore = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
+const useProductStore = create<ProductState>((set) => ({
+  products: [],
+  setProducts: (products: ProductType[]) =>
+    set((state) => ({ ...state, products })),
 }))
+
+useProductStore.setState((state) => ({ ...state, products }))
+
+export default useProductStore
 
 // function BearCounter() {
 //   const bears = useBearStore((state) => state.bears)
