@@ -1,3 +1,7 @@
 # e-flea
 
-Vite + React + TypeScript + Material UI + Headless UI + React Router + TanStack Query + Axios
+_Client Side_
+Vite + React + TypeScript + Material UI + React Router + TanStack Query + Axios
+
+_Server Side_
+Vite + TypeScript + Express + MongoDB
