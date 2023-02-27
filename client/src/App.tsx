@@ -33,7 +33,9 @@ function Root() {
   return (
     <div className="app-container">
       <Header />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </div>
   )
 }
