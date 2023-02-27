@@ -1,3 +1,9 @@
-# e-flea
+# eFlea - a virtual DIY marketplace for independent retailers and vendors
 
-Vite + React + TypeScript + Material UI + Headless UI + React Router + TanStack Query + Axios
+## Dev Dependencies
+
+_Client Side_\
+Vite + React + TypeScript + Material UI + React Router + TanStack Query + Axios
+
+_Server Side_\
+Vite + TypeScript + Express + MongoDB
