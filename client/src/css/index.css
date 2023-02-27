@@ -1,23 +1,15 @@
 :root {
   --color-txt-primary-lite: #ffffcc;
   --color-bg-primary-dark: #121111;
-
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
-  color-scheme: light dark;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto';
 }
-
+/* 
 body {
   color: var(--color-txt-primary-lite);
   background-color: var(--color-bg-primary-dark);
@@ -44,4 +36,4 @@ body {
     color: #fff;
     background-color: #000;
   }
-}
+} */

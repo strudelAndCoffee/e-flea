@@ -1,5 +1,5 @@
-import { Navbar, Cart, Searchbar } from './'
-import '../css/header.css'
+import { Navbar, Cart, Searchbar } from '../'
+// import '../css/header.css'
 
 export default function Header() {
   return (
