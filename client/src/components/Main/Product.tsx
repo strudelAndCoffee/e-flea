@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 // import { } from '@mui/icons-material'
 
-import { DoggoImg } from '../'
+import { ProductImg } from '../'
 
 export type ProductType = {
   id: number
@@ -17,6 +17,10 @@ export type ProductType = {
   price: number
   categories: string[]
   tags: string[]
+  img: {
+    url: string
+    alt: string
+  }
 }
 interface ProductProps {
   product: ProductType
@@ -44,7 +48,7 @@ export default function Product({ product }: ProductProps) {
     <Grid item xs={4}>
       <ThemeProvider theme={ratingTheme}>
         <Paper elevation={3} square>
-          <DoggoImg />
+          <ProductImg img={product.img} />
           <Box paddingX={1}>
             <Typography variant="h5" component="h3">
               {product.name}
