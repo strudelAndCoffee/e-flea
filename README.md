@@ -1,4 +1,6 @@
-# eFlea - a virtual DIY marketplace for independent retailers and vendors
+# eFlea
+
+A virtual DIY marketplace for independent retailers and vendors
 
 ## Dev Dependencies
 
