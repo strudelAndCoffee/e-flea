@@ -1,9 +1,19 @@
-import '../css/home.css'
+// import '../css/home.css'
+import { Container, Grid } from '@mui/material'
+import { Product } from '../components'
 
 export default function Home() {
   return (
-    <main className="app-page">
-      <h1 className="home-page-title">Home page</h1>
+    <main>
+      <Container>
+        <Grid container spacing={4}>
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+        </Grid>
+      </Container>
     </main>
   )
 }
