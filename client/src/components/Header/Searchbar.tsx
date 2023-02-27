@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Combobox } from '@headlessui/react'
 
 const products = [
   'product 1',
@@ -20,31 +19,5 @@ export default function Searchbar() {
           return item.toLowerCase().includes(query.toLowerCase())
         })
 
-  return (
-    <div className="searchbar-wrapper">
-      <Combobox value={selected} onChange={setSelected}>
-        <Combobox.Input
-          onChange={(e) => {
-            setQuery(e.target.value)
-            if (query === '') setSelected('')
-          }}
-          placeholder="Search"
-        />
-        <Combobox.Button>Search</Combobox.Button>
-        <Combobox.Options className="search-options-panel">
-          {filteredProducts.map((item) => (
-            <Combobox.Option
-              key={item}
-              value={item}
-              className={({ active }) =>
-                `search-option ${active && 'search-option-active'}`
-              }
-            >
-              {item}
-            </Combobox.Option>
-          ))}
-        </Combobox.Options>
-      </Combobox>
-    </div>
-  )
+  return <div className="searchbar-wrapper"></div>
 }

@@ -1,19 +1,12 @@
-// import '../css/home.css'
-import { Container, Grid } from '@mui/material'
-import { Product } from '../components'
+import { Link } from 'react-router-dom'
+import Container from '@mui/material/Container'
 
 export default function Home() {
   return (
-    <main>
-      <Container>
-        <Grid container spacing={4}>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-        </Grid>
-      </Container>
-    </main>
+    <Container>
+      <h1>Home Page</h1>
+      {/* <Grid container spacing={4}></Grid> */}
+      <Link to="/vendors">Vendors</Link>
+    </Container>
   )
 }
