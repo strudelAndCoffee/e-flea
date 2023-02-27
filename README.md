@@ -1,3 +1,3 @@
 # e-flea
 
-Vite + React + TypeScript + Headless UI + React Router + TanStack Query + Axios
+Vite + React + TypeScript + Material UI + Headless UI + React Router + TanStack Query + Axios
