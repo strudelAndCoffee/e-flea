@@ -1,21 +1,22 @@
-import { Navbar, Cart, Searchbar } from '../'
+// import { Navbar, Cart, Searchbar } from '../'
 // import '../css/header.css'
 
 export default function Header() {
   return (
-    <header className="header-container">
-      <div className="header-left">
-        <h1 className="title">eFlea</h1>
-        <Navbar />
-      </div>
+    <div></div>
+    // <header className="header-container">
+    //   <div className="header-left">
+    //     <h1 className="title">eFlea</h1>
+    //     <Navbar />
+    //   </div>
 
-      <div className="header-center">
-        <Cart />
-      </div>
+    //   <div className="header-center">
+    //     <Cart />
+    //   </div>
 
-      <div className="header-right">
-        <Searchbar />
-      </div>
-    </header>
+    //   <div className="header-right">
+    //     <Searchbar />
+    //   </div>
+    // </header>
   )
 }

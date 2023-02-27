@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-// import { fetchDog } from '../api/fetchDog'
+import '../css/home.css'
 
-export default function Test() {
+export default function DoggoImg() {
   const { isLoading, isError, data } = useQuery({
     queryKey: ['dogs'],
     queryFn: () =>
@@ -16,12 +16,11 @@ export default function Test() {
         }),
   })
 
-  if (isLoading) return <p>Loading...</p>
-  if (isError) return <p>Error! Data could not load...</p>
+  if (isLoading) return <span>Loading...</span>
+  if (isError || !data.url) return <span>No image</span>
   return (
-    <div>
-      <h2>Test Component</h2>
-      <img src={data.url} />
-    </div>
+    <>
+      <img alt="doggo" src={data.url} className="product-img" />
+    </>
   )
 }

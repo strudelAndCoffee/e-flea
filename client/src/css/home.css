@@ -1,4 +1,6 @@
-.home-page-title {
+.product-img {
   width: 100%;
-  text-align: center;
+  height: 15rem;
+  object-position: left top;
+  object-fit: contain;
 }
