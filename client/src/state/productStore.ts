@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { ProductType } from '../components/Main/Product.jsx'
+import { ProductType } from '../components/Product'
 import { products } from '../test-data/products.json'
 
 interface ProductState {

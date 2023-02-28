@@ -1,5 +1,4 @@
 import Header from './Header'
-import Product from './Main/Product.jsx'
-import ProductImg from './Main/ProductImg.jsx'
+import Product from './Product'
 
-export { Header, Product, ProductImg }
+export { Header, Product }

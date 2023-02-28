@@ -6,13 +6,13 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 // import { } from '@mui/icons-material'
 
-import { ProductImg } from '../'
+import ProductImg from './ProductImg.jsx'
 
 export type ProductType = {
   id: number
   name: string
   description: string
-  rating: number
+  rating: number | null
   reviews: number
   price: number
   categories: string[]
@@ -67,11 +67,8 @@ export default function Product({ product }: ProductProps) {
                 size="small"
                 readOnly
               />
-              <Typography variant="body2" component="p" marginLeft={0.5}>
-                {product.rating}
-              </Typography>
-              <Typography variant="body2" component="p" marginLeft={1.5}>
-                {`(${product.reviews})`}
+              <Typography variant="body2" component="p" marginLeft={1}>
+                {`(${product.reviews} reviews)`}
               </Typography>
             </Box>
             <Typography variant="body1" component="p" marginY={1}>
