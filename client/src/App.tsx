@@ -31,12 +31,12 @@ function App() {
 
 function Root() {
   return (
-    <div className="app-container">
+    <>
       <Header />
-      <main>
+      <main className="app-container">
         <Outlet />
       </main>
-    </div>
+    </>
   )
 }
 
