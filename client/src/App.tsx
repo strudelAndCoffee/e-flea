@@ -17,7 +17,7 @@ function App() {
           <Route index element={<VendorList />} />
           <Route path=":id" element={<Vendor />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Home />} />
       </Route>
     )
   )
