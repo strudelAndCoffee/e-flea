@@ -1,24 +1,21 @@
 import { useState } from 'react'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import CartIcon from '@mui/icons-material/ShoppingCart'
 
 export default function Cart() {
   const [openCart, setOpenCart] = useState(false)
 
   return (
-    <div className="cart-container">
-      <button
-        className="open-cart-btn"
-        onClick={() => setOpenCart((prev) => !prev)}
+    <Box flexGrow={1} display="flex" justifyContent="flex-end">
+      <IconButton
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="open cart"
       >
-        Cart
-      </button>
-
-      <div className={`cart-panel-overlay ${!openCart && 'close'}`}>
-        <div className={`cart-panel ${!openCart && 'close'}`}>
-          <button className="close-cart-btn" onClick={() => setOpenCart(false)}>
-            &times;
-          </button>
-        </div>
-      </div>
-    </div>
+        <CartIcon sx={{ fontSize: 30 }} />
+      </IconButton>
+    </Box>
   )
 }
