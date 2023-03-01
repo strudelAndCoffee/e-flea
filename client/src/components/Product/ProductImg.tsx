@@ -1,5 +1,3 @@
-import '../../css/product.css'
-
 interface ProductImgProps {
   img: {
     url: string

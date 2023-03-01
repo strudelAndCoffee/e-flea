@@ -6,8 +6,6 @@ import SiteTitle from './SiteTitle.jsx'
 import Search from './Search.jsx'
 import Cart from './Cart.jsx'
 
-import '../../css/header.css'
-
 export default function Header() {
   return (
     <AppBar position="fixed">
