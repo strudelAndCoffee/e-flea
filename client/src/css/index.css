@@ -10,6 +10,12 @@
   font-family: 'Roboto';
 }
 
+a,
+a:visited {
+  text-decoration: none;
+  color: slateblue;
+}
+
 .main-title {
   text-decoration: none;
 }
@@ -26,12 +32,7 @@
   object-fit: cover;
 }
 
-/* .footer {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: min-content;
-  text-align: center;
-  background-color: transparent;
-} */
+.footer-link {
+  display: flex;
+  align-items: center;
+}
