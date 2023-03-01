@@ -1,5 +1,5 @@
 import AppBar from '@mui/material/AppBar'
-import GitHub from '@mui/icons-material/GitHub'
+// import GitHub from '@mui/icons-material/GitHub'
 
 export default function Footer() {
   return (
@@ -20,7 +20,8 @@ export default function Footer() {
         target="_blank"
         className="footer-link"
       >
-        <GitHub fontSize="small" sx={{ marginRight: 0.5 }} /> strudelAndCoffee
+        {/* <GitHub fontSize="small" sx={{ marginRight: 0.5 }} /> */}
+        strudelAndCoffee
       </a>
     </AppBar>
   )

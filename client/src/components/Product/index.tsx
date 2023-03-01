@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
-// import { } from '@mui/icons-material'
 
 import ProductImg from './ProductImg.jsx'
 
