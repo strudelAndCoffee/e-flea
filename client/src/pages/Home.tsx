@@ -1,8 +1,4 @@
-import { Link } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
-
 import { SiteLink } from '../components'
 
 const siteLinkInfo = [
