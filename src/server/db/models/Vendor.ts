@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { UserModel } from './User.js'
+import mongoose, { Model } from 'mongoose'
+import { UserModel, ProductModel } from './index.js'
 
 const VendorShema = new mongoose.Schema({
   name: {
@@ -11,6 +11,9 @@ const VendorShema = new mongoose.Schema({
     type: UserModel,
     required: true,
   },
+  products: {
+    type: [ProductModel],
+  },
 })
 
-export const VendorModel = mongoose.model('vendors', VendorShema)
+export const VendorModel: typeof Model = mongoose.model('vendors', VendorShema)

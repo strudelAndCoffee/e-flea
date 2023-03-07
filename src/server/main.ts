@@ -1,7 +1,7 @@
 import express from 'express'
 import ViteExpress from 'vite-express'
 import mongoose from 'mongoose'
-const cors = require('cors')
+import cors from 'cors'
 
 import { db_connection } from './db/connection.js'
 import routes from './routes'
