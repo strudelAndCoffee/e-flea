@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose'
+import mongoose from 'mongoose'
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -11,7 +11,4 @@ const ProductSchema = new mongoose.Schema({
   },
 })
 
-export const ProductModel: typeof Model = mongoose.model(
-  'products',
-  ProductSchema
-)
+export const ProductModel = mongoose.model('products', ProductSchema)

@@ -1,5 +1,5 @@
-import { UserModel } from './User.js'
-import { ProductModel } from './Product.js'
-import { VendorModel } from './Vendor.js'
+import { UserModel } from './User'
+import { ProductModel } from './Product'
+import { VendorModel } from './Vendor'
 
 export { UserModel, ProductModel, VendorModel }
