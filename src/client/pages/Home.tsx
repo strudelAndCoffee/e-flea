@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <Grid container spacing={4} paddingTop={15}>
       {siteLinkInfo.map(({ icon, text, link }) => (
-        <SiteLink icon={icon} text={text} link={link} />
+        <SiteLink key={icon} icon={icon} text={text} link={link} />
       ))}
     </Grid>
   )
