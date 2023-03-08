@@ -1,3 +1,9 @@
-export default function Signup() {
-  return <div>Signup</div>
+import { SignupForm } from '../components'
+
+export default function Login() {
+  return (
+    <>
+      <SignupForm />
+    </>
+  )
 }

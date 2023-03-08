@@ -1,5 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 // import GitHub from '@mui/icons-material/GitHub'
+import Copyright from './Copyright'
 
 export default function Footer() {
   return (
@@ -15,14 +16,9 @@ export default function Footer() {
         paddingY: 0.5,
       }}
     >
-      <a
-        href="https://github.com/strudelAndCoffee"
-        target="_blank"
-        className="footer-link"
-      >
-        {/* <GitHub fontSize="small" sx={{ marginRight: 0.5 }} /> */}
-        strudelAndCoffee
-      </a>
+      <Copyright />
     </AppBar>
   )
 }
+
+// <GitHub fontSize="small" sx={{ marginRight: 0.5 }} />

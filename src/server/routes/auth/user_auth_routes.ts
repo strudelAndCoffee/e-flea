@@ -7,12 +7,15 @@ import { UserModel } from '../../db/models'
 const router = express.Router()
 const hash_salt_rounds = 10
 const secret = crypto.randomUUID()
+const cookie_max_age = 900000
 
 router.post('/signup', async (req, res) => {
   const { username, email, password } = req.body
   const user = await UserModel.findOne({ username })
 
-  if (user) return res.json({ message: 'This user account already exists.' })
+  if (user) {
+    return res.status(400).json({ error: 'The user account already exists.' })
+  }
 
   const hashed_pw = await bcrypt.hash(password, hash_salt_rounds)
   const new_user = new UserModel({
@@ -22,7 +25,18 @@ router.post('/signup', async (req, res) => {
   })
   await new_user.save()
 
-  res.json({ new_user, message: 'Sign up successful!' })
+  const token = jwt.sign({ id: new_user._id }, secret)
+  res
+    .cookie('Access_Token', token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: cookie_max_age,
+    })
+    .json({
+      userID: new_user._id,
+      message: 'Sign up successful!',
+    })
 })
 
 router.post('/login', async (req, res) => {
@@ -30,14 +44,27 @@ router.post('/login', async (req, res) => {
 
   let user
   if (email) user = await UserModel.findOne({ email })
-  if (!user) return res.json({ message: 'User does not exist.' })
+  if (!user) {
+    return res.status(400).json({ message: 'The user account does not exist.' })
+  }
 
   const pw_is_valid = await bcrypt.compare(password, user.password)
-  if (!pw_is_valid)
-    return res.json({ message: 'User credentials are incorrect.' })
+  if (!pw_is_valid) {
+    return res.status(401).json({ message: 'User credentials are incorrect.' })
+  }
 
   const token = jwt.sign({ id: user._id }, secret)
-  res.json({ token, userID: user._id })
+  res
+    .cookie('Access_Token', token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: cookie_max_age,
+    })
+    .json({
+      userID: user._id,
+      message: 'Log in successful!',
+    })
 })
 
 export default router

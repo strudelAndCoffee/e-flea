@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  purchases: {
+    type: [String],
+    default: [],
+  },
 })
 
 export const UserModel = mongoose.model('users', UserSchema)
