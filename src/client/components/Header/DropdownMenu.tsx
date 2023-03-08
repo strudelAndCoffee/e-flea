@@ -6,7 +6,6 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Link, useNavigate } from 'react-router-dom'
-import Button from '@mui/material/Button'
 
 import { shallow } from 'zustand/shallow'
 import { useAuthStore } from '../../state'
@@ -32,6 +31,12 @@ export default function DropdownMenu() {
   }
   const handleClose = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = () => {
+    handleClose()
+    setUserID(null)
+    setIsLoggedIn(false)
+    navigate(0)
   }
 
   return (
@@ -71,19 +76,7 @@ export default function DropdownMenu() {
             <Link to={'/signup'}>Signup</Link>
           </MenuItem>
         )}
-        {isLoggedIn && (
-          <MenuItem onClick={handleClose}>
-            <Button
-              onClick={() => {
-                setUserID(null)
-                setIsLoggedIn(false)
-                navigate('/')
-              }}
-            >
-              Logout
-            </Button>
-          </MenuItem>
-        )}
+        {isLoggedIn && <MenuItem onClick={handleLogout}>Logout</MenuItem>}
       </Menu>
     </>
   )
