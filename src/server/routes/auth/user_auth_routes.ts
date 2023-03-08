@@ -2,7 +2,7 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
-import { UserModel } from '../../../db/models'
+import { UserModel } from '../../db/models'
 
 const router = express.Router()
 const hash_salt_rounds = 10
