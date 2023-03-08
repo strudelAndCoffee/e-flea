@@ -12,7 +12,11 @@ router.post('/signup', async (req, res) => {
   const { username, email, password } = req.body
   const user = await UserModel.findOne({ username })
 
-  if (user) return res.json({ message: 'This user account already exists.' })
+  if (user) {
+    res.statusCode = 400
+    res.statusMessage = 'The user account already exists.'
+    return res.json({ error: 'The user account already exists.' })
+  }
 
   const hashed_pw = await bcrypt.hash(password, hash_salt_rounds)
   const new_user = new UserModel({
@@ -22,7 +26,12 @@ router.post('/signup', async (req, res) => {
   })
   await new_user.save()
 
-  res.json({ new_user, message: 'Sign up successful!' })
+  const token = jwt.sign({ id: new_user._id }, secret)
+  res.json({
+    token,
+    userID: new_user._id,
+    message: 'Sign up successful!',
+  })
 })
 
 router.post('/login', async (req, res) => {
@@ -30,14 +39,21 @@ router.post('/login', async (req, res) => {
 
   let user
   if (email) user = await UserModel.findOne({ email })
-  if (!user) return res.json({ message: 'User does not exist.' })
+  if (!user) {
+    res.statusCode = 400
+    res.statusMessage = 'The user account does not exist.'
+    return res.json({ error: 'The user account does not exist.' })
+  }
 
   const pw_is_valid = await bcrypt.compare(password, user.password)
-  if (!pw_is_valid)
+  if (!pw_is_valid) {
+    res.statusCode = 400
+    res.statusMessage = 'User credentials are incorrect.'
     return res.json({ message: 'User credentials are incorrect.' })
+  }
 
   const token = jwt.sign({ id: user._id }, secret)
-  res.json({ token, userID: user._id })
+  res.json({ token, userID: user._id, message: 'Log in successful!' })
 })
 
 export default router
