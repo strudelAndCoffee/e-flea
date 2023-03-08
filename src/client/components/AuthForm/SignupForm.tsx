@@ -2,6 +2,7 @@
 
 import { FormEvent } from 'react'
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -13,12 +14,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Link, useNavigate } from 'react-router-dom'
+
+import { shallow } from 'zustand/shallow'
+import { useAuthStore } from '../../state'
 
 // const theme = createTheme()
 
 export default function SignUpForm() {
+  const { setIsLoggedIn, setUserID } = useAuthStore(
+    (state) => ({
+      setIsLoggedIn: state.setIsLoggedIn,
+      setUserID: state.setUserID,
+    }),
+    shallow
+  )
+
   const navigate = useNavigate()
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -38,7 +50,8 @@ export default function SignUpForm() {
         { withCredentials: true }
       )
 
-      window.localStorage.setItem('user_id', response.data.userID)
+      setUserID(response.data.userID)
+      setIsLoggedIn(true)
       navigate('/')
     } catch (err) {
       console.error(err)

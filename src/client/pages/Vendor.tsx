@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import { Product } from '../components'
 import { NotFound } from './'
 
-import useProductStore from '../state/productStore.js'
+import { useProductStore } from '../state'
 
 export default function Vendor() {
   const products = useProductStore((state) => state.products)
