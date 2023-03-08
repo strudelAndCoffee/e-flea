@@ -17,9 +17,11 @@ const UserSchema = new mongoose.Schema({
   },
   owned_vendors: {
     type: [String],
+    default: [],
   },
   favorite_vendors: {
     type: [String],
+    default: [],
   },
 })
 
