@@ -18,18 +18,21 @@ const UserSchema = new mongoose.Schema({
   owned_vendor_ids: [
     {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'vendors',
       default: [],
     },
   ],
   favorite_vendor_ids: [
     {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'vendors',
       default: [],
     },
   ],
   purchased_item_ids: [
     {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'products',
       default: [],
     },
   ],

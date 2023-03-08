@@ -13,6 +13,7 @@ const VendorShema = new mongoose.Schema({
   product_ids: [
     {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'products',
       default: [],
     },
   ],
