@@ -1,0 +1,8 @@
+import express from 'express'
+// import user_routes from './test_user_auth_routes'
+import user_routes from './user_auth_routes'
+
+const router = express.Router()
+router.use('/users', user_routes)
+
+export default router

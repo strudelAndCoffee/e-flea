@@ -15,6 +15,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  owned_vendors: {
+    type: [String],
+    default: [],
+  },
+  favorite_vendors: {
+    type: [String],
+    default: [],
+  },
 })
 
 export const UserModel = mongoose.model('users', UserSchema)

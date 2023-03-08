@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import { UserModel } from './User.js'
 
 const VendorShema = new mongoose.Schema({
   name: {
@@ -8,8 +7,11 @@ const VendorShema = new mongoose.Schema({
     unique: true,
   },
   owner: {
-    type: UserModel,
+    type: String,
     required: true,
+  },
+  products: {
+    type: [String],
   },
 })
 

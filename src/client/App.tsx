@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
-import { Home, Vendor, VendorList, NotFound } from './pages'
+import { Home, Vendor, VendorList, Login, Signup, NotFound } from './pages'
 import { Header, Footer } from './components'
 
 function App() {
@@ -15,6 +15,12 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
+        <Route path="/login">
+          <Route index element={<Login />} />
+        </Route>
+        <Route path="/signup">
+          <Route index element={<Signup />} />
+        </Route>
         <Route path="/vendors">
           <Route index element={<VendorList />} />
           <Route path=":id" element={<Vendor />} />

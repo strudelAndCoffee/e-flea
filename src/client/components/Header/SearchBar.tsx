@@ -5,6 +5,8 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import InputBase from '@mui/material/InputBase'
 
+// Starter code for AppBar with Search Field example template copied from Material UI: https://mui.com/material-ui/react-app-bar/
+
 const SearchWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -47,7 +49,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export default function Search() {
+export default function SearchBar() {
   const [selected, setSelected] = useState('')
   const [query, setQuery] = useState('')
   const [searchText, setSearchText] = useState('')
