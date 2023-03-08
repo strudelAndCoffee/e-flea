@@ -1,3 +1,4 @@
+import { Schema } from 'mongoose'
 import { createTheme, ThemeProvider } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
@@ -8,18 +9,19 @@ import Rating from '@mui/material/Rating'
 import ProductImg from './ProductImg.jsx'
 
 export type ProductType = {
-  id: number
+  _id: Schema.Types.ObjectId
   name: string
   description: string
-  rating: number | null
+  rating_total: number
+  rating_scores: number[] | []
   reviews: number
   price: number
-  categories: string[]
-  tags: string[]
-  img: {
-    url: string
-    alt: string
-  }
+  categories: string[] | []
+  tags: Schema.Types.ObjectId[] | []
+  image_url: string
+  image_upload: any
+  image_alt: string
+  vendor_id: Schema.Types.ObjectId
 }
 interface ProductProps {
   product: ProductType
@@ -43,11 +45,13 @@ const ratingTheme = createTheme({
 })
 
 export default function Product({ product }: ProductProps) {
+  const { image_url, image_upload, image_alt } = product
+
   return (
     <Grid item xs={4}>
       <ThemeProvider theme={ratingTheme}>
         <Paper elevation={3} square>
-          <ProductImg img={product.img} />
+          <ProductImg img={{ image_url, image_upload, image_alt }} />
           <Box paddingX={1}>
             <Typography variant="h5" component="h3">
               {product.name}
@@ -61,7 +65,7 @@ export default function Product({ product }: ProductProps) {
               {/* rating value={null} for no rating */}
               <Rating
                 name="read-only"
-                value={product.rating}
+                value={product.rating_total}
                 precision={0.5}
                 size="small"
                 readOnly
