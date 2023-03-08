@@ -1,22 +1,20 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
-const VendorShema = new mongoose.Schema({
+const VendorShema = new Schema({
   name: {
     type: String,
     required: true,
     unique: true,
   },
   owner_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
   },
-  product_ids: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'products',
-      default: [],
-    },
-  ],
+  product_ids: {
+    type: [Schema.Types.ObjectId],
+    ref: 'products',
+    default: [],
+  },
 })
 
 export const VendorModel = mongoose.model('vendors', VendorShema)
