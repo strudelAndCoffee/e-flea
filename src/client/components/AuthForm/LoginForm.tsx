@@ -15,10 +15,22 @@ import Container from '@mui/material/Container'
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { shallow } from 'zustand/shallow'
+import { useAuthStore } from '../../state'
+
 // const theme = createTheme()
 
 export default function LoginForm() {
+  const { setIsLoggedIn, setUserID } = useAuthStore(
+    (state) => ({
+      setIsLoggedIn: state.setIsLoggedIn,
+      setUserID: state.setUserID,
+    }),
+    shallow
+  )
+
   const navigate = useNavigate()
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -36,7 +48,8 @@ export default function LoginForm() {
         { withCredentials: true }
       )
 
-      window.localStorage.setItem('user_id', response.data.userID)
+      setUserID(response.data.userID)
+      setIsLoggedIn(true)
       navigate('/')
     } catch (err) {
       console.error(err)

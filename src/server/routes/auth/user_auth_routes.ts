@@ -2,6 +2,7 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
+
 import { UserModel } from '../../db/models'
 
 const router = express.Router()
@@ -27,7 +28,7 @@ router.post('/signup', async (req, res) => {
 
   const token = jwt.sign({ id: new_user._id }, secret)
   res
-    .cookie('Access_Token', token, {
+    .cookie('e-flea_access_token', token, {
       secure: true,
       httpOnly: true,
       sameSite: 'strict',
@@ -55,7 +56,7 @@ router.post('/login', async (req, res) => {
 
   const token = jwt.sign({ id: user._id }, secret)
   res
-    .cookie('Access_Token', token, {
+    .cookie('e-flea_access_token', token, {
       secure: true,
       httpOnly: true,
       sameSite: 'strict',
