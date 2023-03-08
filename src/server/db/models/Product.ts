@@ -9,6 +9,10 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  vendor_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 })
 
 export const ProductModel = mongoose.model('products', ProductSchema)

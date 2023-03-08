@@ -15,18 +15,24 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  owned_vendors: {
-    type: [String],
-    default: [],
-  },
-  favorite_vendors: {
-    type: [String],
-    default: [],
-  },
-  purchases: {
-    type: [String],
-    default: [],
-  },
+  owned_vendor_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: [],
+    },
+  ],
+  favorite_vendor_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: [],
+    },
+  ],
+  purchased_item_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: [],
+    },
+  ],
 })
 
 export const UserModel = mongoose.model('users', UserSchema)

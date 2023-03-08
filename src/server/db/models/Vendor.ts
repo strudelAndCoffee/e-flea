@@ -6,13 +6,16 @@ const VendorShema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  owner: {
-    type: String,
+  owner_id: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  products: {
-    type: [String],
-  },
+  product_ids: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      default: [],
+    },
+  ],
 })
 
 export const VendorModel = mongoose.model('vendors', VendorShema)
