@@ -1,34 +1,34 @@
 import express from 'express'
 import { UserModel, VendorModel } from '../../db/models'
+import withAuth from '../../utils/withAuth'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  const { username, email } = req.body
-  let query
-  if (username) query = { username: username }
-  else if (email) query = { email: email }
-
+router.get('/', withAuth, async (req, res) => {
   try {
-    const user = await UserModel.findOne({ query })
+    const users = await UserModel.find({})
+    if (!users) res.status(400).json({ message: 'No users found.' })
+    res.json({ users })
+  } catch (err) {
+    res.json(err)
+  }
+})
+
+router.get('/:id', withAuth, async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.params.id })
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
     res.json({ user })
   } catch (err) {
     res.json(err)
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id/owned-vendors', withAuth, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.params.id })
-    res.json({ user })
-  } catch (err) {
-    res.json(err)
-  }
-})
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
 
-router.get('/:id/owned-vendors', async (req, res) => {
-  try {
-    const user = await UserModel.findOne({ _id: req.params.id })
     const owned_vendors = await VendorModel.find({
       _id: { $in: user?.owned_vendor_ids },
     })
@@ -38,9 +38,11 @@ router.get('/:id/owned-vendors', async (req, res) => {
   }
 })
 
-router.get('/:id/favorite-vendors', async (req, res) => {
+router.get('/:id/favorite-vendors', withAuth, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.params.id })
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
+
     const favorite_vendors = await VendorModel.find({
       _id: { $in: user?.favorite_vendor_ids },
     })
@@ -50,9 +52,11 @@ router.get('/:id/favorite-vendors', async (req, res) => {
   }
 })
 
-router.get('/:id/saved-items', async (req, res) => {
+router.get('/:id/saved-items', withAuth, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.params.id })
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
+
     const saved_items = await VendorModel.find({
       _id: { $in: user?.saved_item_ids },
     })
@@ -62,9 +66,11 @@ router.get('/:id/saved-items', async (req, res) => {
   }
 })
 
-router.get('/:id/purchased-items', async (req, res) => {
+router.get('/:id/purchased-items', withAuth, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.params.id })
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
+
     const purchased_items = await VendorModel.find({
       _id: { $in: user?.purchased_item_ids },
     })

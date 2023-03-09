@@ -1,13 +1,12 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
-
 import { UserModel } from '../../db/models'
+import withAuth from '../../utils/withAuth'
 
 const router = express.Router()
 const hash_salt_rounds = 10
-const secret = crypto.randomUUID()
+const secret = process.env.ACCESS_TOKEN_SECRET
 const cookie_max_age = 900000
 
 router.post('/signup', async (req, res) => {
@@ -26,25 +25,23 @@ router.post('/signup', async (req, res) => {
   })
   await new_user.save()
 
-  const token = jwt.sign({ id: new_user._id }, secret)
-  res
-    .cookie('e-flea_access_token', token, {
-      secure: true,
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: cookie_max_age,
-    })
-    .json({
-      userID: new_user._id,
-      message: 'Sign up successful!',
-    })
+  const token = jwt.sign({ id: new_user._id }, secret ?? '42')
+  res.cookie('access_token', token, {
+    maxAge: cookie_max_age,
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: true,
+  })
+  res.json({
+    new_user,
+    message: 'Log in success!',
+  })
 })
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
-  let user
-  if (email) user = await UserModel.findOne({ email })
+  const user = await UserModel.findOne({ email })
   if (!user) {
     return res.status(400).json({ message: 'The user account does not exist.' })
   }
@@ -54,18 +51,48 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({ message: 'User credentials are incorrect.' })
   }
 
-  const token = jwt.sign({ id: user._id }, secret)
-  res
-    .cookie('e-flea_access_token', token, {
-      secure: true,
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: cookie_max_age,
-    })
-    .json({
-      userID: user._id,
-      message: 'Log in successful!',
-    })
+  const token = jwt.sign({ id: user._id }, secret ?? '42')
+  res.cookie('access_token', token, {
+    maxAge: cookie_max_age,
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: true,
+  })
+  res.json({
+    user,
+    message: 'Log in success!',
+  })
+})
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('access_token')
+  res.status(204).end()
+})
+
+router.put('/:id', async (req, res) => {
+  const query = { _id: req.params.id }
+  const update = { ...req.body.update_fields }
+  try {
+    const updated_user = await UserModel.findOneAndUpdate(query, update)
+    if (!updated_user)
+      res.status(400).json({ message: 'No user found with that ID.' })
+
+    res.json({ updated_user })
+  } catch (err) {
+    res.json(err)
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted_user = await UserModel.findByIdAndDelete(req.params.id)
+    if (!deleted_user)
+      res.status(400).json({ message: 'No user found with that ID.' })
+
+    res.json({ deleted_user_id: deleted_user?._id })
+  } catch (err) {
+    res.json(err)
+  }
 })
 
 export default router
