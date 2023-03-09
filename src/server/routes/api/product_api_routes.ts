@@ -31,6 +31,17 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.put('/', async (req, res) => {
+  const query = { _id: req.body.product_id }
+  const update = { ...req.body.update_fields }
+  try {
+    const updated_product = await ProductModel.findOneAndUpdate(query, update)
+    res.json(updated_product)
+  } catch (err) {
+    res.json(err)
+  }
+})
+
 router.delete('/:id', async (req, res) => {
   try {
     const deleted_product = await ProductModel.findOneAndDelete({

@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
 import { Product } from '../components'
-import { ProductType } from '../components/Product'
+import { ProductType } from '../../server/db/models/Product.js'
 import { NotFound } from './'
 
 // import { useProductStore } from '../state'

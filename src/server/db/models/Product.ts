@@ -14,20 +14,17 @@ const ProductSchema = new Schema({
     min: 0,
     max: 5,
     default: 0,
-    required: true,
   },
   rating_scores: {
     type: [Number],
     min: 1,
     max: 5,
     default: [],
-    required: true,
   },
   reviews: {
     type: Number,
     min: 0,
     default: 0,
-    required: true,
   },
   price: {
     type: Number,
@@ -40,12 +37,12 @@ const ProductSchema = new Schema({
     required: true,
     default: [],
   },
-  tags: {
-    type: [Schema.Types.ObjectId],
-    ref: 'tags',
-    required: true,
-    default: [],
-  },
+  tags: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'tags',
+    },
+  ],
   image_url: {
     type: String,
     default: 'https://random.dog/068fc183-d4e3-4780-b01c-6cce0d019d13.jpg',
@@ -54,7 +51,6 @@ const ProductSchema = new Schema({
   image_upload: {
     type: Schema.Types.Mixed,
     default: null,
-    required: true,
   },
   image_alt: {
     type: String,
@@ -68,4 +64,19 @@ const ProductSchema = new Schema({
   },
 })
 
+export type ProductType = {
+  _id: Schema.Types.ObjectId
+  name: string
+  description: string
+  rating_total?: number
+  rating_scores?: number[]
+  reviews?: number
+  price: number
+  categories: string[] | []
+  tags?: Schema.Types.ObjectId[]
+  image_url: string
+  image_upload?: any
+  image_alt: string
+  vendor_id: Schema.Types.ObjectId
+}
 export const ProductModel = mongoose.model('products', ProductSchema)

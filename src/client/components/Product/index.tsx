@@ -1,4 +1,3 @@
-import { Schema } from 'mongoose'
 import { createTheme, ThemeProvider } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
@@ -7,22 +6,8 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 
 import ProductImg from './ProductImg.jsx'
+import { ProductType } from '../../../server/db/models/Product.js'
 
-export type ProductType = {
-  _id: Schema.Types.ObjectId
-  name: string
-  description: string
-  rating_total: number
-  rating_scores: number[] | []
-  reviews: number
-  price: number
-  categories: string[] | []
-  tags: Schema.Types.ObjectId[] | []
-  image_url: string
-  image_upload: any
-  image_alt: string
-  vendor_id: Schema.Types.ObjectId
-}
 interface ProductProps {
   product: ProductType
 }
