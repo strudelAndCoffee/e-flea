@@ -1,6 +1,17 @@
 import mongoose, { Schema } from 'mongoose'
 
-const UserSchema = new Schema({
+export interface UserType {
+  _id: Schema.Types.ObjectId
+  username: string
+  email: string
+  password: string
+  owned_vendor_ids?: Schema.Types.ObjectId[]
+  favorite_vendor_ids?: Schema.Types.ObjectId[]
+  saved_item_ids?: Schema.Types.ObjectId[]
+  purchased_item_ids?: Schema.Types.ObjectId[]
+}
+
+const UserSchema = new Schema<UserType>({
   username: {
     type: String,
     required: true,
@@ -41,14 +52,4 @@ const UserSchema = new Schema({
   ],
 })
 
-export type UserType = {
-  _id: Schema.Types.ObjectId
-  username: string
-  email: string
-  password: string
-  owned_vendor_ids?: Schema.Types.ObjectId[]
-  favorite_vendor_ids?: Schema.Types.ObjectId[]
-  saved_item_ids?: Schema.Types.ObjectId[]
-  purchased_item_ids?: Schema.Types.ObjectId[]
-}
-export const UserModel = mongoose.model('users', UserSchema)
+export const UserModel = mongoose.model<UserType>('users', UserSchema)

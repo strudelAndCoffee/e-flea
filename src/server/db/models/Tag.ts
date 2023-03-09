@@ -1,6 +1,12 @@
 import mongoose, { Schema } from 'mongoose'
 
-const TagSchema = new Schema({
+export interface TagType {
+  name: string
+  tagged_product_ids?: Schema.Types.ObjectId[]
+  tagged_vendor_ids?: Schema.Types.ObjectId[]
+}
+
+const TagSchema = new Schema<TagType>({
   name: {
     type: String,
     lowercase: true,
@@ -20,10 +26,4 @@ const TagSchema = new Schema({
   ],
 })
 
-export type TagType = {
-  _id: Schema.Types.ObjectId
-  name: string
-  tagged_product_ids?: Schema.Types.ObjectId[]
-  tagged_vendor_ids?: Schema.Types.ObjectId[]
-}
-export const TagModel = mongoose.model('tags', TagSchema)
+export const TagModel = mongoose.model<TagType>('tags', TagSchema)

@@ -1,6 +1,5 @@
 import express from 'express'
 import { UserModel, VendorModel } from '../../db/models'
-import { VendorType } from '../../db/models/Vendor'
 
 const router = express.Router()
 
