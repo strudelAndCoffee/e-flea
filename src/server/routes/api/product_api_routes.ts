@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   try {
     const products = await ProductModel.find({})
-    res.json(products)
+    res.json({ products })
   } catch (err) {
     res.json(err)
   }
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const product = await ProductModel.find({ _id: req.params.id })
-    res.json(product)
+    res.json({ product })
   } catch (err) {
     res.json(err)
   }
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
   const new_product = new ProductModel(req.body)
   try {
     const response = await new_product.save()
-    res.json(response)
+    res.json({ response })
   } catch (err) {
     res.json(err)
   }
@@ -36,7 +36,7 @@ router.put('/', async (req, res) => {
   const update = { ...req.body.update_fields }
   try {
     const updated_product = await ProductModel.findOneAndUpdate(query, update)
-    res.json(updated_product)
+    res.json({ updated_product })
   } catch (err) {
     res.json(err)
   }
@@ -47,7 +47,7 @@ router.delete('/:id', async (req, res) => {
     const deleted_product = await ProductModel.findOneAndDelete({
       _id: req.params.id,
     })
-    res.json(deleted_product)
+    res.json({ deleted_product_id: deleted_product?._id })
   } catch (err) {
     res.json(err)
   }

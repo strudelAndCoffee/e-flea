@@ -27,6 +27,12 @@ const UserSchema = new Schema({
       ref: 'vendors',
     },
   ],
+  saved_item_ids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'products',
+    },
+  ],
   purchased_item_ids: [
     {
       type: Schema.Types.ObjectId,
@@ -42,6 +48,7 @@ export type UserType = {
   password: string
   owned_vendor_ids?: Schema.Types.ObjectId[]
   favorite_vendor_ids?: Schema.Types.ObjectId[]
+  saved_item_ids?: Schema.Types.ObjectId[]
   purchased_item_ids?: Schema.Types.ObjectId[]
 }
 export const UserModel = mongoose.model('users', UserSchema)
