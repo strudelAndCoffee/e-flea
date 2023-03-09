@@ -1,6 +1,7 @@
 // Starter code for Menu component example template copied from Material UI docs page: https://mui.com/material-ui/react-menu/
 
 import React, { useState } from 'react'
+import axios from 'axios'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -32,7 +33,13 @@ export default function DropdownMenu() {
   const handleClose = () => {
     setAnchorEl(null)
   }
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const response = await axios.post(
+      'http://localhost:3000/auth/users/logout',
+      {},
+      { withCredentials: true }
+    )
+
     handleClose()
     setUserID(null)
     setIsLoggedIn(false)

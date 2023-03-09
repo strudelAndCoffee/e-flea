@@ -44,9 +44,7 @@ router.put('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted_product = await ProductModel.findOneAndDelete({
-      _id: req.params.id,
-    })
+    const deleted_product = await ProductModel.findByIdAndDelete(req.params.id)
     res.json({ deleted_product_id: deleted_product?._id })
   } catch (err) {
     res.json(err)
