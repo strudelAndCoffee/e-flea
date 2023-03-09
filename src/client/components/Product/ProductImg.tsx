@@ -1,14 +1,15 @@
 interface ProductImgProps {
   img: {
-    url: string
-    alt: string
+    image_url: string
+    image_upload: any
+    image_alt: string
   }
 }
 
 export default function ProductImg({ img }: ProductImgProps) {
   return (
     <>
-      <img alt={img.alt} src={img.url} className="product-img" />
+      <img alt={img.image_alt} src={img.image_url} className="product-img" />
     </>
   )
 }

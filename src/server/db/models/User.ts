@@ -1,41 +1,59 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
-const UserSchema = new mongoose.Schema({
+export interface UserType {
+  _id: Schema.Types.ObjectId
+  username: string
+  email: string
+  password: string
+  owned_vendor_ids?: Schema.Types.ObjectId[]
+  favorite_vendor_ids?: Schema.Types.ObjectId[]
+  saved_item_ids?: Schema.Types.ObjectId[]
+  purchased_item_ids?: Schema.Types.ObjectId[]
+}
+
+const UserSchema = new Schema<UserType>({
   username: {
     type: String,
-    required: true,
+    minlength: 3,
+    maxlength: 64,
+    required: [true, 'Please provide a unique username.'],
     unique: true,
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    minlength: 3,
+    required: [true, 'Please provide an email address.'],
   },
   password: {
     type: String,
-    required: true,
+    minlength: 5,
+    maxlength: 64,
+    required: [true, 'Please provide a password.'],
   },
   owned_vendor_ids: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'vendors',
-      default: [],
     },
   ],
   favorite_vendor_ids: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'vendors',
-      default: [],
+    },
+  ],
+  saved_item_ids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'products',
     },
   ],
   purchased_item_ids: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'products',
-      default: [],
     },
   ],
 })
 
-export const UserModel = mongoose.model('users', UserSchema)
+export const UserModel = mongoose.model<UserType>('users', UserSchema)

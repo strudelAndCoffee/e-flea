@@ -6,21 +6,8 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 
 import ProductImg from './ProductImg.jsx'
+import { ProductType } from '../../../server/db/models/Product.js'
 
-export type ProductType = {
-  id: number
-  name: string
-  description: string
-  rating: number | null
-  reviews: number
-  price: number
-  categories: string[]
-  tags: string[]
-  img: {
-    url: string
-    alt: string
-  }
-}
 interface ProductProps {
   product: ProductType
 }
@@ -43,11 +30,13 @@ const ratingTheme = createTheme({
 })
 
 export default function Product({ product }: ProductProps) {
+  const { image_url, image_upload, image_alt } = product
+
   return (
     <Grid item xs={4}>
       <ThemeProvider theme={ratingTheme}>
         <Paper elevation={3} square>
-          <ProductImg img={product.img} />
+          <ProductImg img={{ image_url, image_upload, image_alt }} />
           <Box paddingX={1}>
             <Typography variant="h5" component="h3">
               {product.name}
@@ -61,7 +50,7 @@ export default function Product({ product }: ProductProps) {
               {/* rating value={null} for no rating */}
               <Rating
                 name="read-only"
-                value={product.rating}
+                value={product.rating_total}
                 precision={0.5}
                 size="small"
                 readOnly

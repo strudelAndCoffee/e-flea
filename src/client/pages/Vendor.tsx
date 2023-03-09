@@ -6,31 +6,34 @@ import Button from '@mui/material/Button'
 
 import { Product } from '../components'
 import { NotFound } from './'
+import { ProductType } from '../../server/db/models/Product.js'
 
-import { useProductStore } from '../state'
+// import { useProductStore } from '../state'
 
 export default function Vendor() {
-  const products = useProductStore((state) => state.products)
+  // const products = useProductStore((state) => state.products)
   const { id } = useParams()
   if (id == null || id === undefined) return <NotFound />
 
-  const [apiData, setApiData] = useState('')
+  // const [apiData, setApiData] = useState('')
+  const [products, setProducts] = useState<ProductType[] | null>(null)
 
   return (
     <>
       <h2>Vendor {id}</h2>
-      <h3>API data: {apiData}</h3>
-      <Button
+      {/* <h3>API data: {apiData}</h3> */}
+      {/* <Button
         onClick={() => {
           axios.get('/api/products/1').then((res) => setApiData(res.data.data))
         }}
       >
         query
-      </Button>
+      </Button> */}
       <Grid container spacing={4}>
-        {products.map((product) => (
-          <Product product={product} key={product.id} />
-        ))}
+        {products &&
+          products.map((product, idx) => (
+            <Product product={product} key={idx} />
+          ))}
       </Grid>
     </>
   )
