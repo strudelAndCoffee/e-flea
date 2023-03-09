@@ -14,17 +14,21 @@ export interface UserType {
 const UserSchema = new Schema<UserType>({
   username: {
     type: String,
-    required: true,
+    minlength: 3,
+    maxlength: 64,
+    required: [true, 'Please provide a unique username.'],
     unique: true,
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    minlength: 3,
+    required: [true, 'Please provide an email address.'],
   },
   password: {
     type: String,
-    required: true,
+    minlength: 5,
+    maxlength: 64,
+    required: [true, 'Please provide a password.'],
   },
   owned_vendor_ids: [
     {
