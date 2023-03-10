@@ -1,10 +1,10 @@
 import express from 'express'
 import { UserModel, VendorModel } from '../../db/models'
-import withAuth from '../../utils/withAuth'
+import { withAuth } from '../../utils/auth'
 
 const router = express.Router()
 
-router.get('/', withAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const users = await UserModel.find({})
     if (!users) res.status(400).json({ message: 'No users found.' })

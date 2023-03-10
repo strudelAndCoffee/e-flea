@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import bcrypt from 'bcrypt'
 
 export interface UserType {
   _id: Schema.Types.ObjectId
@@ -9,6 +10,7 @@ export interface UserType {
   favorite_vendor_ids?: Schema.Types.ObjectId[]
   saved_item_ids?: Schema.Types.ObjectId[]
   purchased_item_ids?: Schema.Types.ObjectId[]
+  isCorrectPw(pw: string): Promise<boolean>
 }
 
 const UserSchema = new Schema<UserType>({
@@ -55,5 +57,17 @@ const UserSchema = new Schema<UserType>({
     },
   ],
 })
+
+UserSchema.pre('save', async function (next) {
+  if (this.isNew || this.isModified('password')) {
+    const saltRounds = 10
+    this.password = await bcrypt.hash(this.password, saltRounds)
+  }
+  next()
+})
+
+UserSchema.methods.isCorrectPw = async function (pw: string) {
+  return await bcrypt.compare(pw, this.password)
+}
 
 export const UserModel = mongoose.model<UserType>('users', UserSchema)

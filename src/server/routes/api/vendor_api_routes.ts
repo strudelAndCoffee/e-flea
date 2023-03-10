@@ -1,6 +1,6 @@
 import express from 'express'
 import { VendorModel } from '../../db/models'
-import withAuth from '../../utils/withAuth'
+import { withAuth } from '../../utils/auth'
 
 const router = express.Router()
 
