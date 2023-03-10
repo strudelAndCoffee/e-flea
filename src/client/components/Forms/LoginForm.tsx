@@ -16,7 +16,7 @@ import Container from '@mui/material/Container'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { shallow } from 'zustand/shallow'
-import { useAuthStore } from '../../state'
+import { useAuthStore, useNavStore } from '../../state'
 
 // const theme = createTheme()
 
@@ -25,6 +25,13 @@ export default function LoginForm() {
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,
       setUserID: state.setUserID,
+    }),
+    shallow
+  )
+  const { fromRedirect, setFromRedirect } = useNavStore(
+    (state) => ({
+      fromRedirect: state.fromRedirect,
+      setFromRedirect: state.setFromRedirect,
     }),
     shallow
   )
@@ -50,6 +57,11 @@ export default function LoginForm() {
 
       setUserID(response.data.user._id)
       setIsLoggedIn(true)
+
+      if (fromRedirect) {
+        setFromRedirect(false)
+        navigate(-1)
+      }
       navigate('/')
     } catch (err) {
       console.error(err)

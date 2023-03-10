@@ -16,7 +16,7 @@ import Container from '@mui/material/Container'
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { shallow } from 'zustand/shallow'
-import { useAuthStore } from '../../state'
+import { useAuthStore, useNavStore } from '../../state'
 
 // const theme = createTheme()
 
@@ -25,6 +25,13 @@ export default function SignUpForm() {
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,
       setUserID: state.setUserID,
+    }),
+    shallow
+  )
+  const { fromRedirect, setFromRedirect } = useNavStore(
+    (state) => ({
+      fromRedirect: state.fromRedirect,
+      setFromRedirect: state.setFromRedirect,
     }),
     shallow
   )
@@ -54,6 +61,10 @@ export default function SignUpForm() {
 
       setUserID(response.data.new_user._id)
       setIsLoggedIn(true)
+      if (fromRedirect) {
+        setFromRedirect(false)
+        navigate(-1)
+      }
       navigate('/')
     } catch (err) {
       console.error(err)

@@ -4,10 +4,11 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useAuthStore } from '../state'
+import { useAuthStore, useNavStore } from '../state'
 import { CreateVendorForm } from '../components'
 
 function RedirectMessage() {
+  const setFromRedirect = useNavStore((state) => state.setFromRedirect)
   return (
     <Box display="flex" flexDirection="column" alignItems="center" pt={5}>
       <Typography variant="h5" gutterBottom>
@@ -15,11 +16,11 @@ function RedirectMessage() {
       </Typography>
       <Typography variant="h5" gutterBottom>
         Please{' '}
-        <Button variant="outlined">
+        <Button variant="outlined" onClick={() => setFromRedirect(true)}>
           <Link to={'/login'}>log in</Link>
         </Button>{' '}
         or{' '}
-        <Button variant="outlined">
+        <Button variant="outlined" onClick={() => setFromRedirect(true)}>
           <Link to={'/signup'}>sign up</Link>
         </Button>{' '}
         for an account.

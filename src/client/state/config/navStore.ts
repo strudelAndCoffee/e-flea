@@ -1,17 +1,13 @@
 import { create } from 'zustand'
 
-interface AuthState {
-  isLoggedIn: boolean
-  userID: string | null
-  setIsLoggedIn: (value: boolean) => void
-  setUserID: (id: string | null) => void
+interface NavState {
+  fromRedirect: boolean
+  setFromRedirect: (value: boolean) => void
 }
 
-const useAuthStore = create<AuthState>((set) => ({
-  isLoggedIn: false,
-  userID: null,
-  setIsLoggedIn: (value: boolean) => set({ isLoggedIn: value }),
-  setUserID: (id: string | null) => set({ userID: id }),
+const useNavStore = create<NavState>((set) => ({
+  fromRedirect: false,
+  setFromRedirect: (value: boolean) => set({ fromRedirect: value }),
 }))
 
-export default useAuthStore
+export default useNavStore
