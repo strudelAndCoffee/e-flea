@@ -5,7 +5,7 @@ type RatingSchemaType = {
   rating_scores?: number[]
   reviews: number
 }
-type ImageSchemaType = {
+export type ImageSchemaType = {
   image_url: string
   image_upload?: any
   image_alt: string

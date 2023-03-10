@@ -30,13 +30,13 @@ const ratingTheme = createTheme({
 })
 
 export default function Product({ product }: ProductProps) {
-  const { image_url, image_upload, image_alt } = product
+  const { image, rating } = product
 
   return (
     <Grid item xs={4}>
       <ThemeProvider theme={ratingTheme}>
         <Paper elevation={3} square>
-          <ProductImg img={{ image_url, image_upload, image_alt }} />
+          <ProductImg img={image} />
           <Box paddingX={1}>
             <Typography variant="h5" component="h3">
               {product.name}
@@ -50,13 +50,13 @@ export default function Product({ product }: ProductProps) {
               {/* rating value={null} for no rating */}
               <Rating
                 name="read-only"
-                value={product.rating_total}
+                value={rating.rating_total}
                 precision={0.5}
                 size="small"
                 readOnly
               />
               <Typography variant="body2" component="p" marginLeft={1}>
-                {`(${product.reviews} reviews)`}
+                {`(${rating.reviews} reviews)`}
               </Typography>
             </Box>
             <Typography variant="body1" component="p" marginY={1}>

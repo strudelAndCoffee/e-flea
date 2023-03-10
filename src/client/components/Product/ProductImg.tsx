@@ -1,9 +1,7 @@
+import { ImageSchemaType } from '../../../server/db/models/Product'
+
 interface ProductImgProps {
-  img: {
-    image_url: string
-    image_upload: any
-    image_alt: string
-  }
+  img: ImageSchemaType
 }
 
 export default function ProductImg({ img }: ProductImgProps) {

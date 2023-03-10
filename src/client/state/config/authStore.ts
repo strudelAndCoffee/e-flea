@@ -17,8 +17,8 @@ const useAuthStore = create(
       setUserID: (id: string | null) => set({ userID: id }),
     }),
     {
-      name: 'e-flea_auth_storage',
-      storage: createJSONStorage(() => localStorage),
+      name: 'eflea_auth_storage',
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 )

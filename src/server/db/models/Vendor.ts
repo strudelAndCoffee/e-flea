@@ -1,13 +1,15 @@
 import mongoose, { Schema } from 'mongoose'
 
 type ImageSchemaType = {
-  store_image_url: string
+  store_image_url: string | undefined
   store_image_upload?: any
-  store_image_alt: string
+  store_image_alt: string | undefined
 }
 export interface VendorType {
-  store_title: string
   owner_id: Schema.Types.ObjectId
+  store_title: string
+  store_description: string
+  categories: string[]
   product_ids?: Schema.Types.ObjectId[]
   image: ImageSchemaType
 }
@@ -16,10 +18,10 @@ const ImageSchema = new Schema<ImageSchemaType>({
   store_image_url: {
     type: String,
     default: 'https://random.dog/068fc183-d4e3-4780-b01c-6cce0d019d13.jpg',
-    required: [
-      true,
-      'A placeholder image will be used if no image is provided.',
-    ],
+    // required: [
+    //   true,
+    //   'A placeholder image will be used if no image is provided.',
+    // ],
   },
   store_image_upload: {
     type: Schema.Types.Mixed,
@@ -30,14 +32,18 @@ const ImageSchema = new Schema<ImageSchemaType>({
     minlength: 3,
     maxlength: 128,
     default: 'Placeholder store image',
-    required: [
-      true,
-      'Default alt text will be used if no alt text is provided.',
-    ],
+    // required: [
+    //   true,
+    //   'Default alt text will be used if no alt text is provided.',
+    // ],
   },
 })
 
 const VendorShema = new Schema<VendorType>({
+  owner_id: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'Please provide the owner ID.'],
+  },
   store_title: {
     type: String,
     minlength: 3,
@@ -45,9 +51,15 @@ const VendorShema = new Schema<VendorType>({
     required: [true, 'Your store needs a name to be found!'],
     unique: true,
   },
-  owner_id: {
-    type: Schema.Types.ObjectId,
-    required: [true, 'Please provide the owner ID.'],
+  store_description: {
+    type: String,
+    minLength: 3,
+    maxLength: 256,
+    required: [true, 'Describe what your store has to offer.'],
+  },
+  categories: {
+    type: [String],
+    required: true,
   },
   product_ids: [
     {

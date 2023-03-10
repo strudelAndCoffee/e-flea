@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { ProductType } from '../../components/Product'
+import { ProductType } from '../../../server/db/models/Product.js'
 import { products } from '../../test-data/products.json'
 
 interface ProductState {
@@ -13,6 +13,6 @@ const useProductStore = create<ProductState>((set) => ({
     set((state) => ({ ...state, products })),
 }))
 
-useProductStore.setState((state) => ({ ...state, products }))
+// useProductStore.setState((state) => state.products = products)
 
 export default useProductStore

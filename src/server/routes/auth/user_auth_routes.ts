@@ -18,24 +18,30 @@ router.post('/signup', async (req, res) => {
   }
 
   const hashed_pw = await bcrypt.hash(password, hash_salt_rounds)
-  const new_user = new UserModel({
-    username,
-    email,
-    password: hashed_pw,
-  })
-  await new_user.save()
 
-  const token = jwt.sign({ id: new_user._id }, secret ?? '42')
-  res.cookie('access_token', token, {
-    maxAge: cookie_max_age,
-    httpOnly: true,
-    sameSite: 'strict',
-    secure: true,
-  })
-  res.json({
-    new_user,
-    message: 'Log in success!',
-  })
+  try {
+    const new_user = new UserModel({
+      username,
+      email,
+      password: hashed_pw,
+    })
+    await new_user.save()
+
+    const token = jwt.sign({ id: new_user._id }, secret ?? '42')
+    res.cookie('access_token', token, {
+      maxAge: cookie_max_age,
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: true,
+    })
+    res.json({
+      new_user,
+      message: 'Log in success!',
+    })
+  } catch (err) {
+    console.error(err)
+    res.json(err)
+  }
 })
 
 router.post('/login', async (req, res) => {
@@ -69,7 +75,7 @@ router.post('/logout', (req, res) => {
   res.status(204).end()
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
   const query = { _id: req.params.id }
   const update = { ...req.body.update_fields }
   try {
@@ -79,11 +85,12 @@ router.put('/:id', async (req, res) => {
 
     res.json({ updated_user })
   } catch (err) {
+    console.error(err)
     res.json(err)
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const deleted_user = await UserModel.findByIdAndDelete(req.params.id)
     if (!deleted_user)

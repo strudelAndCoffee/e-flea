@@ -1,8 +1,7 @@
-// Starter code for SignIn form component example template copied from Material UI: https://github.com/mui/material-ui/blob/v5.11.12/docs/data/material/getting-started/templates/sign-up/SignUp.tsx
+// Starter code for SignIn form component example template copied from Material UI: https://github.com/mui/material-ui/blob/v5.11.12/docs/data/material/getting-started/templates/sign-in/SignIn.tsx
 
 import { FormEvent } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -14,17 +13,25 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { shallow } from 'zustand/shallow'
-import { useAuthStore } from '../../state'
+import { useAuthStore, useNavStore } from '../../state'
 
 // const theme = createTheme()
 
-export default function SignUpForm() {
+export default function LoginForm() {
   const { setIsLoggedIn, setUserID } = useAuthStore(
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,
       setUserID: state.setUserID,
+    }),
+    shallow
+  )
+  const { fromRedirect, setFromRedirect } = useNavStore(
+    (state) => ({
+      fromRedirect: state.fromRedirect,
+      setFromRedirect: state.setFromRedirect,
     }),
     shallow
   )
@@ -35,23 +42,26 @@ export default function SignUpForm() {
     event.preventDefault()
 
     const data = new FormData(event.currentTarget)
-    const username = data.get('username')
     const email = data.get('email')
     const password = data.get('password')
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/auth/users/signup',
+        'http://localhost:3000/auth/users/login',
         {
-          username,
           email,
           password,
         },
         { withCredentials: true }
       )
 
-      setUserID(response.data.userID)
+      setUserID(response.data.user._id)
       setIsLoggedIn(true)
+
+      if (fromRedirect) {
+        setFromRedirect(false)
+        navigate(-1)
+      }
       navigate('/')
     } catch (err) {
       console.error(err)
@@ -61,7 +71,7 @@ export default function SignUpForm() {
 
   return (
     // <ThemeProvider theme={theme}>
-    <Container component="main" maxWidth="xs">
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -74,54 +84,48 @@ export default function SignUpForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-              />
-            </Grid>
-          </Grid>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            type="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          {/* <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            /> */}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Sign In
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container>
+            <Grid item xs>
+              <Link to={'/'}>Forgot password?</Link>
+            </Grid>
             <Grid item>
-              Already have an account?
-              <Link to={'/login'}> Sign in</Link>
+              <Link to={'/signup'}>Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </Box>
