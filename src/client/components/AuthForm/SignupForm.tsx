@@ -50,7 +50,9 @@ export default function SignUpForm() {
         { withCredentials: true }
       )
 
-      setUserID(response.data.userID)
+      console.log(response)
+
+      setUserID(response.data.new_user._id)
       setIsLoggedIn(true)
       navigate('/')
     } catch (err) {

@@ -48,7 +48,7 @@ export default function LoginForm() {
         { withCredentials: true }
       )
 
-      setUserID(response.data.userID)
+      setUserID(response.data.user._id)
       setIsLoggedIn(true)
       navigate('/')
     } catch (err) {
