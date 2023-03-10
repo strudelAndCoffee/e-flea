@@ -19,7 +19,7 @@ export default function Vendor() {
   const [products, setProducts] = useState<ProductType[] | null>(null)
 
   return (
-    <>
+    <section>
       <h2>Vendor {id}</h2>
       {/* <h3>API data: {apiData}</h3> */}
       {/* <Button
@@ -35,6 +35,6 @@ export default function Vendor() {
             <Product product={product} key={idx} />
           ))}
       </Grid>
-    </>
+    </section>
   )
 }

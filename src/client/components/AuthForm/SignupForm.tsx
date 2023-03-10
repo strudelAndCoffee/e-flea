@@ -63,7 +63,7 @@ export default function SignUpForm() {
 
   return (
     // <ThemeProvider theme={theme}>
-    <Container component="main" maxWidth="xs">
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -97,6 +97,7 @@ export default function SignUpForm() {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
               />
             </Grid>

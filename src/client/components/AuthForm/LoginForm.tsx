@@ -59,7 +59,7 @@ export default function LoginForm() {
 
   return (
     // <ThemeProvider theme={theme}>
-    <Container component="main" maxWidth="xs">
+    <Container maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -82,6 +82,7 @@ export default function LoginForm() {
             id="email"
             label="Email Address"
             name="email"
+            type="email"
             autoComplete="email"
             autoFocus
           />
