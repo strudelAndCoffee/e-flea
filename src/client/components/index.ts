@@ -3,7 +3,7 @@ import Product from './Product'
 import VendorCard from './Vendor'
 import Footer from './Footer'
 import { SiteLink } from './Home'
-import { LoginForm, SignupForm, CreateVendorForm } from './Forms'
+import { LoginForm, SignupMultistepForm, CreateVendorForm } from './Forms'
 
 export {
   Header,
@@ -12,6 +12,6 @@ export {
   Footer,
   SiteLink,
   LoginForm,
-  SignupForm,
+  SignupMultistepForm,
   CreateVendorForm,
 }

@@ -1,9 +1,9 @@
-import { SignupForm } from '../components'
+import { SignupMultistepForm } from '../components'
 
 export default function Login() {
   return (
     <section>
-      <SignupForm />
+      <SignupMultistepForm />
     </section>
   )
 }

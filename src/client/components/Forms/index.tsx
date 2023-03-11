@@ -1,5 +1,5 @@
 import LoginForm from './LoginForm'
-import SignupForm from './SignupForm'
+import SignupMultistepForm from './SignupMultistep'
 import CreateVendorForm from './CreateVendorForm'
 
-export { LoginForm, SignupForm, CreateVendorForm }
+export { LoginForm, SignupMultistepForm, CreateVendorForm }
