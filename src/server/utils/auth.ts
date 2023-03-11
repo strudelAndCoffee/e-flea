@@ -13,36 +13,27 @@ function withAuth(req: Request, res: Response, next: NextFunction) {
 function signToken(
   username: string,
   email: string,
-  _id: Schema.Types.ObjectId
+  _id: Schema.Types.ObjectId | string
 ) {
   const payload = { username, email, _id }
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration })
 }
 
-function authMiddleware(req: Request) {
-  // let token = req.body.token || req.query.token || req.headers.authorization
-  // let token: string | undefined | null = req.headers.cookie || req.body.token
+function authMiddleware(req: Request, res: Response, next: NextFunction) {
+  let token: string | undefined | null =
+    req.body.token || req.headers.authorization
 
   // if (req.headers.authorization) {
-  //   token = token.split(' ').pop().trim()
+  //   token = token?.split(' ').pop().trim()
   // }
+  // const data: string | jwt.JwtPayload = jwt.verify
 
-  // if (!token) return req
-
-  // const data: string | jwt.JwtPayload = jwt.verify(token, secret, {
-  //   maxAge: expiration,
-  // })
-  // console.log(token)
-  // try {
-  //   const data: string | jwt.JwtPayload = jwt.verify(token, secret, {
-  //     maxAge: expiration,
-  //   })
-  //   req.body.user = data
-  // } catch (err) {
-  //   console.error(err)
-  //   return req
-  // }
-  return req
+  if (token) {
+    jwt.verify(token, secret, (err) => {
+      if (err) return res.sendStatus(403)
+      next()
+    })
+  } else res.sendStatus(401)
 }
 
 export { signToken, authMiddleware, withAuth }
