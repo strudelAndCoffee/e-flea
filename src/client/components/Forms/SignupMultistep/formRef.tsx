@@ -16,7 +16,7 @@ import Container from '@mui/material/Container'
 import { shallow } from 'zustand/shallow'
 import { useAuthStore, useNavStore } from '../../../state'
 
-export default function SignupStepTwo() {
+export default function PersonalInfo() {
   const { setIsLoggedIn, setUserID } = useAuthStore(
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,

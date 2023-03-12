@@ -17,10 +17,6 @@ export default function useMultistepForm(steps: ReactElement[]) {
     })
   }
 
-  function goTo(idx: number) {
-    setCurrentStepIdx(idx)
-  }
-
   return {
     steps,
     currentStepIdx,
@@ -29,6 +25,5 @@ export default function useMultistepForm(steps: ReactElement[]) {
     isLastStep: currentStepIdx === steps.length - 1,
     next,
     back,
-    goTo,
   }
 }

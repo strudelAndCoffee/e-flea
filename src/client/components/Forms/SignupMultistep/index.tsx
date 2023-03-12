@@ -4,29 +4,30 @@ import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 
-import SignupForm from './SignupForm.jsx'
-import SignupStepOne from './SignupStepOne.jsx'
-import SignupStepTwo from './SignupStepTwo.jsx'
+import CurrentStep from './CurrentStep.jsx'
+import AccountInfo from './AccountInfo.jsx'
+import UserInfo from './UserInfo.jsx'
+import Verify from './Verify.jsx'
 import useMultistepForm from './useMultistepForm.js'
 import Button from '@mui/material/Button'
 
 export default function SignupMultistepForm() {
-  const { steps, currentStepIdx, isFirstStep, isLastStep } = useMultistepForm(
-    []
-  )
-  const [currentStep, setCurrentStep] = useState(steps[currentStepIdx])
+  const { steps, step, currentStepIdx, isFirstStep, isLastStep, next, back } =
+    useMultistepForm([<AccountInfo />, <UserInfo />, <Verify />])
 
   return (
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ padding: 3 }}>
         <Typography align="right" variant="subtitle1">
-          {currentStepIdx} / {steps.length}
+          {currentStepIdx + 1} / {steps.length}
         </Typography>
-        <SignupForm currentStep={currentStep} />
-        <Box display="flex" justifyContent="space-between">
-          <Button disabled={isFirstStep}>{isFirstStep ? '' : 'Back'}</Button>
-          <Button disabled={isLastStep}>{isLastStep ? '' : 'Next'}</Button>
-        </Box>
+        <CurrentStep
+          currentStep={step}
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          back={back}
+          next={next}
+        />
       </Paper>
     </Container>
   )

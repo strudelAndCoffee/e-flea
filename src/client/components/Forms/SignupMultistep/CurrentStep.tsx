@@ -3,12 +3,23 @@ import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 interface SignupFormProps {
   currentStep: ReactElement
+  isFirstStep: boolean
+  isLastStep: boolean
+  back: () => void
+  next: () => void
 }
 
-export default function SignupForm({ currentStep }: SignupFormProps) {
+export default function CurrentStep({
+  currentStep,
+  isFirstStep,
+  isLastStep,
+  back,
+  next,
+}: SignupFormProps) {
   return (
     <Box
       sx={{
@@ -24,6 +35,14 @@ export default function SignupForm({ currentStep }: SignupFormProps) {
         Sign up
       </Typography>
       {currentStep}
+      <Box display="flex" justifyContent="space-between">
+        <Button type="button" disabled={isFirstStep} onClick={back}>
+          {isFirstStep ? '' : 'Back'}
+        </Button>
+        <Button type="button" disabled={isLastStep} onClick={next}>
+          {isLastStep ? '' : 'Next'}
+        </Button>
+      </Box>
     </Box>
   )
 }
