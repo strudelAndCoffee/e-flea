@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import FormControl from '@mui/material/FormControl'
 import Grid from '@mui/material/Grid'
 import InputLabel from '@mui/material/InputLabel'
@@ -40,6 +40,7 @@ export default function UserInfo({
   const [selectedMonth, setSelectedMonth] = useState('')
   const [selectedYear, setSelectedYear] = useState('')
   const [lastDayInMonth, setLastDayInMonth] = useState(31)
+  const [isInvalidYear, setIsInvalidYear] = useState(false)
 
   const currentYear = getCurrentYear()
   const filteredDays = DAYS.filter((day) => day <= lastDayInMonth)
@@ -80,6 +81,8 @@ export default function UserInfo({
     const yearVal = parseInt(event.target.value)
     if (typeof yearVal === 'number') updateFields({ dob_year: yearVal })
   }
+
+  useEffect(() => setIsInvalidYear(invalidYear), [invalidYear])
 
   return (
     <Grid container spacing={2}>
@@ -166,14 +169,13 @@ export default function UserInfo({
             required
             inputProps={{
               inputMode: 'numeric',
-              pattern: `[1900-${currentYear}]*`,
             }}
             size="small"
             id="date-of-birth_year"
             label="Year (yyyy)"
             value={selectedYear}
             onChange={handleYearSelect}
-            error={invalidYear}
+            error={isInvalidYear}
           />
         </FormControl>
       </Grid>

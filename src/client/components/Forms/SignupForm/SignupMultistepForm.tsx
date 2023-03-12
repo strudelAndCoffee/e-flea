@@ -23,6 +23,7 @@ export default function SignupMultistepForm() {
     next,
     back,
     validateYear,
+    validateEmail,
   } = useMultistepForm([
     <AccountInfo {...formData} updateFields={updateFields} />,
     <UserInfo
@@ -43,6 +44,11 @@ export default function SignupMultistepForm() {
     e.preventDefault()
     console.log(formData)
 
+    if (isFirstStep) {
+      const validEmail = validateEmail(formData.email)
+      updateFields({ email: validEmail })
+    }
+
     if (currentStepIdx === 1) {
       const dob_year = formData.dob_year
       const valid_year = validateYear(dob_year, getCurrentYear())
@@ -57,10 +63,12 @@ export default function SignupMultistepForm() {
       }
     }
 
-    if (!isLastStep) {
-      return next()
+    if (isLastStep) {
+      alert('form submitted')
+      return
     }
-    alert('form submitted')
+
+    next()
   }
 
   return (

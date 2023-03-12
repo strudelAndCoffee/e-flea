@@ -18,7 +18,12 @@ export default function useMultistepForm(steps: ReactElement[]) {
   }
 
   function validateYear(year: string | number, currentYear: number) {
-    return typeof year === 'number' && year > 1900 && year <= currentYear
+    return typeof year === 'number' && year > 1900 && year < currentYear
+  }
+
+  function validateEmail(email: string) {
+    if (!email.includes('.')) return `${email}.com`
+    return email
   }
 
   return {
@@ -30,5 +35,6 @@ export default function useMultistepForm(steps: ReactElement[]) {
     next,
     back,
     validateYear,
+    validateEmail,
   }
 }
