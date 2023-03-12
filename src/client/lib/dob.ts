@@ -18,4 +18,15 @@ const DAYS: number[] = [
   23, 24, 25, 26, 27, 28, 29, 30, 31,
 ]
 
-export { MONTHS, DAYS }
+function getCurrentYear() {
+  return new Date(Date.now()).getFullYear()
+
+  // let years: number[] = []
+  // for (let i = currentYear; i > currentYear - 100; i--) {
+  //   years.push(i)
+  // }
+
+  // return years
+}
+
+export { MONTHS, DAYS, getCurrentYear }

@@ -7,44 +7,32 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-import { MONTHS, DAYS } from '../../../lib'
+import { MONTHS, DAYS, getCurrentYear } from '../../../lib'
+import Input from '@mui/material/Input'
 
 export default function UserInfo() {
+  const currentYear = getCurrentYear()
   const [selectedMonth, setSelectedMonth] = useState<string>('')
-  const [filteredDays, setFilteredDays] = useState(DAYS)
-
-  // const unselectDay = (day: number) => {
-  //   if (
-  //     (day > 30 &&
-  //       (selectedMonth === 'April' ||
-  //         selectedMonth === 'June' ||
-  //         selectedMonth === 'September' ||
-  //         selectedMonth === 'November')) ||
-  //     (day > 29 && selectedMonth === 'February')
-  //   )
-  //     return true
-
-  //   return false
-  // }
+  const [lastDayInMonth, setLastDayInMonth] = useState(31)
 
   const handleMonthChange = (event: SelectChangeEvent) => {
     const month = event.target.value
     setSelectedMonth(month)
 
-    let totalDays
+    let lastDay
 
     if (month === 'February') {
-      totalDays = DAYS.filter((day) => day <= 29)
+      lastDay = 29
     } else if (
       month === 'April' ||
       month === 'June' ||
       month === 'September' ||
       month === 'November'
     ) {
-      totalDays = DAYS.filter((day) => day <= 30)
-    } else totalDays = DAYS
+      lastDay = 30
+    } else lastDay = 31
 
-    setFilteredDays(totalDays)
+    setLastDayInMonth(lastDay)
   }
 
   return (
@@ -90,7 +78,7 @@ export default function UserInfo() {
           gap: 1,
         }}
       >
-        <FormControl sx={{ maxWidth: '50%', flexGrow: 1 }} required>
+        <FormControl sx={{ maxWidth: '55%', flexGrow: 1 }} required>
           <InputLabel id="date-of-birth-month-select-label">Month</InputLabel>
           <Select
             size="small"
@@ -100,44 +88,42 @@ export default function UserInfo() {
             label="Month"
             onChange={handleMonthChange}
           >
-            {MONTHS.map((mon) => (
-              <MenuItem value={mon}>{mon}</MenuItem>
+            {MONTHS.map((mon, idx) => (
+              <MenuItem value={mon} key={mon + idx}>
+                {mon}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
         <FormControl sx={{ maxWidth: '20%', flexGrow: 1 }} required>
-          <InputLabel id="date-of-birth-day-select-label">Day</InputLabel>
-          <Select
+          <TextField
+            required
+            inputProps={{
+              inputMode: 'numeric',
+              pattern: `[1-${lastDayInMonth}]*`,
+            }}
             size="small"
-            type="number"
-            labelId="date-of-birth-day-select-label"
-            id="date-of-birth-day-select"
-            // value={age}
-            label="Day"
-            // onChange={handleChange}
-          >
-            {filteredDays.map((day) => (
-              <MenuItem value={day}>{day}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ maxWidth: '30%', flexGrow: 1 }} required>
-          <InputLabel id="date-of-birth-year-select-label">Year</InputLabel>
-          <Select
-            size="small"
-            labelId="date-of-birth-year-select-label"
             id="date-of-birth-year-select"
+            label="Day"
             // value={age}
+            // onChange={}
+          />
+        </FormControl>
+        <FormControl sx={{ maxWidth: '25%', flexGrow: 1 }}>
+          <TextField
+            required
+            inputProps={{
+              inputMode: 'numeric',
+              pattern: `[1900-${currentYear}]*`,
+            }}
+            size="small"
+            id="date-of-birth-year-select"
             label="Year"
-            // onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+            // value={age}
+            // onChange={}
+          />
         </FormControl>
       </Grid>
-      <Grid item xs={12}></Grid>
     </Grid>
   )
 }
