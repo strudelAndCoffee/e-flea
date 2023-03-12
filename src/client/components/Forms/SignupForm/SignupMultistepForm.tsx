@@ -1,4 +1,8 @@
+// Starter code for SignIn form component example copied from Material UI: https://github.com/mui/material-ui/blob/v5.11.12/docs/data/material/getting-started/templates/sign-up/SignUp.tsx
+
 import { FormEvent, useState } from 'react'
+import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
@@ -11,7 +15,25 @@ import useMultistepForm from './useMultistepForm.js'
 import { INITIAL_FORM_DATA, FormDataType } from '../../../lib/form_data.js'
 import { getCurrentYear } from '../../../lib/dob.js'
 
+import { shallow } from 'zustand/shallow'
+import { useAuthStore, useNavStore } from '../../../state'
+
 export default function SignupMultistepForm() {
+  const { setIsLoggedIn, setUserID } = useAuthStore(
+    (state) => ({
+      setIsLoggedIn: state.setIsLoggedIn,
+      setUserID: state.setUserID,
+    }),
+    shallow
+  )
+  const { fromRedirect, setFromRedirect } = useNavStore(
+    (state) => ({
+      fromRedirect: state.fromRedirect,
+      setFromRedirect: state.setFromRedirect,
+    }),
+    shallow
+  )
+  const navigate = useNavigate()
   const [formData, setFormData] = useState(INITIAL_FORM_DATA)
   const [invalidYear, setInvalidYear] = useState(false)
   const {
@@ -40,13 +62,16 @@ export default function SignupMultistepForm() {
     })
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     console.log(formData)
 
     if (isFirstStep) {
       const validEmail = validateEmail(formData.email)
       updateFields({ email: validEmail })
+
+      // check unique username
+      // alert('This account already exists. Please try a different username')
     }
 
     if (currentStepIdx === 1) {
@@ -63,12 +88,51 @@ export default function SignupMultistepForm() {
       }
     }
 
-    if (isLastStep) {
-      alert('form submitted')
-      return
+    if (!isLastStep) {
+      return next()
     }
 
-    next()
+    const {
+      username,
+      email,
+      password,
+      first_name,
+      last_name,
+      dob_day,
+      dob_month,
+      dob_year,
+      vendor_account,
+    } = formData
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/auth/users/signup',
+        {
+          username,
+          email,
+          password,
+          first_name,
+          last_name,
+          dob_day,
+          dob_month,
+          dob_year,
+          vendor_account,
+        },
+        { withCredentials: true }
+      )
+
+      console.log(response)
+
+      setUserID(response.data.new_user._id)
+      setIsLoggedIn(true)
+      if (fromRedirect) {
+        setFromRedirect(false)
+        return navigate(-1)
+      }
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
