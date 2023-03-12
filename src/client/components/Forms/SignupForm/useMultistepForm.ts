@@ -17,6 +17,10 @@ export default function useMultistepForm(steps: ReactElement[]) {
     })
   }
 
+  function validateYear(year: string | number, currentYear: number) {
+    return typeof year === 'number' && year > 1900 && year <= currentYear
+  }
+
   return {
     steps,
     currentStepIdx,
@@ -25,5 +29,6 @@ export default function useMultistepForm(steps: ReactElement[]) {
     isLastStep: currentStepIdx === steps.length - 1,
     next,
     back,
+    validateYear,
   }
 }

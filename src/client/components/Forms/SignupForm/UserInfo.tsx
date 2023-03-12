@@ -8,37 +8,44 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Switch from '@mui/material/Switch'
 
-import { MONTHS, getCurrentYear } from '../../../lib'
-import { DOBType } from '../../../lib/form_data.js'
+import { MONTHS, DAYS, getCurrentYear } from '../../../lib'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 const swithLabel = { inputProps: { 'aria-label': 'Set to vendor account' } }
 
-interface UserInfoProps {
+type UserInfoData = {
   first_name: string
   last_name: string
-  dob: DOBType
+  dob_day: number | string
+  dob_month: number | string
+  dob_year: number | string
   vendor_account: boolean
+}
+type UserInfoProps = UserInfoData & {
+  updateFields: (fields: Partial<UserInfoData>) => void
+  invalidYear: boolean
 }
 
 export default function UserInfo({
   first_name,
   last_name,
-  dob,
+  dob_day,
+  dob_month,
+  dob_year,
   vendor_account,
+  updateFields,
+  invalidYear,
 }: UserInfoProps) {
-  const currentYear = getCurrentYear()
+  const [selectedDay, setSelectedDay] = useState('')
   const [selectedMonth, setSelectedMonth] = useState('')
+  const [selectedYear, setSelectedYear] = useState('')
   const [lastDayInMonth, setLastDayInMonth] = useState(31)
 
-  const [invalidDayErr, setInvalidDayErr] = useState(false)
-  const [invalidYearErr, setInvalidYearErr] = useState(false)
-
-  const [isVendor, setIsVendor] = useState(false)
+  const currentYear = getCurrentYear()
+  const filteredDays = DAYS.filter((day) => day <= lastDayInMonth)
 
   const handleMonthSelect = (event: SelectChangeEvent) => {
     const month = event.target.value
-    setSelectedMonth(month)
 
     let lastDay
 
@@ -54,30 +61,24 @@ export default function UserInfo({
     } else lastDay = 31
 
     setLastDayInMonth(lastDay)
+    setSelectedMonth(month)
+
+    let monthVal = MONTHS.filter((mon) => mon.name === month)
+    updateFields({ dob_month: monthVal[0].value })
   }
 
-  const handleDaySelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const day = parseInt(event.target.value)
-    if (!day || day <= 0 || day > lastDayInMonth) {
-      setInvalidDayErr(true)
-      return
-    }
-
-    setInvalidDayErr(false)
+  const handleDaySelect = (event: SelectChangeEvent) => {
+    const day = event.target.value
+    setSelectedDay(day)
+    const dayVal = parseInt(day)
+    if (typeof dayVal === 'number') updateFields({ dob_day: day })
   }
 
   const handleYearSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const year = parseInt(event.target.value)
-    if (!year || year <= 1900 || year > currentYear) {
-      setInvalidYearErr(true)
-      return
-    }
-
-    setInvalidYearErr(false)
-  }
-
-  const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsVendor(event.target.checked)
+    const year = event.target.value
+    setSelectedYear(year)
+    const yearVal = parseInt(event.target.value)
+    if (typeof yearVal === 'number') updateFields({ dob_year: yearVal })
   }
 
   return (
@@ -96,6 +97,7 @@ export default function UserInfo({
           name="first_name"
           autoComplete="first_name"
           value={first_name}
+          onChange={(e) => updateFields({ first_name: e.target.value })}
         />
       </Grid>
       <Grid item xs={12}>
@@ -107,6 +109,7 @@ export default function UserInfo({
           name="last_name"
           autoComplete="last_name"
           value={last_name}
+          onChange={(e) => updateFields({ last_name: e.target.value })}
         />
       </Grid>
       <Grid
@@ -134,27 +137,29 @@ export default function UserInfo({
             value={selectedMonth}
             onChange={handleMonthSelect}
           >
-            {MONTHS.map((mon, idx) => (
-              <MenuItem value={mon} key={idx}>
-                {mon}
+            {MONTHS.map((mon) => (
+              <MenuItem value={mon.name} key={mon.value}>
+                {mon.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
         <FormControl sx={{ maxWidth: '20%', flexGrow: 1 }} required>
-          <TextField
-            required
-            inputProps={{
-              inputMode: 'numeric',
-              pattern: `[1-${lastDayInMonth}]*`,
-            }}
+          <InputLabel id="date-of-birth-day-label">Day</InputLabel>
+          <Select
             size="small"
+            labelId="date-of-birth-day-label"
             id="date-of-birth_day"
             label="Day"
-            value={dob.day}
+            value={selectedDay}
             onChange={handleDaySelect}
-            error={invalidDayErr}
-          />
+          >
+            {filteredDays.map((day) => (
+              <MenuItem value={day} key={`day${day}`}>
+                {day}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
         <FormControl sx={{ maxWidth: '25%', flexGrow: 1 }}>
           <TextField
@@ -165,10 +170,10 @@ export default function UserInfo({
             }}
             size="small"
             id="date-of-birth_year"
-            label="Year"
-            value={dob.year}
+            label="Year (yyyy)"
+            value={selectedYear}
             onChange={handleYearSelect}
-            error={invalidYearErr}
+            error={invalidYear}
           />
         </FormControl>
       </Grid>
@@ -177,9 +182,12 @@ export default function UserInfo({
           control={
             <Switch
               {...swithLabel}
-              onChange={handleSwitchChange}
               name="vendor_account"
               id="vendor_account"
+              value={vendor_account}
+              onChange={(e) =>
+                updateFields({ vendor_account: e.target.checked })
+              }
             />
           }
           label="Make Vendor Account"

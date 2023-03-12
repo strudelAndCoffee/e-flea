@@ -34,11 +34,7 @@ export default function FormButtons({
           Back
         </Button>
       )}
-      {!isLastStep && (
-        <Button type="button" onClick={next}>
-          Next
-        </Button>
-      )}
+      {!isLastStep && <Button type="submit">Next</Button>}
     </Box>
   )
 }

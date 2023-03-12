@@ -2,16 +2,21 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-interface AccountInfoProps {
+type AccountInfoData = {
   username: string
   email: string
   password: string
+}
+
+type AccountInfoProps = AccountInfoData & {
+  updateFields: (fields: Partial<AccountInfoData>) => void
 }
 
 export default function AccountInfo({
   username,
   email,
   password,
+  updateFields,
 }: AccountInfoProps) {
   return (
     <Grid container spacing={2}>
@@ -29,6 +34,7 @@ export default function AccountInfo({
           name="username"
           autoComplete="username"
           value={username}
+          onChange={(e) => updateFields({ username: e.target.value })}
         />
       </Grid>
       <Grid item xs={12}>
@@ -41,6 +47,7 @@ export default function AccountInfo({
           type="email"
           autoComplete="email"
           value={email}
+          onChange={(e) => updateFields({ email: e.target.value })}
         />
       </Grid>
       <Grid item xs={12}>
@@ -53,6 +60,7 @@ export default function AccountInfo({
           id="password"
           autoComplete="new-password"
           value={password}
+          onChange={(e) => updateFields({ password: e.target.value })}
         />
       </Grid>
     </Grid>
