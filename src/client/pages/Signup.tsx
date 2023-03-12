@@ -1,9 +1,10 @@
-import { SignupMultistepForm } from '../components'
+import Container from '@mui/material/Container'
+import { SignupForm } from '../components'
 
 export default function Login() {
   return (
-    <section>
-      <SignupMultistepForm />
-    </section>
+    <Container maxWidth="sm">
+      <SignupForm />
+    </Container>
   )
 }
