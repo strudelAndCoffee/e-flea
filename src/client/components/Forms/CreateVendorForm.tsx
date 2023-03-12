@@ -18,10 +18,10 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { CATEGORIES } from '../../lib/categories'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Chip from '@mui/material/Chip'
 
+import { CATEGORIES } from '../../lib/categories'
 import { useAuthStore } from '../../state'
 
 const swithLabel = { inputProps: { 'aria-label': 'Use default image' } }

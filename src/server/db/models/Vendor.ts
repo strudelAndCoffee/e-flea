@@ -6,7 +6,8 @@ type ImageSchemaType = {
   store_image_alt: string | undefined
 }
 export interface VendorType {
-  owner_id: Schema.Types.ObjectId
+  _id: Schema.Types.ObjectId
+  owner_id: String
   store_title: string
   store_description: string
   categories: string[]

@@ -1,10 +1,40 @@
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+
+import { VendorType } from '../../server/db/models/Vendor'
+import { VendorCard } from '../components'
+import Container from '@mui/material/Container'
 
 export default function VendorList() {
+  const [allVendors, setAllVendors] = useState<VendorType[] | []>([])
+
+  useEffect(() => {
+    const getAllVendors = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/api/vendors')
+        setAllVendors(res.data.vendors)
+      } catch (err) {
+        console.log(err)
+        alert('error')
+      }
+    }
+    getAllVendors()
+  }, [])
+
   return (
-    <section>
-      <h2>Vendor list</h2>
-      <Link to="/vendors/1">Vendor 1</Link>
-    </section>
+    <Container component="section">
+      <Typography variant="h3" component="h1">
+        Vendor list
+      </Typography>
+      <Grid container spacing={4}>
+        {allVendors.map((vendor, idx) => (
+          <VendorCard vendor={vendor} idx={idx} />
+        ))}
+      </Grid>
+    </Container>
   )
 }

@@ -3,7 +3,7 @@ type CategoryType = {
   cat_name: string
 }
 
-const CATEGORIES: CategoryType[] = [
+export const CATEGORIES: CategoryType[] = [
   {
     cat_id: 0,
     cat_name: 'Clothing/Apparel',
@@ -33,5 +33,3 @@ const CATEGORIES: CategoryType[] = [
     cat_name: 'Musical Instruments',
   },
 ]
-
-export { CATEGORIES }

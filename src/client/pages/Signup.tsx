@@ -1,9 +1,10 @@
+import Container from '@mui/material/Container'
 import { SignupForm } from '../components'
 
 export default function Login() {
   return (
-    <section>
+    <Container maxWidth="sm">
       <SignupForm />
-    </section>
+    </Container>
   )
 }

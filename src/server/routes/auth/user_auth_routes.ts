@@ -1,12 +1,9 @@
 import express from 'express'
-import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { UserModel } from '../../db/models'
-import withAuth from '../../utils/withAuth'
+import { withAuth, signToken } from '../../utils/auth'
 
 const router = express.Router()
-const hash_salt_rounds = 10
-const secret = process.env.ACCESS_TOKEN_SECRET
 const cookie_max_age = 900000
 
 router.post('/signup', async (req, res) => {
@@ -17,17 +14,15 @@ router.post('/signup', async (req, res) => {
     return res.status(400).json({ error: 'The user account already exists.' })
   }
 
-  const hashed_pw = await bcrypt.hash(password, hash_salt_rounds)
-
   try {
     const new_user = new UserModel({
       username,
       email,
-      password: hashed_pw,
+      password,
     })
     await new_user.save()
 
-    const token = jwt.sign({ id: new_user._id }, secret ?? '42')
+    const token = signToken(username, email, new_user._id)
     res.cookie('access_token', token, {
       maxAge: cookie_max_age,
       httpOnly: true,
@@ -52,12 +47,12 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({ message: 'The user account does not exist.' })
   }
 
-  const pw_is_valid = await bcrypt.compare(password, user.password)
+  const pw_is_valid = await user.isCorrectPw(password)
   if (!pw_is_valid) {
     return res.status(401).json({ message: 'User credentials are incorrect.' })
   }
 
-  const token = jwt.sign({ id: user._id }, secret ?? '42')
+  const token = signToken(user.username, email, user._id)
   res.cookie('access_token', token, {
     maxAge: cookie_max_age,
     httpOnly: true,

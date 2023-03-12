@@ -1,15 +1,27 @@
 import express from 'express'
 import { VendorModel } from '../../db/models'
-import withAuth from '../../utils/withAuth'
+import { withAuth } from '../../utils/auth'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.send('all vendors')
+router.get('/', async (req, res) => {
+  try {
+    const vendors = await VendorModel.find({})
+    res.json({ vendors })
+  } catch (err) {
+    console.error(err)
+    res.json(err)
+  }
 })
-router.get('/:id', (req, res) => {
-  const id = req.params.id
-  res.send({ data: id })
+
+router.get('/:id', async (req, res) => {
+  try {
+    const vendor = await VendorModel.findById(req.params.id)
+    res.send({ vendor })
+  } catch (err) {
+    console.error(err)
+    res.json(err)
+  }
 })
 
 router.post('/', withAuth, async (req, res) => {

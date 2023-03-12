@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Grid from '@mui/material/Grid'
@@ -8,15 +8,13 @@ import { Product } from '../components'
 import { NotFound } from './'
 import { ProductType } from '../../server/db/models/Product.js'
 
-// import { useProductStore } from '../state'
-
 export default function Vendor() {
-  // const products = useProductStore((state) => state.products)
   const { id } = useParams()
   if (id == null || id === undefined) return <NotFound />
 
-  // const [apiData, setApiData] = useState('')
-  const [products, setProducts] = useState<ProductType[] | null>(null)
+  const [products, setProducts] = useState<ProductType[] | []>([])
+
+  useEffect(() => {}, [])
 
   return (
     <section>

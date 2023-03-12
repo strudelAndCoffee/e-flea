@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <CssBaseline />
-      <RouterProvider router={router} />
+      <RouterProvider router={router} fallbackElement={<>Loading...</>} />
     </div>
   )
 }
