@@ -17,7 +17,7 @@ type UserInfoData = {
   first_name: string
   last_name: string
   dob_day: number | string
-  dob_month: number | string
+  dob_month: { value: number | string; name: string }
   dob_year: number | string
   vendor_account: boolean
 }
@@ -65,7 +65,9 @@ export default function UserInfo({
     setSelectedMonth(month)
 
     let monthVal = MONTHS.filter((mon) => mon.name === month)
-    updateFields({ dob_month: monthVal[0].value })
+    updateFields({
+      dob_month: { value: monthVal[0].value, name: monthVal[0].name },
+    })
   }
 
   const handleDaySelect = (event: SelectChangeEvent) => {
@@ -186,7 +188,7 @@ export default function UserInfo({
               {...swithLabel}
               name="vendor_account"
               id="vendor_account"
-              value={vendor_account}
+              checked={vendor_account}
               onChange={(e) =>
                 updateFields({ vendor_account: e.target.checked })
               }

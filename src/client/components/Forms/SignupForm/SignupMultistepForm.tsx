@@ -53,7 +53,7 @@ export default function SignupMultistepForm() {
       updateFields={updateFields}
       invalidYear={invalidYear}
     />,
-    <Verify {...formData} updateFields={updateFields} />,
+    <Verify {...formData} />,
   ])
 
   function updateFields(fields: Partial<FormDataType>) {
