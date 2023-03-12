@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
@@ -28,6 +29,12 @@ export default function SignupMultistepForm() {
           back={back}
           next={next}
         />
+        {isFirstStep && (
+          <Typography align="center">
+            Already have an account?
+            <Link to={'/login'}> Sign in</Link>
+          </Typography>
+        )}
       </Paper>
     </Container>
   )

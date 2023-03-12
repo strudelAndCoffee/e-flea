@@ -69,7 +69,7 @@ export default function PersonalInfo() {
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -113,6 +113,6 @@ export default function PersonalInfo() {
           <Link to={'/login'}> Sign in</Link>
         </Grid>
       </Grid>
-    </Box>
+    </>
   )
 }

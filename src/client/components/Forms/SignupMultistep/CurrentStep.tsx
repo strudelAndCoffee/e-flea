@@ -1,4 +1,4 @@
-import { ReactElement } from 'react'
+import { ReactElement, FormEvent } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -20,6 +20,10 @@ export default function CurrentStep({
   back,
   next,
 }: SignupFormProps) {
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+  }
+
   return (
     <Box
       sx={{
@@ -34,14 +38,16 @@ export default function CurrentStep({
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      {currentStep}
-      <Box display="flex" justifyContent="space-between">
-        <Button type="button" disabled={isFirstStep} onClick={back}>
-          {isFirstStep ? '' : 'Back'}
-        </Button>
-        <Button type="button" disabled={isLastStep} onClick={next}>
-          {isLastStep ? '' : 'Next'}
-        </Button>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        {currentStep}
+        <Box display="flex" justifyContent="space-between">
+          <Button type="button" disabled={isFirstStep} onClick={back}>
+            {isFirstStep ? '' : 'Back'}
+          </Button>
+          <Button type="submit" disabled={isLastStep} onClick={next}>
+            {isLastStep ? '' : 'Next'}
+          </Button>
+        </Box>
       </Box>
     </Box>
   )
