@@ -10,7 +10,7 @@ import { getAllProducts } from '../api'
 
 export default function BrowseProducts() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['all-products'],
+    queryKey: ['products', 'all-products'],
     queryFn: () => getAllProducts(),
   })
 
@@ -25,7 +25,9 @@ export default function BrowseProducts() {
         <Grid container spacing={4}>
           {data.products &&
             data.products.map((product: ProductType, idx: number) => (
-              <Product product={product} key={idx} />
+              <Grid item xs={3} key={idx}>
+                <Product product={product} />
+              </Grid>
             ))}
         </Grid>
       </Container>
