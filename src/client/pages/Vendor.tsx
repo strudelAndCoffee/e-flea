@@ -30,7 +30,9 @@ export default function Vendor() {
       <Grid container spacing={4}>
         {products &&
           products.map((product, idx) => (
-            <Product product={product} key={idx} />
+            <Grid item xs={4} key={idx}>
+              <Product product={product} />
+            </Grid>
           ))}
       </Grid>
     </section>

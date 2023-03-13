@@ -7,27 +7,24 @@ import { VendorType } from '../../../server/db/models/Vendor'
 
 interface VendorCardProps {
   vendor: VendorType
-  idx: number
 }
 
-export default function VendorCard({ vendor, idx }: VendorCardProps) {
+export default function VendorCard({ vendor }: VendorCardProps) {
   return (
-    <Grid item key={`${vendor.store_title}${idx}`}>
-      <Paper elevation={3} square>
-        <Link to={`/vendors/${vendor._id}`}>
-          <Typography variant="h5" component="h3">
-            {vendor.store_title}
-          </Typography>
-        </Link>
-        <Typography variant="body2" component="p" marginY={1}>
-          {vendor.categories.map((cat) => (
-            <span>{cat}, </span>
-          ))}
+    <Paper elevation={3} square>
+      <Link to={`/vendors/${vendor._id}`}>
+        <Typography variant="h5" component="h3">
+          {vendor.store_title}
         </Typography>
-        <Typography variant="body1" component="p" marginY={1}>
-          {vendor.store_description}
-        </Typography>
-      </Paper>
-    </Grid>
+      </Link>
+      <Typography variant="body2" component="p" marginY={1}>
+        {vendor.categories.map((cat, idx) => (
+          <span key={idx}>{cat}, </span>
+        ))}
+      </Typography>
+      <Typography variant="body1" component="p" marginY={1}>
+        {vendor.store_description}
+      </Typography>
+    </Paper>
   )
 }

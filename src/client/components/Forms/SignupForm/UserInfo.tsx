@@ -189,6 +189,7 @@ export default function UserInfo({
               name="vendor_account"
               id="vendor_account"
               checked={vendor_account}
+              value={vendor_account}
               onChange={(e) =>
                 updateFields({ vendor_account: e.target.checked })
               }

@@ -32,7 +32,9 @@ export default function VendorList() {
       </Typography>
       <Grid container spacing={4}>
         {allVendors.map((vendor, idx) => (
-          <VendorCard vendor={vendor} idx={idx} />
+          <Grid item key={idx}>
+            <VendorCard vendor={vendor} />
+          </Grid>
         ))}
       </Grid>
     </Container>

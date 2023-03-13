@@ -64,7 +64,6 @@ export default function SignupMultistepForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    console.log(formData)
 
     if (isFirstStep) {
       const validEmail = validateEmail(formData.email)
@@ -113,9 +112,11 @@ export default function SignupMultistepForm() {
           password,
           first_name,
           last_name,
-          dob_day,
-          dob_month,
-          dob_year,
+          dob: {
+            day: dob_day as number,
+            month: dob_month.value as number,
+            year: dob_year as number,
+          },
           vendor_account,
         },
         { withCredentials: true }
