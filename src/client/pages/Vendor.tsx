@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
@@ -8,30 +7,26 @@ import { Product } from '../components'
 import { NotFound } from './'
 import { ProductType } from '../../server/db/models/Product.js'
 import { ErrorBoundary, ErrorPage } from '../error_boundary'
+import { getProductsByVendorId } from '../api'
 
 export default function Vendor() {
   const { id } = useParams()
   if (id == null || id === undefined) return <NotFound />
 
-  const [products, setProducts] = useState<ProductType[] | []>([])
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['products', 'vendor', 'vendor-products'],
+    queryFn: () => getProductsByVendorId(id),
+  })
 
-  useEffect(() => {}, [])
-
+  if (isLoading) return <div>'Loading...'</div>
+  if (isError) return <ErrorPage />
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
       <section>
         <h2>Vendor {id}</h2>
-        {/* <h3>API data: {apiData}</h3> */}
-        {/* <Button
-        onClick={() => {
-          axios.get('/api/products/1').then((res) => setApiData(res.data.data))
-        }}
-      >
-        query
-      </Button> */}
         <Grid container spacing={4}>
-          {products &&
-            products.map((product, idx) => (
+          {data.products &&
+            data.products.map((product: ProductType, idx: number) => (
               <Grid item xs={4} key={idx}>
                 <Product product={product} />
               </Grid>

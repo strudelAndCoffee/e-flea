@@ -1,14 +1,15 @@
 import axios from 'axios'
 
 async function getAllVendors() {
-  axios
-    .get('http://localhost:3000/api/products')
-    .then((res) => {
-      return res.data
+  try {
+    const res = await axios.get('http://localhost:3000/api/vendors', {
+      withCredentials: true,
     })
-    .catch((err) => {
-      throw err
-    })
+    return res.data
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
 }
 
 export { getAllVendors }

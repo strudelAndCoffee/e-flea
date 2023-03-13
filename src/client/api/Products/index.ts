@@ -1,3 +1,3 @@
-import { getAllProducts } from './productQueries.js'
+import { getAllProducts, getProductsByVendorId } from './productQueries.js'
 
-export { getAllProducts }
+export { getAllProducts, getProductsByVendorId }

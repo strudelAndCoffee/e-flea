@@ -1,14 +1,15 @@
 import axios from 'axios'
 
 async function getAllUsers() {
-  axios
-    .get('http://localhost:3000/api/users')
-    .then((res) => {
-      return res.data
+  try {
+    const res = await axios.get('http://localhost:3000/api/users', {
+      withCredentials: true,
     })
-    .catch((err) => {
-      throw err
-    })
+    return res.data
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
 }
 
 export { getAllUsers }
