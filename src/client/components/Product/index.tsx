@@ -1,12 +1,28 @@
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+
 import { createTheme, ThemeProvider } from '@mui/material'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
+// import Paper from '@mui/material/Paper'
+// import Grid from '@mui/material/Grid'
+
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import ProductImg from './ProductImg.jsx'
 import { ProductType } from '../../../server/db/models/Product.js'
+import { VendorType } from '../../../server/db/models/Vendor.js'
+import { getVendorById } from '../../api'
+import { ErrorPage } from '../../error_boundary'
+import formatCurrency from '../../utils/formatCurrency.js'
 
 interface ProductProps {
   product: ProductType
@@ -31,15 +47,39 @@ const ratingTheme = createTheme({
 
 export default function Product({ product }: ProductProps) {
   const { image, rating } = product
+  const vendor_id = product.vendor_id.toString()
+
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['products', 'all-products', 'vendor-products'],
+    queryFn: () => getVendorById(vendor_id),
+  })
 
   return (
-    <ThemeProvider theme={ratingTheme}>
-      <Paper elevation={3} square>
-        <ProductImg img={image} />
-        <Box paddingX={1}>
-          <Typography variant="h5" component="h3">
-            {product.name}
-          </Typography>
+    <Card variant="outlined" sx={{ maxWidth: 400, padding: 1 }}>
+      <CardHeader
+        sx={{ padding: 0 }}
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
+        title={product.name}
+        subheader={
+          <Link to={`/vendors/${vendor_id}`}>
+            {isLoading && 'Loading store name...'}
+            {data && data.vendor.store_title}
+          </Link>
+        }
+      />
+      <CardMedia
+        component="img"
+        height="194"
+        image={image.image_upload ?? image.image_url}
+        alt={image.image_alt}
+        sx={{ objectPosition: 'center', objectFit: 'cover' }}
+      />
+      <CardContent sx={{ paddingX: 1, paddingBottom: 0 }}>
+        <ThemeProvider theme={ratingTheme}>
           <Box
             sx={{
               display: 'flex',
@@ -58,21 +98,29 @@ export default function Product({ product }: ProductProps) {
               {`(${rating.reviews} reviews)`}
             </Typography>
           </Box>
-          <Typography variant="body1" component="p" marginY={1}>
-            {product.description}
+        </ThemeProvider>
+        <Typography variant="body1" component="p" mt={2}>
+          {product.description}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <Typography variant="h6" component="h4">
+            {formatCurrency(product.price)}
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <Typography variant="h6" component="h4">
-              {`$${product.price}`}
-            </Typography>
-          </Box>
         </Box>
-      </Paper>
-    </ThemeProvider>
+      </CardContent>
+      <CardActions disableSpacing sx={{ paddingTop: 0 }}>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        {/* <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton> */}
+      </CardActions>
+    </Card>
   )
 }

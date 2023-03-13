@@ -12,7 +12,7 @@ export type ImageSchemaType = {
 }
 export interface ProductType {
   name: string
-  vendor_id: String
+  vendor_id: Schema.Types.ObjectId
   description: string
   price: number
   categories: string[] | []

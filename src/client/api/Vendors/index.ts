@@ -1,3 +1,3 @@
-import { getAllVendors } from './vendorQueries.js'
+import { getAllVendors, getVendorById } from './vendorQueries.js'
 
-export { getAllVendors }
+export { getAllVendors, getVendorById }

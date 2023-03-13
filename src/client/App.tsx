@@ -48,18 +48,10 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />} />
-        <Route path="/login">
-          <Route index element={<Login />} />
-        </Route>
-        <Route path="/signup">
-          <Route index element={<Signup />} />
-        </Route>
-        <Route path="/products">
-          <Route index element={<BrowseProducts />} />
-        </Route>
-        <Route path="/create-vendor">
-          <Route index element={<CreateVendor />} />
-        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/products" element={<BrowseProducts />} />
+        <Route path="/create-vendor" element={<CreateVendor />} />
         <Route path="/vendors">
           <Route index element={<VendorList />} />
           <Route path=":id" element={<Vendor />} />

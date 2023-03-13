@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import CartIcon from '@mui/icons-material/ShoppingCart'
+import Badge from '@mui/material/Badge'
 
 export default function Cart() {
   const [openCart, setOpenCart] = useState(false)
@@ -14,7 +15,16 @@ export default function Cart() {
         color="inherit"
         aria-label="open cart"
       >
-        <CartIcon sx={{ fontSize: 30 }} />
+        <Badge
+          badgeContent={4}
+          color="error"
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <CartIcon sx={{ fontSize: 35 }} />
+        </Badge>
       </IconButton>
     </Box>
   )
