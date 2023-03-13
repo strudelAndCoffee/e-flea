@@ -1,38 +1,36 @@
-import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid/Grid'
+import Typography from '@mui/material/Typography'
 
 import { Product } from '../components'
-import { NotFound } from './'
 import { ProductType } from '../../server/db/models/Product.js'
 import { ErrorBoundary, ErrorPage } from '../error_boundary'
-import { getProductsByVendorId } from '../api'
+import { getAllProducts } from '../api'
 
-export default function Vendor() {
-  const { id } = useParams()
-  if (id == null || id === undefined) return <NotFound />
-
+export default function BrowseProducts() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['products', 'vendor', 'vendor-products'],
-    queryFn: () => getProductsByVendorId(id),
+    queryKey: ['products', 'all-products'],
+    queryFn: () => getAllProducts(),
   })
 
   if (isLoading) return <div>'Loading...'</div>
   if (isError) return <ErrorPage />
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      <section>
-        <h2>Vendor {id}</h2>
+      <Container component="section">
+        <Typography variant="h3" component="h1">
+          All Products
+        </Typography>
         <Grid container spacing={4}>
           {data.products &&
             data.products.map((product: ProductType, idx: number) => (
-              <Grid item xs={4} key={idx}>
+              <Grid item xs={3} key={idx}>
                 <Product product={product} />
               </Grid>
             ))}
         </Grid>
-      </section>
+      </Container>
     </ErrorBoundary>
   )
 }

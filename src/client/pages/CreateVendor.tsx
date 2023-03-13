@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 
 import { useAuthStore, useNavStore } from '../state'
 import { CreateVendorForm } from '../components'
+import { ErrorBoundary, ErrorPage } from '../error_boundary'
 
 function RedirectMessage() {
   const setFromRedirect = useNavStore((state) => state.setFromRedirect)
@@ -33,8 +34,10 @@ export default function CreateVendor() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
 
   return (
-    <Container component="section" maxWidth={isLoggedIn ? 'sm' : 'md'}>
-      {isLoggedIn ? <CreateVendorForm /> : <RedirectMessage />}
-    </Container>
+    <ErrorBoundary fallback={<ErrorPage />}>
+      <Container component="section" maxWidth={isLoggedIn ? 'sm' : 'md'}>
+        {isLoggedIn ? <CreateVendorForm /> : <RedirectMessage />}
+      </Container>
+    </ErrorBoundary>
   )
 }

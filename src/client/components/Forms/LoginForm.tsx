@@ -65,7 +65,7 @@ export default function LoginForm() {
       navigate('/')
     } catch (err) {
       console.error(err)
-      alert('This account already exists. Please try a different username')
+      alert('No account exists with these credentials. Please try again.')
     }
   }
 
