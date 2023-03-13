@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import Button from '@mui/material/Button'
 
 import ProductImg from './ProductImg.jsx'
 import { ProductType } from '../../../server/db/models/Product.js'
@@ -23,6 +24,8 @@ import { VendorType } from '../../../server/db/models/Vendor.js'
 import { getVendorById } from '../../api'
 import { ErrorPage } from '../../error_boundary'
 import formatCurrency from '../../utils/formatCurrency.js'
+import FormButtons from '../Forms/SignupForm/FormButtons.js'
+import { useCartStore } from '../../state'
 
 interface ProductProps {
   product: ProductType
@@ -47,12 +50,15 @@ const ratingTheme = createTheme({
 
 export default function Product({ product }: ProductProps) {
   const { image, rating } = product
+  const product_id = product._id.toString()
   const vendor_id = product.vendor_id.toString()
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['products', 'all-products', 'vendor-products'],
     queryFn: () => getVendorById(vendor_id),
   })
+
+  const cartStore = useCartStore()
 
   return (
     <Card variant="outlined" sx={{ maxWidth: 400, padding: 1 }}>
@@ -113,10 +119,17 @@ export default function Product({ product }: ProductProps) {
           </Typography>
         </Box>
       </CardContent>
-      <CardActions disableSpacing sx={{ paddingTop: 0 }}>
-        <IconButton aria-label="add to favorites">
+      <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+        {/* <IconButton aria-label="add to favorites">
           <FavoriteIcon />
-        </IconButton>
+        </IconButton> */}
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => cartStore.addItemToCart(product_id)}
+        >
+          + Add to Cart
+        </Button>
         {/* <IconButton aria-label="share">
           <ShareIcon />
         </IconButton> */}

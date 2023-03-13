@@ -10,7 +10,8 @@ export type ImageSchemaType = {
   image_upload?: any
   image_alt: string
 }
-export interface ProductType {
+export type ProductType = {
+  _id: Schema.Types.ObjectId
   name: string
   vendor_id: Schema.Types.ObjectId
   description: string
