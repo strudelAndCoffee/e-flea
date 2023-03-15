@@ -18,6 +18,7 @@ import {
   CreateVendor,
 } from './pages'
 import { Header, Footer } from './components'
+import { ErrorPage } from './error_boundary'
 
 const darkTheme = createTheme({
   palette: {
@@ -47,14 +48,26 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
-        <Route index element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/products" element={<BrowseProducts />} />
-        <Route path="/create-vendor" element={<CreateVendor />} />
-        <Route path="/vendors">
-          <Route index element={<VendorList />} />
-          <Route path=":id" element={<Vendor />} />
+        <Route index element={<Home />} errorElement={<ErrorPage />} />
+        <Route path="/login" element={<Login />} errorElement={<ErrorPage />} />
+        <Route
+          path="/signup"
+          element={<Signup />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/products"
+          element={<BrowseProducts />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/create-vendor"
+          element={<CreateVendor />}
+          errorElement={<ErrorPage />}
+        />
+        <Route path="/vendors" errorElement={<ErrorPage />}>
+          <Route index element={<VendorList />} errorElement={<ErrorPage />} />
+          <Route path=":id" element={<Vendor />} errorElement={<ErrorPage />} />
         </Route>
         <Route path="*" element={<Home />} />
       </Route>

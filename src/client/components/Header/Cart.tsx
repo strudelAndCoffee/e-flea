@@ -3,9 +3,11 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import CartIcon from '@mui/icons-material/ShoppingCart'
 import Badge from '@mui/material/Badge'
+import { useCartStore } from '../../state'
 
 export default function Cart() {
-  const [openCart, setOpenCart] = useState(false)
+  const cartStore = useCartStore()
+  // const [openCart, setOpenCart] = useState(false)
 
   return (
     <Box flexGrow={1} display="flex" justifyContent="flex-end">
@@ -14,9 +16,13 @@ export default function Cart() {
         edge="start"
         color="inherit"
         aria-label="open cart"
+        onClick={() => {
+          if (cartStore.isOpen) cartStore.closeCart()
+          if (!cartStore.isOpen) cartStore.openCart()
+        }}
       >
         <Badge
-          badgeContent={4}
+          badgeContent={cartStore.getCartQuantity() ?? 0}
           color="error"
           anchorOrigin={{
             vertical: 'bottom',
