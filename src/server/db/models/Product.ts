@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-type RatingSchemaType = {
+export type RatingSchemaType = {
   rating_total: number
   rating_scores?: number[] | []
   reviews: number
