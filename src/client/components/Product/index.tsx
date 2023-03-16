@@ -41,7 +41,14 @@ export default function Product({ product }: ProductProps) {
             <Button
               variant="contained"
               size="small"
-              onClick={() => cartStore.increaseItemQuantity(product_id)}
+              onClick={() =>
+                cartStore.addItemToCart(
+                  product_id,
+                  name,
+                  price,
+                  image.image_url
+                )
+              }
             >
               + Add to Cart
             </Button>
@@ -54,9 +61,9 @@ export default function Product({ product }: ProductProps) {
                   cartStore.increaseItemQuantity(product_id)
                 }}
               >
-                <AddCircleIcon />
+                <AddCircleIcon fontSize="large" />
               </IconButton>
-              <Typography variant="subtitle2" component="span" align="center">
+              <Typography variant="button" component="span" align="center">
                 {cartStore.getItemQuantity(product_id)} in cart
               </Typography>
               <IconButton
@@ -68,7 +75,7 @@ export default function Product({ product }: ProductProps) {
                     : cartStore.decreaseItemQuantity(product_id)
                 }}
               >
-                <RemoveCircleIcon />
+                <RemoveCircleIcon fontSize="large" />
               </IconButton>
             </>
           )}

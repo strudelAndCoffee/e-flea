@@ -1,12 +1,29 @@
+import { useQuery } from '@tanstack/react-query'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
+import { getProductById } from '../../api/Products'
+
+type CartItemType = {
+  id: string
+  quantity: number
+  name: string
+  price: number
+  img_url: string
+}
+
 type CartState = {
-  items: { id: string; quantity: number }[]
+  items: CartItemType[]
   isOpen: boolean
-  setItems: (item: { id: string; quantity: number }[]) => void
+  setItems: (items: CartItemType[]) => void
   getCartQuantity: () => number
   getItemQuantity: (id: string) => number
+  addItemToCart: (
+    id: string,
+    name: string,
+    price: number,
+    img_url: string
+  ) => void
   removeItemFromCart: (id: string) => void
   increaseItemQuantity: (id: string) => void
   decreaseItemQuantity: (id: string) => void
@@ -20,7 +37,7 @@ const useCartStore = create(
     (set, get) => ({
       items: [],
       isOpen: false,
-      setItems: (item) => set((state) => ({ ...state, item })),
+      setItems: (items) => set((state) => ({ ...state, items })),
       getCartQuantity: () => {
         const items = get().items
         if (items.length > 0)
@@ -33,6 +50,18 @@ const useCartStore = create(
         if (item) return item.quantity
         else return 0
       },
+      addItemToCart: (id, name, price, img_url) => {
+        const items = get().items
+        const newItem = {
+          id,
+          name,
+          price,
+          img_url,
+          quantity: 1,
+        }
+        items.push(newItem)
+        set((state) => ({ ...state, items }))
+      },
       removeItemFromCart: (id) => {
         const items = get().items
         const idx = items.findIndex((item) => item.id === id)
@@ -44,14 +73,8 @@ const useCartStore = create(
         const item = items.find((item) => item.id === id)
         if (item) {
           item.quantity++
-        } else {
-          const newItem = {
-            id,
-            quantity: 1,
-          }
-          items.push(newItem)
+          set((state) => ({ ...state, items }))
         }
-        set((state) => ({ ...state, items }))
       },
       decreaseItemQuantity: (id) => {
         const items = get().items
