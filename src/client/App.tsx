@@ -16,6 +16,8 @@ import {
   Signup,
   BrowseProducts,
   CreateVendor,
+  CheckoutComplete,
+  CheckoutCancelled,
 } from './pages'
 import { Header, Footer } from './components'
 import { ErrorPage } from './error_boundary'
@@ -69,6 +71,8 @@ function App() {
           <Route index element={<VendorList />} errorElement={<ErrorPage />} />
           <Route path=":id" element={<Vendor />} errorElement={<ErrorPage />} />
         </Route>
+        <Route path="/checkout-complete" element={<CheckoutComplete />} />
+        <Route path="/checkout-cancelled" element={<CheckoutCancelled />} />
         <Route path="*" element={<Home />} />
       </Route>
     )

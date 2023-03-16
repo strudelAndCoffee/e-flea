@@ -89,6 +89,7 @@ const ProductSchema = new Schema<ProductType>({
     required: [true, 'Please describe your product.'],
   },
   price: {
+    // store in cents, i.e. 1000 = $10, 50 = 50 cents
     type: Number,
     min: 0,
     required: [true, 'You need to get paid!'],
