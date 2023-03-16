@@ -8,45 +8,11 @@ import TableBody from '@mui/material/TableBody'
 
 import CartItem from './CartItem'
 import { useCartStore } from '../../../state'
-
-const TAX_RATE = 0.07
-
-function ccyFormat(num: number) {
-  return `${num.toFixed(2)}`
-}
-
-function priceRow(qty: number, unit: number) {
-  return qty * unit
-}
-
-function createRow(desc: string, qty: number, unit: number) {
-  const price = priceRow(qty, unit)
-  return { desc, qty, unit, price }
-}
-
-interface Row {
-  desc: string
-  qty: number
-  unit: number
-  price: number
-}
-
-function subtotal(items: readonly Row[]) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0)
-}
-
-const rows = [
-  createRow('Paperclips (Box)', 100, 1.15),
-  createRow('Paper (Case)', 10, 45.99),
-  createRow('Waste Basket', 2, 17.99),
-]
-
-const invoiceSubtotal = subtotal(rows)
-const invoiceTaxes = TAX_RATE * invoiceSubtotal
-const invoiceTotal = invoiceTaxes + invoiceSubtotal
+import calcTotalPrice from '../../../utils/calcTotalPrice.js'
 
 export default function CartTable() {
   const cartStore = useCartStore()
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 'auto' }} aria-label="cart items table">
@@ -65,7 +31,10 @@ export default function CartTable() {
         <TableBody>
           {cartStore.items.map((item) => (
             <TableRow key={item.id}>
-              <CartItem item={item} />
+              <CartItem
+                item={item}
+                total_price={calcTotalPrice(item.price, item.quantity)}
+              />
             </TableRow>
           ))}
         </TableBody>

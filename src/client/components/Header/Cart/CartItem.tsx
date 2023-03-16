@@ -17,14 +17,12 @@ interface CartItemProps {
     price: number
     img_url: string
   }
+  total_price: string
 }
 
-export default function CartItem({ item }: CartItemProps) {
+export default function CartItem({ item, total_price }: CartItemProps) {
   const removeItemFromCart = useCartStore((state) => state.removeItemFromCart)
-  const calcPrice = () => {
-    const total = formatCurrency(item.quantity * item.price)
-    return total
-  }
+
   return (
     <>
       <TableCell sx={{ paddingLeft: 3 }}>
@@ -45,7 +43,7 @@ export default function CartItem({ item }: CartItemProps) {
       </TableCell>
       <TableCell align="right">
         <Box display="flex" flexDirection="column" alignItems="flex-end">
-          <Typography>{calcPrice()}</Typography>
+          <Typography>{total_price}</Typography>
           <Typography variant="caption">{item.price}/ea.</Typography>
         </Box>
       </TableCell>

@@ -30,6 +30,7 @@ type CartState = {
   deleteEverything: () => void
   openCart: () => void
   closeCart: () => void
+  getCartTotalPrice: () => number
 }
 
 const useCartStore = create(
@@ -94,6 +95,15 @@ const useCartStore = create(
       deleteEverything: () => set({}, true),
       openCart: () => set((state) => ({ ...state, isOpen: true })),
       closeCart: () => set((state) => ({ ...state, isOpen: false })),
+      getCartTotalPrice: () => {
+        const items = get().items
+        let total_price = 0
+        items.forEach((item) => {
+          const item_total = item.price * item.quantity
+          total_price += item_total
+        })
+        return total_price
+      },
     }),
     {
       name: 'eflea_cart_storage',
