@@ -5,7 +5,6 @@ type CartState = {
   items: { id: string; quantity: number }[]
   isOpen: boolean
   setItems: (item: { id: string; quantity: number }[]) => void
-  // addItemToCart: (id: string) => void
   getCartQuantity: () => number
   getItemQuantity: (id: string) => number
   removeItemFromCart: (id: string) => void
@@ -22,15 +21,6 @@ const useCartStore = create(
       items: [],
       isOpen: false,
       setItems: (item) => set((state) => ({ ...state, item })),
-      // addItemToCart: (id) => {
-      //   const newItem = {
-      //     id,
-      //     quantity: 1,
-      //   }
-      //   const items = get().items
-      //   items.push(newItem)
-      //   set((state) => ({ ...state, items }))
-      // },
       getCartQuantity: () => {
         const items = get().items
         if (items.length > 0)
@@ -70,6 +60,12 @@ const useCartStore = create(
         if (item && item.quantity > 0) {
           item.quantity--
           set((state) => ({ ...state, items }))
+
+          if (item.quantity === 0) {
+            const idx = items.findIndex((item) => item.id === id)
+            items.splice(idx, 1)
+            set((state) => ({ ...state, items }))
+          }
         }
       },
       deleteEverything: () => set({}, true),

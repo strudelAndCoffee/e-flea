@@ -49,7 +49,6 @@ export default function ProductContent({
   price,
 }: ProductImgProps) {
   const location = useLocation()
-  console.log(location)
   return (
     <>
       <ProductHeader
