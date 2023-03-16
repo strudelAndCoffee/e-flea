@@ -11,6 +11,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { useCartStore } from '../../../state'
 import CartTable from './CartTable'
 import CartSummary from './CartSummary'
+import Button from '@mui/material/Button'
 
 export default function CartMenu() {
   const cartStore = useCartStore()
@@ -56,7 +57,39 @@ export default function CartMenu() {
         </Box>
         <Divider />
         <CartTable />
-        <CartSummary />
+        {!cartStore.items.length ? (
+          <>
+            <Typography align="center" py={3}>
+              No items in cart...
+            </Typography>
+            <Divider />
+          </>
+        ) : (
+          <>
+            <CartSummary />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingY={1}
+              paddingX={2}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                aria-label="Proceed to check out"
+              >
+                Check Out
+              </Button>
+              <Button
+                aria-label="Remove all items from cart"
+                onClick={() => cartStore.deleteAllItems()}
+              >
+                Clear Entire Cart
+              </Button>
+            </Box>
+          </>
+        )}
       </Box>
     </Drawer>
   )

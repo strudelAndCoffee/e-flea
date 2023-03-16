@@ -27,10 +27,10 @@ type CartState = {
   removeItemFromCart: (id: string) => void
   increaseItemQuantity: (id: string) => void
   decreaseItemQuantity: (id: string) => void
-  deleteEverything: () => void
   openCart: () => void
   closeCart: () => void
   getCartTotalPrice: () => number
+  deleteAllItems: () => void
 }
 
 const useCartStore = create(
@@ -92,7 +92,6 @@ const useCartStore = create(
           }
         }
       },
-      deleteEverything: () => set({}, true),
       openCart: () => set((state) => ({ ...state, isOpen: true })),
       closeCart: () => set((state) => ({ ...state, isOpen: false })),
       getCartTotalPrice: () => {
@@ -104,6 +103,7 @@ const useCartStore = create(
         })
         return total_price
       },
+      deleteAllItems: () => set((state) => ({ ...state, items: [] })),
     }),
     {
       name: 'eflea_cart_storage',
