@@ -14,7 +14,7 @@ export default function Vendor() {
   if (id == null || id === undefined) return <NotFound />
 
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['products', 'vendor', 'vendor-products'],
+    queryKey: ['products', 'vendor-products'],
     queryFn: () => getProductsByVendorId(id),
   })
 

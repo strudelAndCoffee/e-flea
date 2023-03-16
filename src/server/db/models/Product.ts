@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-type RatingSchemaType = {
+export type RatingSchemaType = {
   rating_total: number
   rating_scores?: number[] | []
   reviews: number
@@ -10,9 +10,10 @@ export type ImageSchemaType = {
   image_upload?: any
   image_alt: string
 }
-export interface ProductType {
+export type ProductType = {
+  _id: Schema.Types.ObjectId
   name: string
-  vendor_id: String
+  vendor_id: Schema.Types.ObjectId
   description: string
   price: number
   categories: string[] | []

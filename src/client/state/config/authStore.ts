@@ -18,7 +18,7 @@ const useAuthStore = create(
     }),
     {
       name: 'eflea_auth_storage',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 )

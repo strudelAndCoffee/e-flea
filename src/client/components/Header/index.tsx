@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar'
 import DropdownMenu from './DropdownMenu.jsx'
 import SiteTitle from './SiteTitle.jsx'
 import SearchBar from './SearchBar.jsx'
-import Cart from './Cart.jsx'
+import Cart from './Cart'
 
 export default function Header() {
   return (

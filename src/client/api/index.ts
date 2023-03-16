@@ -1,5 +1,11 @@
 import { getAllProducts, getProductsByVendorId } from './Products'
-import { getAllVendors } from './Vendors'
+import { getAllVendors, getVendorById } from './Vendors'
 import { getAllUsers } from './Users'
 
-export { getAllProducts, getProductsByVendorId, getAllVendors, getAllUsers }
+export {
+  getAllProducts,
+  getProductsByVendorId,
+  getAllVendors,
+  getVendorById,
+  getAllUsers,
+}
