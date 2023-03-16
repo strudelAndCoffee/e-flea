@@ -8,12 +8,15 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
-import { useCartStore } from '../../../state'
+import { useCartStore, useAuthStore, useNavStore } from '../../../state'
 import CartTable from './CartTable'
 import CartSummary from './CartSummary'
+import { Link } from 'react-router-dom'
 
 export default function CartMenu() {
+  const setFromRedirect = useNavStore((state) => state.setFromRedirect)
   const cartStore = useCartStore()
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const anchor = 'right'
 
   const toggleDrawer = (event: KeyboardEvent | MouseEvent) => {
@@ -56,7 +59,46 @@ export default function CartMenu() {
         </Box>
         <Divider />
         <CartTable />
-        <CartSummary />
+        {!cartStore.items.length ? (
+          <>
+            <Typography align="center" py={3}>
+              No items in cart...
+            </Typography>
+            <Divider />
+          </>
+        ) : (
+          <>
+            <CartSummary />
+            {!isLoggedIn && (
+              <>
+                <Typography variant="body2" sx={{ paddingLeft: 2 }}>
+                  You must be logged in to checkout.
+                </Typography>
+                <Typography variant="body2" sx={{ paddingLeft: 2 }}>
+                  <Link
+                    to={'/login'}
+                    onClick={() => {
+                      setFromRedirect(true)
+                      cartStore.closeCart()
+                    }}
+                  >
+                    Login
+                  </Link>
+                  {' / '}
+                  <Link
+                    to={'/signup'}
+                    onClick={() => {
+                      setFromRedirect(true)
+                      cartStore.closeCart()
+                    }}
+                  >
+                    Sign up
+                  </Link>
+                </Typography>
+              </>
+            )}
+          </>
+        )}
       </Box>
     </Drawer>
   )

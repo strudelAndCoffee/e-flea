@@ -9,6 +9,7 @@ import TableBody from '@mui/material/TableBody'
 import CartItem from './CartItem'
 import { useCartStore } from '../../../state'
 import calcTotalPrice from '../../../utils/calcTotalPrice.js'
+import { Typography } from '@mui/material'
 
 export default function CartTable() {
   const cartStore = useCartStore()
@@ -29,14 +30,15 @@ export default function CartTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartStore.items.map((item) => (
-            <TableRow key={item.id}>
-              <CartItem
-                item={item}
-                total_price={calcTotalPrice(item.price, item.quantity)}
-              />
-            </TableRow>
-          ))}
+          {cartStore.items.length > 0 &&
+            cartStore.items.map((item) => (
+              <TableRow key={item.id}>
+                <CartItem
+                  item={item}
+                  total_price={calcTotalPrice(item.price, item.quantity)}
+                />
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

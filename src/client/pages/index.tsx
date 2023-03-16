@@ -5,6 +5,8 @@ import Signup from './Signup.jsx'
 import Login from './Login.jsx'
 import CreateVendor from './CreateVendor.jsx'
 import BrowseProducts from './BrowseProducts.jsx'
+import CheckoutComplete from './CheckoutComplete.js'
+import CheckoutCancelled from './CheckoutCancelled.js'
 import NotFound from './NotFound.jsx'
 
 export {
@@ -15,5 +17,7 @@ export {
   Login,
   BrowseProducts,
   CreateVendor,
+  CheckoutComplete,
+  CheckoutCancelled,
   NotFound,
 }

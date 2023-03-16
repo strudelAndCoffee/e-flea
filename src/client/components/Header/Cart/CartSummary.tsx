@@ -1,38 +1,68 @@
-import TableCell from '@mui/material/TableCell'
-import TableRow from '@mui/material/TableRow'
+import { useQuery } from '@tanstack/react-query'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 import formatCurrency from '../../../utils/formatCurrency'
-import { useCartStore } from '../../../state'
-
-const TAX_RATE = 0.085
+import { useAuthStore, useCartStore } from '../../../state'
+import { getCheckoutUrl } from '../../../api'
+import { useState } from 'react'
 
 export default function CartSummary() {
-  const getCartTotalPrice = useCartStore((state) => state.getCartTotalPrice)
+  const cartStore = useCartStore()
+  // const userID = useAuthStore((state) => state.userID)
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+  const total_price = formatCurrency(cartStore.getCartTotalPrice())
+  const [isLoading, setIsLoading] = useState(false)
+
+  const checkoutHandler = async () => {
+    setIsLoading(true)
+
+    const items = cartStore.items.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+    }))
+
+    const data = await getCheckoutUrl(items)
+    if (data) {
+      setIsLoading(false)
+      cartStore.closeCart()
+      window.location = data.url
+    }
+  }
+
   return (
-    <>
-      {/* <TableRow>
-        <TableCell rowSpan={3} />
-        <TableCell colSpan={2}>Subtotal</TableCell>
-        <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Tax</TableCell>
-        <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
-          0
-        )} %`}</TableCell>
-        <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-      </TableRow> */}
-      <TableRow>
-        <TableCell colSpan={2}>
-          <Typography variant="h6">Total</Typography>
-        </TableCell>
-        <TableCell align="right">
-          <Typography variant="h5">
-            {formatCurrency(getCartTotalPrice())}
-          </Typography>
-        </TableCell>
-      </TableRow>
-    </>
+    // <Box display="flex" flexDirection="column" alignItems="center">
+    //
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="flex-start"
+      paddingY={1}
+      paddingX={2}
+    >
+      <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+        <Typography variant="h6" align="right">
+          Total {total_price}
+        </Typography>
+        <Button
+          fullWidth
+          variant="contained"
+          color="success"
+          aria-label="Proceed to checkout"
+          disabled={!isLoggedIn || isLoading}
+          onClick={checkoutHandler}
+        >
+          {isLoading ? '...' : 'Checkout'}
+        </Button>
+      </Box>
+      <Button
+        aria-label="Remove all items from cart"
+        size="small"
+        onClick={() => cartStore.deleteAllItems()}
+      >
+        Clear Entire Cart
+      </Button>
+    </Box>
   )
 }

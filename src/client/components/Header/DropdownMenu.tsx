@@ -43,7 +43,7 @@ export default function DropdownMenu() {
     handleClose()
     setUserID(null)
     setIsLoggedIn(false)
-    navigate(0)
+    navigate('/')
   }
 
   return (
