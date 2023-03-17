@@ -7,7 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import formatCurrency from '../../../utils/formatCurrency'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
-import useCartStore from '../../../state/config/cartStore'
+import useCartStore from '../../../state/stores/cartStore'
 
 interface CartItemProps {
   item: {
