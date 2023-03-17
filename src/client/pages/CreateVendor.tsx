@@ -35,7 +35,7 @@ export default function CreateVendor() {
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      <Container component="section" maxWidth={isLoggedIn ? 'sm' : 'md'}>
+      <Container maxWidth={isLoggedIn ? 'sm' : 'md'}>
         {isLoggedIn ? <CreateVendorForm /> : <RedirectMessage />}
       </Container>
     </ErrorBoundary>

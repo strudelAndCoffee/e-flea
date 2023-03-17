@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
