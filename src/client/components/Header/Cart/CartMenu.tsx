@@ -1,4 +1,4 @@
-// Starter template code for Drawer component copid from Material UI: https://mui.com/material-ui/react-drawer/#permanent-drawer
+// Starter template code for Drawer component copied from Material UI: https://mui.com/material-ui/react-drawer/#permanent-drawer
 
 import { KeyboardEvent, MouseEvent } from 'react'
 import Box from '@mui/material/Box'
