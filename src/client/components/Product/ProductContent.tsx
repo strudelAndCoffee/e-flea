@@ -80,7 +80,7 @@ export default function ProductContent({
               size="small"
               readOnly
             />
-            <Typography variant="body2" component="p" marginLeft={1}>
+            <Typography variant="body2" component="p">
               {`(${rating.reviews} reviews)`}
             </Typography>
           </Box>

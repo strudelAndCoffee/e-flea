@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 
-import { Product } from '../components'
-import { NotFound } from './'
-import { ProductType } from '../../server/db/models/Product.js'
-import { ErrorBoundary, ErrorPage } from '../error_boundary'
-import { getProductsByVendorId } from '../api'
+import { Product } from '../../components'
+import { NotFound } from '../'
+import { ProductType } from '../../../server/db/models/Product.js'
+import { ErrorBoundary, ErrorPage } from '../../error_boundary'
+import { getProductsByVendorId } from '../../api'
 
 export default function Vendor() {
   const { id } = useParams()

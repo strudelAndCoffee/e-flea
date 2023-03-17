@@ -1,7 +1,7 @@
-import { getAllProducts, getProductsByVendorId } from './Products'
-import { getAllVendors, getVendorById } from './Vendors'
-import { getAllUsers } from './Users'
-import { getCheckoutUrl } from './Checkout'
+import { getAllProducts, getProductsByVendorId } from './products'
+import { getAllVendors, getVendorById } from './vendors'
+import { getAllUsers } from './users'
+import { getCheckoutUrl } from './checkout'
 
 export {
   getAllProducts,

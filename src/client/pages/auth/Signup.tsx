@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container'
-import { SignupForm } from '../components'
+import { SignupForm } from '../../components'
 
 export default function Login() {
   return (

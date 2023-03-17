@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { getProductById } from '../../api/Products'
+import { getProductById } from '../../api/products'
 
 type CartItemType = {
   id: string

@@ -62,14 +62,14 @@ function App() {
           element={<BrowseProducts />}
           errorElement={<ErrorPage />}
         />
-        <Route
-          path="/create-vendor"
-          element={<CreateVendor />}
-          errorElement={<ErrorPage />}
-        />
         <Route path="/vendors" errorElement={<ErrorPage />}>
           <Route index element={<VendorList />} errorElement={<ErrorPage />} />
           <Route path=":id" element={<Vendor />} errorElement={<ErrorPage />} />
+          <Route
+            path="create-vendor"
+            element={<CreateVendor />}
+            errorElement={<ErrorPage />}
+          />
         </Route>
         <Route path="/checkout-complete" element={<CheckoutComplete />} />
         <Route path="/checkout-cancelled" element={<CheckoutCancelled />} />

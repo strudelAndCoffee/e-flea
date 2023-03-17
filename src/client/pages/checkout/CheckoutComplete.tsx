@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useCartStore } from '../state'
+import { useCartStore } from '../../state'
 
 export default function CheckoutComplete() {
   const deleteAllItems = useCartStore((state) => state.deleteAllItems)
