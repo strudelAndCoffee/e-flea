@@ -8,8 +8,9 @@ interface ProductState {
 
 const useProductStore = create<ProductState>((set) => ({
   products: [],
-  setProducts: (products: ProductType[]) =>
-    set((state) => ({ ...state, products })),
+  setProducts(products: ProductType[]) {
+    set((state) => ({ ...state, products }))
+  },
 }))
 
 export default useProductStore

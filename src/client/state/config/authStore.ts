@@ -13,8 +13,12 @@ const useAuthStore = create(
     (set) => ({
       isLoggedIn: false,
       userID: null,
-      setIsLoggedIn: (value: boolean) => set({ isLoggedIn: value }),
-      setUserID: (id: string | null) => set({ userID: id }),
+      setIsLoggedIn(value: boolean) {
+        set({ isLoggedIn: value })
+      },
+      setUserID(id: string | null) {
+        set({ userID: id })
+      },
     }),
     {
       name: 'eflea_auth_storage',
