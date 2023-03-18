@@ -56,6 +56,7 @@ const UserSchema = new Schema<UserType>({
     type: String,
     minlength: 3,
     required: [true, 'Please provide an email address.'],
+    unique: true,
   },
   password: {
     type: String,
