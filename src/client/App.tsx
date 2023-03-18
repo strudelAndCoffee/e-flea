@@ -10,6 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
 import {
   Home,
+  Account,
   Vendor,
   VendorList,
   Login,
@@ -55,6 +56,11 @@ function App() {
         <Route
           path="/signup"
           element={<Signup />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="/account"
+          element={<Account />}
           errorElement={<ErrorPage />}
         />
         <Route

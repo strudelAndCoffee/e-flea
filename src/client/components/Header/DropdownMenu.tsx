@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { shallow } from 'zustand/shallow'
 import { useAuthStore } from '../../state'
+import Button from '@mui/material/Button'
 
 export default function DropdownMenu() {
   const { isLoggedIn, userID, setIsLoggedIn, setUserID } = useAuthStore(
@@ -74,16 +75,23 @@ export default function DropdownMenu() {
           <Link to={'/'}>Home</Link>
         </MenuItem>
         {!isLoggedIn && (
-          <MenuItem onClick={handleClose}>
-            <Link to={'/login'}>Log In</Link>
-          </MenuItem>
+          <>
+            <MenuItem onClick={handleClose}>
+              <Link to={'/login'}>Log In</Link>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link to={'/signup'}>Sign Up</Link>
+            </MenuItem>
+          </>
         )}
-        {!isLoggedIn && (
-          <MenuItem onClick={handleClose}>
-            <Link to={'/signup'}>Sign Up</Link>
-          </MenuItem>
+        {isLoggedIn && (
+          <>
+            <MenuItem>
+              <Link to={'/account'}>Account</Link>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+          </>
         )}
-        {isLoggedIn && <MenuItem onClick={handleLogout}>Log Out</MenuItem>}
       </Menu>
     </>
   )

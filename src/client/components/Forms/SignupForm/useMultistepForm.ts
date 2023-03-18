@@ -26,6 +26,8 @@ export default function useMultistepForm(steps: ReactElement[]) {
     return email
   }
 
+  function validateUsername(username: string) {}
+
   return {
     steps,
     currentStepIdx,

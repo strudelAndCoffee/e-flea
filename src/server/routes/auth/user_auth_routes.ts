@@ -1,5 +1,4 @@
 import express from 'express'
-import bcrypt from 'bcrypt'
 import { UserModel } from '../../db/models'
 import { withAuth, signToken } from '../../utils/auth'
 

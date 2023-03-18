@@ -17,9 +17,10 @@ import { shallow } from 'zustand/shallow'
 import { useAuthStore, useNavStore } from '../../state'
 
 export default function LoginForm() {
-  const { setIsLoggedIn, setUserID } = useAuthStore(
+  const { setIsLoggedIn, setUserData, setUserID } = useAuthStore(
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,
+      setUserData: state.setUserData,
       setUserID: state.setUserID,
     }),
     shallow
@@ -42,7 +43,7 @@ export default function LoginForm() {
     const password = data.get('password')
 
     try {
-      const response = await axios.post(
+      const { data } = await axios.post(
         'http://localhost:3000/auth/users/login',
         {
           email,
@@ -51,7 +52,8 @@ export default function LoginForm() {
         { withCredentials: true }
       )
 
-      setUserID(response.data.user._id)
+      setUserData(data.user)
+      setUserID(data.user._id)
       setIsLoggedIn(true)
 
       if (fromRedirect) {
