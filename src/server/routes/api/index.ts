@@ -1,9 +1,9 @@
 import express from 'express'
-import user_routes from './user_api_routes'
-import vendor_routes from './vendor_api_routes'
-import product_routes from './product_api_routes'
-import tag_routes from './tag_api_routes'
-import order_routes from './order_api_routes'
+import user_routes from './users'
+import vendor_routes from './vendors'
+import product_routes from './products'
+import tag_routes from './tags'
+import order_routes from './orders'
 
 const router = express.Router()
 router.use('/users', user_routes)
