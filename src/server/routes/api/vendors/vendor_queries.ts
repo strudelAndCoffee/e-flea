@@ -1,25 +1,26 @@
 import express from 'express'
 import { VendorModel } from '../../../db/models'
-import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
+// Get all vendors
 router.get('/', async (req, res) => {
   try {
     const vendors = await VendorModel.find({})
-    res.json({ vendors })
+    res.json(vendors)
   } catch (err) {
     console.error(err)
     res.json(err)
   }
 })
 
+// Get vendor by ID
 router.get('/:id', async (req, res) => {
+  const vendor_id = req.params.id
+
   try {
-    const vendor = await VendorModel.findOne({ _id: req.params.id })
-    if (!vendor)
-      res.status(400).json({ message: 'No vendor found with that ID.' })
-    res.json({ vendor })
+    const vendor = await VendorModel.findById(vendor_id)
+    res.json(vendor)
   } catch (err) {
     console.error(err)
     res.json(err)
