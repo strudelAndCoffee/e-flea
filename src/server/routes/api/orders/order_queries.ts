@@ -1,5 +1,4 @@
 import express from 'express'
-import { Schema } from 'mongoose'
 import { OrderModel } from '../../../db/models'
 
 const router = express.Router()

@@ -4,17 +4,18 @@ import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
+// Get all products
 router.get('/', async (req, res) => {
   try {
     const products = await ProductModel.find({})
-    if (!products) res.status(400).json({ message: 'No products found.' })
-
     res.json({ products })
   } catch (err) {
+    console.error(err)
     res.json(err)
   }
 })
 
+// Get product by ID
 router.get('/:id', async (req, res) => {
   try {
     const product = await ProductModel.find({ _id: req.params.id })
@@ -23,10 +24,12 @@ router.get('/:id', async (req, res) => {
 
     res.json({ product })
   } catch (err) {
+    console.error(err)
     res.json(err)
   }
 })
 
+// Get products by vendor ID
 router.get('/vendor-products/:vendor_id', async (req, res) => {
   const vendor_id = req.params.vendor_id
   const vendor = await VendorModel.find({ _id: vendor_id })
@@ -34,9 +37,10 @@ router.get('/vendor-products/:vendor_id', async (req, res) => {
     res.status(400).json({ message: 'No vendor found with that ID.' })
 
   try {
-    const products = await ProductModel.find({ vendor_id: vendor_id })
+    const products = await ProductModel.find({ vendor_id })
     res.json({ products })
   } catch (err) {
+    console.error(err)
     res.json(err)
   }
 })
