@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import bcrypt from 'bcrypt'
+import { ProductType } from './Product'
 
 type DOBType = {
   day: number
@@ -19,7 +20,7 @@ export interface UserType {
   owned_vendor_ids?: Schema.Types.ObjectId[]
   favorite_vendor_ids?: Schema.Types.ObjectId[]
   saved_item_ids?: Schema.Types.ObjectId[]
-  purchased_item_ids?: Schema.Types.ObjectId[]
+  past_orders: Schema.Types.ObjectId[]
   isCorrectPw(pw: string): Promise<boolean>
 }
 
@@ -93,10 +94,11 @@ const UserSchema = new Schema<UserType>({
       ref: 'products',
     },
   ],
-  purchased_item_ids: [
+  past_orders: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'products',
+      required: true,
+      default: [],
     },
   ],
 })

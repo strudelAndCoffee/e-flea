@@ -66,17 +66,46 @@ router.get('/:id/saved-items', withAuth, async (req, res) => {
   }
 })
 
-router.get('/:id/purchased-items', withAuth, async (req, res) => {
+router.get('/:id/past-orders', withAuth, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.params.id })
     if (!user) res.status(400).json({ message: 'No user found with that ID.' })
 
-    const purchased_items = await VendorModel.find({
-      _id: { $in: user?.purchased_item_ids },
-    })
-    res.json({ purchased_items })
+    const past_orders = user?.past_orders ?? []
+    res.json({ past_orders })
   } catch (err) {
     res.json(err)
+  }
+})
+
+router.put('/:id/add-order', withAuth, async (req, res) => {
+  const query = { _id: req.params.id }
+  const order = req.body.order
+  try {
+    const user = await UserModel.findById(req.params.id)
+    if (!user) res.status(400).json({ message: 'No user found with that ID.' })
+    if (user) {
+      user.past_orders.push(order)
+      user.save()
+    }
+
+    res.json({ user })
+    // const updated_user = await UserModel.findOneAndUpdate(
+    //   query,
+    //   {
+    //     $push: { past_orders: { order } },
+    //   },
+    //   {
+    //     upsert: true,
+    //   }
+    // )
+    // if (!updated_user)
+    //   res.status(400).json({ message: 'No user found with that ID.' })
+
+    // res.json({ updated_user })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json(err)
   }
 })
 

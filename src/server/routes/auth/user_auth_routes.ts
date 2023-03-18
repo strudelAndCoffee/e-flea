@@ -3,7 +3,7 @@ import { UserModel } from '../../db/models'
 import { withAuth, signToken } from '../../utils/auth'
 
 const router = express.Router()
-const cookie_max_age = 900000
+// const cookie_max_age = 900000
 
 router.post('/signup', async (req, res) => {
   const {
@@ -35,7 +35,7 @@ router.post('/signup', async (req, res) => {
 
     const token = signToken(username, email, new_user._id)
     res.cookie('access_token', token, {
-      maxAge: cookie_max_age,
+      // maxAge: cookie_max_age,
       httpOnly: true,
       sameSite: 'strict',
       secure: true,
@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
 
   const token = signToken(user.username, email, user._id)
   res.cookie('access_token', token, {
-    maxAge: cookie_max_age,
+    // maxAge: cookie_max_age,
     httpOnly: true,
     sameSite: 'strict',
     secure: true,
@@ -92,7 +92,7 @@ router.put('/:id', withAuth, async (req, res) => {
     res.json({ updated_user })
   } catch (err) {
     console.error(err)
-    res.json(err)
+    res.status(500).json(err)
   }
 })
 

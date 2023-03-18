@@ -75,23 +75,21 @@ export default function DropdownMenu() {
           <Link to={'/'}>Home</Link>
         </MenuItem>
         {!isLoggedIn && (
-          <>
-            <MenuItem onClick={handleClose}>
-              <Link to={'/login'}>Log In</Link>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Link to={'/signup'}>Sign Up</Link>
-            </MenuItem>
-          </>
+          <MenuItem onClick={handleClose}>
+            <Link to={'/login'}>Log In</Link>
+          </MenuItem>
+        )}
+        {!isLoggedIn && (
+          <MenuItem onClick={handleClose}>
+            <Link to={'/signup'}>Sign Up</Link>
+          </MenuItem>
         )}
         {isLoggedIn && (
-          <>
-            <MenuItem>
-              <Link to={'/account'}>Account</Link>
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
-          </>
+          <MenuItem>
+            <Link to={'/account'}>Account</Link>
+          </MenuItem>
         )}
+        {isLoggedIn && <MenuItem onClick={handleLogout}>Log Out</MenuItem>}
       </Menu>
     </>
   )
