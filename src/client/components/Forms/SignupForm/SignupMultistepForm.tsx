@@ -19,9 +19,10 @@ import { shallow } from 'zustand/shallow'
 import { useAuthStore, useNavStore } from '../../../state'
 
 export default function SignupMultistepForm() {
-  const { setIsLoggedIn, setUserID } = useAuthStore(
+  const { setIsLoggedIn, setUserData, setUserID } = useAuthStore(
     (state) => ({
       setIsLoggedIn: state.setIsLoggedIn,
+      setUserData: state.setUserData,
       setUserID: state.setUserID,
     }),
     shallow
@@ -104,7 +105,7 @@ export default function SignupMultistepForm() {
     } = formData
 
     try {
-      const response = await axios.post(
+      const { data } = await axios.post(
         'http://localhost:3000/auth/users/signup',
         {
           username,
@@ -122,9 +123,8 @@ export default function SignupMultistepForm() {
         { withCredentials: true }
       )
 
-      console.log(response)
-
-      setUserID(response.data.new_user._id)
+      setUserData(data.new_user)
+      setUserID(data.new_user._id)
       setIsLoggedIn(true)
       if (fromRedirect) {
         setFromRedirect(false)
@@ -133,6 +133,7 @@ export default function SignupMultistepForm() {
       navigate('/')
     } catch (err) {
       console.error(err)
+      alert('Sign up failed.')
     }
   }
 

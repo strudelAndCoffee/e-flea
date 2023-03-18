@@ -2,7 +2,7 @@
 // Starter code for MultiSelect component example template copied from Material UI: https://mui.com/material-ui/react-select/
 import { FormEvent, useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Theme, useTheme } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
@@ -146,15 +146,10 @@ export default function CreateVendorForm() {
           </Grid>
           <Grid item xs={12}>
             <FormControl required fullWidth>
-              <InputLabel
-                id="categoriesLabel"
-                sx={{ backgroundColor: 'white', pr: 1 }}
-              >
-                Select Categories
-              </InputLabel>
+              <InputLabel id="categories-label">Select Categories</InputLabel>
               <Select
                 multiple
-                labelId="categoriesLabel"
+                labelId="categories-label"
                 id="categories"
                 value={categoryName}
                 onChange={handleSelectChange}
@@ -232,21 +227,20 @@ export default function CreateVendorForm() {
             />
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2, width: '50%' }}
-          >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            mt: 3,
+            mb: 2,
+          }}
+        >
+          <Button type="submit" variant="contained" sx={{ width: '50%' }}>
             Finish
           </Button>
+          <Link to="/">Cancel</Link>
         </Box>
-        {/* <Grid container justifyContent="flex-end">
-            <Grid item>
-              Already have an account?
-              <Link to={'/login'}> Sign in</Link>
-            </Grid>
-          </Grid> */}
       </Box>
     </Box>
   )

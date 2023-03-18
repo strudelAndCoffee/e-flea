@@ -1,8 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { getProductById } from '../../api/Products'
+import { getProductById } from '../../api/products'
 
 type CartItemType = {
   id: string
@@ -38,20 +37,22 @@ const useCartStore = create(
     (set, get) => ({
       items: [],
       isOpen: false,
-      setItems: (items) => set((state) => ({ ...state, items })),
-      getCartQuantity: () => {
+      setItems(items) {
+        set((state) => ({ ...state, items }))
+      },
+      getCartQuantity() {
         const items = get().items
         if (items.length > 0)
           return items.reduce((total, item) => item.quantity + total, 0)
         return 0
       },
-      getItemQuantity: (id) => {
+      getItemQuantity(id) {
         const items = get().items
         const item = items.find((item) => item.id === id)
         if (item) return item.quantity
         else return 0
       },
-      addItemToCart: (id, name, price, img_url) => {
+      addItemToCart(id, name, price, img_url) {
         const items = get().items
         const newItem = {
           id,
@@ -63,13 +64,13 @@ const useCartStore = create(
         items.push(newItem)
         set((state) => ({ ...state, items }))
       },
-      removeItemFromCart: (id) => {
+      removeItemFromCart(id) {
         const items = get().items
         const idx = items.findIndex((item) => item.id === id)
         items.splice(idx, 1)
         set((state) => ({ ...state, items }))
       },
-      increaseItemQuantity: (id) => {
+      increaseItemQuantity(id) {
         const items = get().items
         const item = items.find((item) => item.id === id)
         if (item) {
@@ -77,7 +78,7 @@ const useCartStore = create(
           set((state) => ({ ...state, items }))
         }
       },
-      decreaseItemQuantity: (id) => {
+      decreaseItemQuantity(id) {
         const items = get().items
         const item = items.find((item) => item.id === id)
 
@@ -92,9 +93,13 @@ const useCartStore = create(
           }
         }
       },
-      openCart: () => set((state) => ({ ...state, isOpen: true })),
-      closeCart: () => set((state) => ({ ...state, isOpen: false })),
-      getCartTotalPrice: () => {
+      openCart() {
+        set((state) => ({ ...state, isOpen: true }))
+      },
+      closeCart() {
+        set((state) => ({ ...state, isOpen: false }))
+      },
+      getCartTotalPrice() {
         const items = get().items
         let total_price = 0
         items.forEach((item) => {
@@ -103,7 +108,9 @@ const useCartStore = create(
         })
         return total_price
       },
-      deleteAllItems: () => set((state) => ({ ...state, items: [] })),
+      deleteAllItems() {
+        set((state) => ({ ...state, items: [] }))
+      },
     }),
     {
       name: 'eflea_cart_storage',

@@ -11,13 +11,13 @@ export type ImageSchemaType = {
   image_alt: string
 }
 export type ProductType = {
-  _id: Schema.Types.ObjectId
+  _id: string
   name: string
-  vendor_id: Schema.Types.ObjectId
+  vendor_id: string
   description: string
   price: number
   categories: string[] | []
-  tags?: Schema.Types.ObjectId[] | []
+  tags?: string[] | []
   rating: RatingSchemaType
   image: ImageSchemaType
 }
@@ -78,7 +78,7 @@ const ProductSchema = new Schema<ProductType>({
     required: [true, 'Your product needs a name.'],
   },
   vendor_id: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'vendors',
     required: [true, 'Please provide the vendor ID.'],
   },
@@ -103,7 +103,7 @@ const ProductSchema = new Schema<ProductType>({
   ],
   tags: [
     {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: 'tags',
     },
   ],

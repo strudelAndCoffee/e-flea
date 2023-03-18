@@ -2,8 +2,8 @@ import mongoose, { Schema } from 'mongoose'
 
 export interface TagType {
   tag_name: string
-  tagged_product_ids?: Schema.Types.ObjectId[]
-  tagged_vendor_ids?: Schema.Types.ObjectId[]
+  tagged_product_ids: string[]
+  tagged_vendor_ids: string[]
 }
 
 const TagSchema = new Schema<TagType>({
@@ -16,14 +16,16 @@ const TagSchema = new Schema<TagType>({
   },
   tagged_product_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'products',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
   tagged_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'vendors',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
 })

@@ -10,7 +10,7 @@ import { useState } from 'react'
 
 export default function CartSummary() {
   const cartStore = useCartStore()
-  // const userID = useAuthStore((state) => state.userID)
+  const userID = useAuthStore((state) => state.userID)
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
   const total_price = formatCurrency(cartStore.getCartTotalPrice())
   const [isLoading, setIsLoading] = useState(false)

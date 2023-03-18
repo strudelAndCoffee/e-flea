@@ -4,9 +4,9 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
-import { useAuthStore, useNavStore } from '../state'
-import { CreateVendorForm } from '../components'
-import { ErrorBoundary, ErrorPage } from '../error_boundary'
+import { useAuthStore, useNavStore } from '../../state'
+import { CreateVendorForm } from '../../components'
+import { ErrorBoundary, ErrorPage } from '../../error_boundary'
 
 function RedirectMessage() {
   const setFromRedirect = useNavStore((state) => state.setFromRedirect)
@@ -35,7 +35,7 @@ export default function CreateVendor() {
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      <Container component="section" maxWidth={isLoggedIn ? 'sm' : 'md'}>
+      <Container maxWidth={isLoggedIn ? 'sm' : 'md'}>
         {isLoggedIn ? <CreateVendorForm /> : <RedirectMessage />}
       </Container>
     </ErrorBoundary>

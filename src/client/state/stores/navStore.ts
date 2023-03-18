@@ -7,7 +7,9 @@ interface NavState {
 
 const useNavStore = create<NavState>((set) => ({
   fromRedirect: false,
-  setFromRedirect: (value: boolean) => set({ fromRedirect: value }),
+  setFromRedirect(value: boolean) {
+    set({ fromRedirect: value })
+  },
 }))
 
 export default useNavStore

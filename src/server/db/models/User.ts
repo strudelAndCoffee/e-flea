@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import bcrypt from 'bcrypt'
+import { ProductType } from './Product'
 
 type DOBType = {
   day: number
@@ -8,7 +9,7 @@ type DOBType = {
 }
 
 export interface UserType {
-  _id: Schema.Types.ObjectId
+  _id: string
   username: string
   email: string
   password: string
@@ -16,10 +17,10 @@ export interface UserType {
   last_name: string
   dob: DOBType
   vendor_account: boolean
-  owned_vendor_ids?: Schema.Types.ObjectId[]
-  favorite_vendor_ids?: Schema.Types.ObjectId[]
-  saved_item_ids?: Schema.Types.ObjectId[]
-  purchased_item_ids?: Schema.Types.ObjectId[]
+  owned_vendor_ids?: string[]
+  favorite_vendor_ids: string[]
+  saved_item_ids: string[]
+  past_orders: string[]
   isCorrectPw(pw: string): Promise<boolean>
 }
 
@@ -55,6 +56,7 @@ const UserSchema = new Schema<UserType>({
     type: String,
     minlength: 3,
     required: [true, 'Please provide an email address.'],
+    unique: true,
   },
   password: {
     type: String,
@@ -62,33 +64,44 @@ const UserSchema = new Schema<UserType>({
     maxlength: 64,
     required: [true, 'Please provide a password.'],
   },
+  first_name: {
+    type: String,
+    required: [true, 'Please provide your first name.'],
+  },
+  last_name: {
+    type: String,
+    required: [true, 'Please provide your last name.'],
+  },
   dob: DOBSchema,
   vendor_account: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   owned_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'vendors',
+      type: String,
     },
   ],
   favorite_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'vendors',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
   saved_item_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'products',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
-  purchased_item_ids: [
+  past_orders: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'products',
+      type: String,
+      ref: 'orders',
+      required: true,
+      default: [],
     },
   ],
 })

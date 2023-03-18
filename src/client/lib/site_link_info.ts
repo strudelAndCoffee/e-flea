@@ -18,6 +18,6 @@ export const SITE_LINK_INFO: SiteLinkInfoType[] = [
   {
     icon: 'create',
     text: 'Create A New Store',
-    link: '/create-vendor',
+    link: '/vendors/create-vendor',
   },
 ]
