@@ -1,8 +1,7 @@
 import express from 'express'
 import Stripe from 'stripe'
 import * as dotenv from 'dotenv'
-import { UserModel, ProductModel } from '../../db/models'
-import { ProductType } from '../../db/models/Product'
+import { ProductModel } from '../../db/models'
 
 const router = express.Router()
 
@@ -46,6 +45,7 @@ const getProductData = async (items: { id: string; quantity: number }[]) => {
   return products
 }
 
+// Create Stripe session
 router.post('/', async (req, res) => {
   const items: { id: string; quantity: number }[] = req.body.items
   const products = await getProductData(items)
@@ -60,7 +60,8 @@ router.post('/', async (req, res) => {
     })
     res.json({ url: session.url })
   } catch (err) {
-    res.status(500).json({ error: err })
+    console.error(err)
+    res.json(err)
   }
 })
 
