@@ -9,7 +9,7 @@ type DOBType = {
 }
 
 export interface UserType {
-  _id: Schema.Types.ObjectId
+  _id: string
   username: string
   email: string
   password: string
@@ -17,10 +17,10 @@ export interface UserType {
   last_name: string
   dob: DOBType
   vendor_account: boolean
-  owned_vendor_ids?: Schema.Types.ObjectId[]
-  favorite_vendor_ids?: Schema.Types.ObjectId[]
-  saved_item_ids?: Schema.Types.ObjectId[]
-  past_orders: Schema.Types.ObjectId[]
+  owned_vendor_ids?: string[]
+  favorite_vendor_ids: string[]
+  saved_item_ids: string[]
+  past_orders: string[]
   isCorrectPw(pw: string): Promise<boolean>
 }
 
@@ -78,25 +78,27 @@ const UserSchema = new Schema<UserType>({
   },
   owned_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'vendors',
+      type: String,
     },
   ],
   favorite_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'vendors',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
   saved_item_ids: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'products',
+      type: String,
+      required: true,
+      default: [],
     },
   ],
   past_orders: [
     {
-      type: Schema.Types.ObjectId,
+      type: String,
+      ref: 'orders',
       required: true,
       default: [],
     },
