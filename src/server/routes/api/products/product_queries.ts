@@ -1,6 +1,5 @@
 import express from 'express'
 import { ProductModel, VendorModel } from '../../../db/models'
-import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
@@ -8,7 +7,7 @@ const router = express.Router()
 router.get('/', async (req, res) => {
   try {
     const products = await ProductModel.find({})
-    res.json({ products })
+    res.json(products)
   } catch (err) {
     console.error(err)
     res.json(err)
@@ -21,10 +20,7 @@ router.get('/:id', async (req, res) => {
 
   try {
     const product = await ProductModel.findById(product_id)
-    if (!product)
-      res.status(400).json({ message: 'No product found with that ID.' })
-
-    res.json({ product })
+    res.json(product)
   } catch (err) {
     console.error(err)
     res.json(err)
@@ -40,7 +36,7 @@ router.get('/vendor-products/:vendor_id', async (req, res) => {
 
   try {
     const products = await ProductModel.find({ vendor_id })
-    res.json({ products })
+    res.json(products)
   } catch (err) {
     console.error(err)
     res.json(err)

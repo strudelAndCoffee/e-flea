@@ -12,7 +12,7 @@ router.post('/', withAuth, async (req, res) => {
 
   try {
     const response = await new_order.save()
-    res.json({ response })
+    res.json(response)
   } catch (err) {
     console.error(err)
     res.json(err)

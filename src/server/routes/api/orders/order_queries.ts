@@ -5,10 +5,11 @@ const router = express.Router()
 
 // Get order by ID
 router.get('/:id', async (req, res) => {
+  const order_id = req.params.id
+
   try {
-    const order = await OrderModel.findById(req.params.id)
-    if (!order) res.json({ message: 'No order found with that ID.' })
-    res.json({ order })
+    const order = await OrderModel.findById(order_id)
+    res.json(order)
   } catch (err) {
     console.error(err)
     res.json(err)
