@@ -62,10 +62,18 @@ const UserSchema = new Schema<UserType>({
     maxlength: 64,
     required: [true, 'Please provide a password.'],
   },
+  first_name: {
+    type: String,
+    required: [true, 'Please provide your first name.'],
+  },
+  last_name: {
+    type: String,
+    required: [true, 'Please provide your last name.'],
+  },
   dob: DOBSchema,
   vendor_account: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   owned_vendor_ids: [
     {

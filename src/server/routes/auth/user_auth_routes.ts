@@ -7,9 +7,17 @@ const router = express.Router()
 const cookie_max_age = 900000
 
 router.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body
-  const user = await UserModel.findOne({ username })
+  const {
+    username,
+    email,
+    password,
+    first_name,
+    last_name,
+    dob,
+    vendor_account,
+  } = req.body
 
+  const user = await UserModel.findOne({ username })
   if (user) {
     return res.status(400).json({ error: 'The user account already exists.' })
   }
@@ -19,6 +27,10 @@ router.post('/signup', async (req, res) => {
       username,
       email,
       password,
+      first_name,
+      last_name,
+      dob,
+      vendor_account,
     })
     await new_user.save()
 
@@ -35,7 +47,7 @@ router.post('/signup', async (req, res) => {
     })
   } catch (err) {
     console.error(err)
-    res.json(err)
+    res.status(400).json(err)
   }
 })
 

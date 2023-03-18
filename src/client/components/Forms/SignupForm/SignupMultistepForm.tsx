@@ -64,6 +64,7 @@ export default function SignupMultistepForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    console.log(formData)
 
     if (isFirstStep) {
       const validEmail = validateEmail(formData.email)
