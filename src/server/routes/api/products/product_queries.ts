@@ -17,8 +17,10 @@ router.get('/', async (req, res) => {
 
 // Get product by ID
 router.get('/:id', async (req, res) => {
+  const product_id = req.params.id
+
   try {
-    const product = await ProductModel.find({ _id: req.params.id })
+    const product = await ProductModel.findById(product_id)
     if (!product)
       res.status(400).json({ message: 'No product found with that ID.' })
 
@@ -32,7 +34,7 @@ router.get('/:id', async (req, res) => {
 // Get products by vendor ID
 router.get('/vendor-products/:vendor_id', async (req, res) => {
   const vendor_id = req.params.vendor_id
-  const vendor = await VendorModel.find({ _id: vendor_id })
+  const vendor = await VendorModel.findById(vendor_id)
   if (!vendor)
     res.status(400).json({ message: 'No vendor found with that ID.' })
 

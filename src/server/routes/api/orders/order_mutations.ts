@@ -1,21 +1,18 @@
 import express from 'express'
 import { OrderModel } from '../../../db/models'
+import { OrderType } from '../../../db/models/Order'
+import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
-type OrderDataType = {
-  user_id: string
-  date: number
-  item_ids: string[]
-  total_cost: number
-}
-
 // Create new order
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
+  const order_data: OrderType = req.body
+  const new_order = await new OrderModel(order_data)
+
   try {
-    const order_data: OrderDataType = req.body
-    const new_order = await new OrderModel(order_data)
-    res.json({ new_order })
+    const response = await new_order.save()
+    res.json({ response })
   } catch (err) {
     console.error(err)
     res.json(err)
