@@ -1,6 +1,6 @@
 import express from 'express'
-import product_queries from './product_queries.js'
-import product_mutations from './product_mutations.js'
+import product_queries from './product_queries'
+import product_mutations from './product_mutations'
 
 const router = express.Router()
 router.use('/', product_queries)

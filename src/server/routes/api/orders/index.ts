@@ -1,6 +1,6 @@
 import express from 'express'
-import order_queries from './order_queries.js'
-import order_mutations from './order_mutations.js'
+import order_queries from './order_queries'
+import order_mutations from './order_mutations'
 
 const router = express.Router()
 router.use('/', order_queries)
