@@ -16,8 +16,7 @@ export type ProductType = {
   vendor_id: string | Schema.Types.ObjectId
   description: string
   price: number
-  categories: string[] | []
-  tags?: string[] | []
+  categories: string[]
   rating: RatingSchemaType
   image: ImageSchemaType
   createdAt: Date | number
@@ -101,12 +100,6 @@ const ProductSchema = new Schema<ProductType>({
       type: String,
       lowercase: true,
       required: [true, 'Your product needs a category to be found!'],
-    },
-  ],
-  tags: [
-    {
-      type: String,
-      ref: 'tags',
     },
   ],
   rating: {
