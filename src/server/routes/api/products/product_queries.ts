@@ -35,7 +35,8 @@ router.get('/vendor-products/:vendor_id', async (req, res) => {
     res.status(400).json({ message: 'No vendor found with that ID.' })
 
   try {
-    const products = await ProductModel.find({ vendor_id })
+    const products = ProductModel.where('vendor_id').equals(vendor_id)
+    //const products = await ProductModel.find({ vendor_id })
     res.json(products)
   } catch (err) {
     console.error(err)

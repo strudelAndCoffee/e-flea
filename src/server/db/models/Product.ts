@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import { VendorModel } from '.'
 
 export type RatingSchemaType = {
   rating_total: number
@@ -11,15 +12,16 @@ export type ImageSchemaType = {
   image_alt: string
 }
 export type ProductType = {
-  _id: string
   name: string
-  vendor_id: string
+  vendor_id: string | Schema.Types.ObjectId
   description: string
   price: number
   categories: string[] | []
   tags?: string[] | []
   rating: RatingSchemaType
   image: ImageSchemaType
+  createdAt: Date | number
+  updatedAt: Date | number
 }
 
 const RatingSchema = new Schema<RatingSchemaType>({
@@ -78,7 +80,7 @@ const ProductSchema = new Schema<ProductType>({
     required: [true, 'Your product needs a name.'],
   },
   vendor_id: {
-    type: String,
+    type: String || Schema.Types.ObjectId,
     ref: 'vendors',
     required: [true, 'Please provide the vendor ID.'],
   },
@@ -115,7 +117,34 @@ const ProductSchema = new Schema<ProductType>({
     type: ImageSchema,
     required: true,
   },
+  createdAt: {
+    type: Date || Number,
+    immutable: true,
+    default: () => Date.now(),
+  },
+  updatedAt: {
+    type: Date || Number,
+    default: () => Date.now(),
+  },
 })
+
+ProductSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    const vendor_id = this.vendor_id
+    const product_id = this._id
+    const vendor = await VendorModel.findById(vendor_id)
+    vendor?.product_ids.push(product_id)
+    await vendor?.save()
+  }
+  this.updatedAt = Date.now()
+  next()
+})
+
+ProductSchema.statics.findByVendorId = function (
+  vendor_id: string | Schema.Types.ObjectId
+) {
+  return this.where('vendor_id').equals(vendor_id)
+}
 
 export const ProductModel = mongoose.model<ProductType>(
   'products',

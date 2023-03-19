@@ -1,4 +1,5 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, Types } from 'mongoose'
+import { UserModel } from './'
 
 type ImageSchemaType = {
   store_image_url: string | undefined
@@ -11,8 +12,10 @@ export interface VendorType {
   store_title: string
   store_description: string
   categories: string[]
-  product_ids: string[]
+  product_ids: Types.ObjectId[]
   image: ImageSchemaType
+  createdAt: Date | number
+  updatedAt: Date | number
 }
 
 const ImageSchema = new Schema<ImageSchemaType>({
@@ -34,7 +37,7 @@ const ImageSchema = new Schema<ImageSchemaType>({
   },
 })
 
-const VendorShema = new Schema<VendorType>({
+const VendorSchema = new Schema<VendorType>({
   owner_id: {
     type: String,
     required: [true, 'Please provide the owner ID.'],
@@ -60,7 +63,7 @@ const VendorShema = new Schema<VendorType>({
   ],
   product_ids: [
     {
-      type: String,
+      type: Types.ObjectId,
       required: true,
       default: [],
     },
@@ -69,6 +72,26 @@ const VendorShema = new Schema<VendorType>({
     type: ImageSchema,
     required: true,
   },
+  createdAt: {
+    type: Date || Number,
+    immutable: true,
+    default: () => Date.now(),
+  },
+  updatedAt: {
+    type: Date || Number,
+    default: () => Date.now(),
+  },
 })
 
-export const VendorModel = mongoose.model<VendorType>('vendors', VendorShema)
+VendorSchema.pre('save', async function (next) {
+  if (this.isNew) {
+    const owner = await UserModel.findById(this.owner_id)
+    const vendor_id = this._id
+    owner?.owned_vendor_ids.push(vendor_id as Schema.Types.ObjectId)
+    await owner?.save()
+  }
+  this.updatedAt = Date.now()
+  next()
+})
+
+export const VendorModel = mongoose.model<VendorType>('vendors', VendorSchema)

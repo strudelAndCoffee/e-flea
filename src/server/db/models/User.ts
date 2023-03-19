@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, Types } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { ProductType } from './Product'
 
@@ -17,10 +17,12 @@ export interface UserType {
   last_name: string
   dob: DOBType
   vendor_account: boolean
-  owned_vendor_ids?: string[]
+  createdAt: Date | number
+  updatedAt: Date | number
+  owned_vendor_ids: Schema.Types.ObjectId[]
   favorite_vendor_ids: string[]
   saved_item_ids: string[]
-  past_orders: string[]
+  past_orders: Types.ObjectId[]
   isCorrectPw(pw: string): Promise<boolean>
 }
 
@@ -54,7 +56,8 @@ const UserSchema = new Schema<UserType>({
   },
   email: {
     type: String,
-    minlength: 3,
+    minlength: 5,
+    lowercase: true,
     required: [true, 'Please provide an email address.'],
     unique: true,
   },
@@ -77,9 +80,20 @@ const UserSchema = new Schema<UserType>({
     type: Boolean,
     default: false,
   },
+  createdAt: {
+    type: Date || Number,
+    immutable: true,
+    default: () => Date.now(),
+  },
+  updatedAt: {
+    type: Date || Number,
+    default: () => Date.now(),
+  },
   owned_vendor_ids: [
     {
-      type: String,
+      type: Schema.Types.ObjectId,
+      required: true,
+      default: [],
     },
   ],
   favorite_vendor_ids: [
@@ -98,7 +112,7 @@ const UserSchema = new Schema<UserType>({
   ],
   past_orders: [
     {
-      type: String,
+      type: Types.ObjectId,
       ref: 'orders',
       required: true,
       default: [],
@@ -111,6 +125,7 @@ UserSchema.pre('save', async function (next) {
     const saltRounds = 10
     this.password = await bcrypt.hash(this.password, saltRounds)
   }
+  this.updatedAt = Date.now()
   next()
 })
 
