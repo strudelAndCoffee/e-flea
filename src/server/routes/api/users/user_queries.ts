@@ -1,6 +1,7 @@
 import express from 'express'
 import { UserModel, VendorModel, OrderModel } from '../../../db/models'
-import { withAuth } from '../../../utils/auth'
+import { withAuth, withVendorAuth, secret } from '../../../utils/auth'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
@@ -13,6 +14,15 @@ router.get('/', async (req, res) => {
     console.error(err)
     res.json(err)
   }
+})
+
+router.get('/vendor-account', (req, res) => {
+  const token = req.cookies.access_token
+  if (!token) return res.json({ message: 'no token' })
+
+  const response = jwt.verify(token, secret)
+  console.log(response)
+  res.json(response)
 })
 
 // Get user by ID
@@ -86,9 +96,7 @@ router.get('/:id/past-orders', withAuth, async (req, res) => {
   if (!user) res.status(400).json({ message: 'No user found with that ID.' })
 
   try {
-    const past_orders = await OrderModel.find({
-      _id: { $in: user?.past_orders },
-    })
+    const past_orders = await OrderModel.find({ user_id })
     res.json(past_orders)
   } catch (err) {
     console.error(err)

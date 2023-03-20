@@ -43,4 +43,8 @@ OrderSchema.pre('save', async function (next) {
   next()
 })
 
+OrderSchema.statics.findUserOrders = async function (user_id: string) {
+  return await this.where('user_id').equals(user_id)
+}
+
 export const OrderModel = mongoose.model<OrderType>('orders', OrderSchema)
