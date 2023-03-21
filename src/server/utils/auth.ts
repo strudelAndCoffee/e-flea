@@ -4,12 +4,6 @@ import { Schema } from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
 
-type TokenType = {
-  username: string
-  email: string
-  id: string
-}
-
 export const secret = process.env.ACCESS_TOKEN_SECRET ?? '42'
 const expiration = '2h'
 
@@ -18,8 +12,8 @@ function withAuth(req: Request, res: Response, next: NextFunction) {
   next()
 }
 
-function signToken({ username, email, id }: TokenType) {
-  const payload = { username, email, id }
+function signToken(id: string) {
+  const payload = { id }
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration })
 }
 

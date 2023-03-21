@@ -35,9 +35,8 @@ router.post('/signup', async (req, res) => {
 
   try {
     const response = await new_user.save()
-    const id = new_user._id
 
-    const token = signToken({ username, email, id })
+    const token = signToken(new_user._id)
     res
       .cookie('access_token', token, {
         httpOnly: true,
@@ -63,11 +62,7 @@ router.post('/login', async (req, res) => {
   if (!pw_is_valid)
     return res.status(401).json({ message: 'User credentials are incorrect.' })
 
-  const token = signToken({
-    username: user.username,
-    email,
-    id: user._id,
-  })
+  const token = signToken(user._id)
   res
     .cookie('access_token', token, {
       // maxAge: cookie_max_age,

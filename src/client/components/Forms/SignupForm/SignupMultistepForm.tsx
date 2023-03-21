@@ -35,8 +35,10 @@ export default function SignupMultistepForm() {
     shallow
   )
   const navigate = useNavigate()
+
   const [formData, setFormData] = useState(INITIAL_FORM_DATA)
   const [invalidYear, setInvalidYear] = useState(false)
+  const [invalidUsername, setInvalidUsername] = useState(false)
   const {
     steps,
     step,
@@ -48,7 +50,11 @@ export default function SignupMultistepForm() {
     validateYear,
     validateEmail,
   } = useMultistepForm([
-    <AccountInfo {...formData} updateFields={updateFields} />,
+    <AccountInfo
+      {...formData}
+      updateFields={updateFields}
+      invalidUsername={invalidUsername}
+    />,
     <UserInfo
       {...formData}
       updateFields={updateFields}
@@ -71,7 +77,16 @@ export default function SignupMultistepForm() {
       updateFields({ email: validEmail })
 
       // check unique username
-      // alert('This account already exists. Please try a different username')
+      const response = await axios.get(
+        `http://localhost:3000/api/users/username/${formData.username}`,
+        { withCredentials: true }
+      )
+
+      if (response.data.name_taken) {
+        setInvalidUsername(true)
+        return
+      }
+      return next()
     }
 
     if (currentStepIdx === 1) {

@@ -17,8 +17,7 @@ export type UserType = {
   createdAt: Date | number
   updatedAt: Date | number
   owned_vendor_ids: Types.ObjectId[]
-  favorite_vendor_ids: string[]
-  saved_item_ids: string[]
+  saved_item_ids: Types.ObjectId[]
   past_orders: Types.ObjectId[]
   isCorrectPw(pw: string): Promise<boolean>
 }
@@ -92,16 +91,10 @@ const UserSchema = new Schema<UserType>({
       default: [],
     },
   ],
-  favorite_vendor_ids: [
-    {
-      type: String,
-      required: true,
-      default: [],
-    },
-  ],
   saved_item_ids: [
     {
-      type: String,
+      type: Types.ObjectId,
+      ref: 'products',
       required: true,
       default: [],
     },
