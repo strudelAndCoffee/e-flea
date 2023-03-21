@@ -1,5 +1,5 @@
 import express from 'express'
-import { ProductModel } from '../../../db/models'
+import { ProductModel, VendorModel } from '../../../db/models'
 import { ProductType } from '../../../db/models/Product'
 import { withAuth } from '../../../utils/auth'
 
@@ -39,7 +39,14 @@ router.delete('/:id', withAuth, async (req, res) => {
 
   try {
     const response = await ProductModel.findByIdAndDelete(product_id)
-    res.json(response)
+
+    const removed_product_id = response!._id
+    const vendor_id = response!.vendor_id
+    await VendorModel.findByIdAndUpdate(vendor_id, {
+      $pull: { product_ids: removed_product_id },
+    })
+
+    res.json({ message: 'Product successfully deleted.' })
   } catch (err) {
     console.error(err)
     res.json(err)

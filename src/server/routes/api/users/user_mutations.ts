@@ -4,6 +4,20 @@ import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
+// Update user by ID
+router.put('/:id', withAuth, async (req, res) => {
+  const query = { _id: req.params.id }
+  const update = { ...req.body.update_fields }
+
+  try {
+    const updated_user = await UserModel.findOneAndUpdate(query, update)
+    res.json(updated_user)
+  } catch (err) {
+    console.error(err)
+    res.json(err)
+  }
+})
+
 // Add order by user ID
 router.put('/:id/add-order', withAuth, async (req, res) => {
   const user_id = req.params.user_id
@@ -22,27 +36,13 @@ router.put('/:id/add-order', withAuth, async (req, res) => {
   }
 })
 
-// Update user by ID
-router.put('/:id', withAuth, async (req, res) => {
-  const query = { _id: req.params.id }
-  const update = { ...req.body.update_fields }
-
-  try {
-    const updated_user = await UserModel.findOneAndUpdate(query, update)
-    res.json(updated_user)
-  } catch (err) {
-    console.error(err)
-    res.json(err)
-  }
-})
-
 // Delete user by ID
 router.delete('/:id', withAuth, async (req, res) => {
   const user_id = req.params.id
 
   try {
     const response = await UserModel.findByIdAndDelete(user_id)
-    res.json(response)
+    res.json({ message: 'User successfully deleted.' })
   } catch (err) {
     console.error(err)
     res.json(err)

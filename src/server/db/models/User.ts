@@ -1,50 +1,27 @@
 import mongoose, { Schema, Types } from 'mongoose'
 import bcrypt from 'bcrypt'
-import { ProductType } from './Product'
 
-type DOBType = {
-  day: number
-  month: number
-  year: number
-}
-
-export interface UserType {
+export type UserType = {
   _id: string
   username: string
   email: string
   password: string
   first_name: string
   last_name: string
-  dob: DOBType
+  dob: {
+    day: number
+    month: number
+    year: number
+  }
   vendor_account: boolean
   createdAt: Date | number
   updatedAt: Date | number
-  owned_vendor_ids: Schema.Types.ObjectId[]
+  owned_vendor_ids: Types.ObjectId[]
   favorite_vendor_ids: string[]
   saved_item_ids: string[]
   past_orders: Types.ObjectId[]
   isCorrectPw(pw: string): Promise<boolean>
 }
-
-const DOBSchema = new Schema<DOBType>({
-  day: {
-    type: Number,
-    min: 1,
-    max: 31,
-    required: true,
-  },
-  month: {
-    type: Number,
-    min: 1,
-    max: 12,
-    required: true,
-  },
-  year: {
-    type: Number,
-    min: 1900,
-    required: true,
-  },
-})
 
 const UserSchema = new Schema<UserType>({
   username: {
@@ -75,7 +52,25 @@ const UserSchema = new Schema<UserType>({
     type: String,
     required: [true, 'Please provide your last name.'],
   },
-  dob: DOBSchema,
+  dob: {
+    day: {
+      type: Number,
+      min: 1,
+      max: 31,
+      required: true,
+    },
+    month: {
+      type: Number,
+      min: 1,
+      max: 12,
+      required: true,
+    },
+    year: {
+      type: Number,
+      min: 1900,
+      required: true,
+    },
+  },
   vendor_account: {
     type: Boolean,
     default: false,
@@ -91,7 +86,8 @@ const UserSchema = new Schema<UserType>({
   },
   owned_vendor_ids: [
     {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
+      ref: 'vendors',
       required: true,
       default: [],
     },

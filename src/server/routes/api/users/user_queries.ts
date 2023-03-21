@@ -1,7 +1,6 @@
 import express from 'express'
 import { UserModel, VendorModel, OrderModel } from '../../../db/models'
-import { withAuth, withVendorAuth, secret } from '../../../utils/auth'
-import jwt from 'jsonwebtoken'
+import { withAuth } from '../../../utils/auth'
 
 const router = express.Router()
 
@@ -14,15 +13,6 @@ router.get('/', async (req, res) => {
     console.error(err)
     res.json(err)
   }
-})
-
-router.get('/vendor-account', (req, res) => {
-  const token = req.cookies.access_token
-  if (!token) return res.json({ message: 'no token' })
-
-  const response = jwt.verify(token, secret)
-  console.log(response)
-  res.json(response)
 })
 
 // Get user by ID

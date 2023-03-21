@@ -23,7 +23,7 @@ router.post('/signup', async (req, res) => {
   else if (has_email)
     return res.status(400).json({ error: 'That user account already exists.' })
 
-  const new_user = new UserModel({
+  const new_user = await new UserModel({
     username,
     email,
     password,
@@ -37,17 +37,14 @@ router.post('/signup', async (req, res) => {
     const response = await new_user.save()
     const id = new_user._id
 
-    const token = signToken({ username, email, vendor_account, id })
+    const token = signToken({ username, email, id })
     res
       .cookie('access_token', token, {
         httpOnly: true,
         sameSite: 'strict',
         secure: true,
       })
-      .json({
-        response,
-        message: 'Sign up success!',
-      })
+      .json({ message: 'Sign up success!' })
   } catch (err) {
     console.error(err)
     res.json(err)
@@ -69,7 +66,6 @@ router.post('/login', async (req, res) => {
   const token = signToken({
     username: user.username,
     email,
-    vendor_account: user.vendor_account,
     id: user._id,
   })
   res
@@ -79,10 +75,7 @@ router.post('/login', async (req, res) => {
       sameSite: 'strict',
       secure: true,
     })
-    .json({
-      user,
-      message: 'Log in success!',
-    })
+    .json({ message: 'Log in success!' })
 })
 
 // Log out user
