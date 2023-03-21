@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
@@ -39,6 +39,7 @@ export default function SignupMultistepForm() {
   const [formData, setFormData] = useState(INITIAL_FORM_DATA)
   const [invalidYear, setInvalidYear] = useState(false)
   const [invalidUsername, setInvalidUsername] = useState(false)
+  const [invalidEmail, setInvalidEmail] = useState(false)
   const {
     steps,
     step,
@@ -54,6 +55,7 @@ export default function SignupMultistepForm() {
       {...formData}
       updateFields={updateFields}
       invalidUsername={invalidUsername}
+      invalidEmail={invalidEmail}
     />,
     <UserInfo
       {...formData}
@@ -77,15 +79,28 @@ export default function SignupMultistepForm() {
       updateFields({ email: validEmail })
 
       // check unique username
-      const response = await axios.get(
+      const username_res = await axios.get(
         `http://localhost:3000/api/users/username/${formData.username}`,
         { withCredentials: true }
       )
-
-      if (response.data.name_taken) {
+      if (username_res.data.name_taken) {
         setInvalidUsername(true)
+        alert('That username is already taken. Please try a different one.')
         return
       }
+
+      const email_res = await axios.get(
+        `http://localhost:3000/api/users/email/${formData.email}`,
+        { withCredentials: true }
+      )
+      if (email_res.data.email_taken) {
+        setInvalidEmail(true)
+        alert('That email is already in use. Please try a different one.')
+        return
+      }
+
+      setInvalidUsername(false)
+      setInvalidEmail(false)
       return next()
     }
 
@@ -140,6 +155,7 @@ export default function SignupMultistepForm() {
 
       setUserData(data.new_user)
       setUserID(data.new_user._id)
+      console.log(data.new_user)
       setIsLoggedIn(true)
       if (fromRedirect) {
         setFromRedirect(false)

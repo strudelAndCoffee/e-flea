@@ -18,23 +18,22 @@ router.post('/signup', async (req, res) => {
 
   const has_username = await UserModel.findOne({ username })
   const has_email = await UserModel.findOne({ email })
-  if (has_username)
+  if (has_username?._id)
     return res.status(400).json({ error: 'That username is already taken.' })
-  else if (has_email)
+  else if (has_email?._id)
     return res.status(400).json({ error: 'That user account already exists.' })
 
-  const new_user = await new UserModel({
-    username,
-    email,
-    password,
-    first_name,
-    last_name,
-    dob,
-    vendor_account,
-  })
-
   try {
-    const response = await new_user.save()
+    const new_user = await new UserModel({
+      username,
+      email,
+      password,
+      first_name,
+      last_name,
+      dob,
+      vendor_account,
+    })
+    await new_user.save()
 
     const token = signToken(new_user._id)
     res

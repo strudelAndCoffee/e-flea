@@ -11,6 +11,7 @@ type AccountInfoData = {
 type AccountInfoProps = AccountInfoData & {
   updateFields: (fields: Partial<AccountInfoData>) => void
   invalidUsername: boolean
+  invalidEmail: boolean
 }
 
 export default function AccountInfo({
@@ -19,6 +20,7 @@ export default function AccountInfo({
   password,
   updateFields,
   invalidUsername,
+  invalidEmail,
 }: AccountInfoProps) {
   return (
     <Grid container spacing={2}>
@@ -51,6 +53,7 @@ export default function AccountInfo({
           autoComplete="email"
           value={email}
           onChange={(e) => updateFields({ email: e.target.value })}
+          error={invalidEmail}
         />
       </Grid>
       <Grid item xs={12}>

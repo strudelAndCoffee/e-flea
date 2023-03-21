@@ -80,6 +80,15 @@ router.get('/:id/past-orders', withAuth, async (req, res) => {
   }
 })
 
+// Get user by email
+router.get('/email/:email', async (req, res) => {
+  const email = req.params.email
+  const user = await UserModel.findOne({ email })
+
+  if (user?._id) return res.json({ email_taken: true })
+  res.json({ message: 'Email free for use.' })
+})
+
 // Get user by username
 router.get('/username/:username', async (req, res) => {
   const username = req.params.username
