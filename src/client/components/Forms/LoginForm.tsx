@@ -2,6 +2,7 @@
 
 import { FormEvent } from 'react'
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -11,7 +12,6 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
-import { Link, useNavigate } from 'react-router-dom'
 
 import { shallow } from 'zustand/shallow'
 import { useAuthStore, useNavStore } from '../../state'
@@ -52,8 +52,9 @@ export default function LoginForm() {
         { withCredentials: true }
       )
 
+      const user_id = data.user_id
+      setUserID(user_id)
       setUserData(data.user)
-      setUserID(data.user._id)
       setIsLoggedIn(true)
 
       if (fromRedirect) {

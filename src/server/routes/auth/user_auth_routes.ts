@@ -35,14 +35,15 @@ router.post('/signup', async (req, res) => {
     })
     await new_user.save()
 
-    const token = signToken(new_user._id)
+    const user_id = new_user._id
+    const token = signToken(user_id)
     res
       .cookie('access_token', token, {
         httpOnly: true,
         sameSite: 'strict',
         secure: true,
       })
-      .json({ message: 'Sign up success!' })
+      .json({ message: 'Sign up success!', user_id, new_user })
   } catch (err) {
     console.error(err)
     res.json(err)
@@ -54,6 +55,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   const user = await UserModel.findOne({ email })
+
   if (!user)
     return res.status(400).json({ message: 'The user account does not exist.' })
 
@@ -61,7 +63,8 @@ router.post('/login', async (req, res) => {
   if (!pw_is_valid)
     return res.status(401).json({ message: 'User credentials are incorrect.' })
 
-  const token = signToken(user._id)
+  const user_id = user._id
+  const token = signToken(user_id)
   res
     .cookie('access_token', token, {
       // maxAge: cookie_max_age,
@@ -69,7 +72,7 @@ router.post('/login', async (req, res) => {
       sameSite: 'strict',
       secure: true,
     })
-    .json({ message: 'Log in success!' })
+    .json({ message: 'Log in success!', user_id, user })
 })
 
 // Log out user

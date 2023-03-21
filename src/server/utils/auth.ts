@@ -12,8 +12,8 @@ function withAuth(req: Request, res: Response, next: NextFunction) {
   next()
 }
 
-function signToken(id: string) {
-  const payload = { id }
+function signToken(user_id: string) {
+  const payload = { user_id }
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration })
 }
 

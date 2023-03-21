@@ -153,9 +153,9 @@ export default function SignupMultistepForm() {
         { withCredentials: true }
       )
 
+      const user_id = data.user_id
+      setUserID(user_id)
       setUserData(data.new_user)
-      setUserID(data.new_user._id)
-      console.log(data.new_user)
       setIsLoggedIn(true)
       if (fromRedirect) {
         setFromRedirect(false)
