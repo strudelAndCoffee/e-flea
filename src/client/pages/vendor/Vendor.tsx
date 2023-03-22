@@ -23,7 +23,7 @@ export default function Vendor() {
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
       <section>
-        <h2>Vendor {id}</h2>
+        <h2>Vendor {data.vendor.store_title}</h2>
         <Grid container spacing={4}>
           {data.products &&
             data.products.map((product: ProductType, idx: number) => (

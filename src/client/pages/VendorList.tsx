@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -14,7 +14,7 @@ import { getAllVendors } from '../api'
 
 export default function VendorList() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['vendors', 'all-vendors'],
+    queryKey: ['vendors'],
     queryFn: () => getAllVendors(),
   })
 
@@ -27,12 +27,11 @@ export default function VendorList() {
           Vendor list
         </Typography>
         <Grid container spacing={4}>
-          {data.vendors &&
-            data.vendors.map((vendor: VendorType, idx: number) => (
-              <Grid item key={idx}>
-                <VendorCard vendor={vendor} />
-              </Grid>
-            ))}
+          {data?.map((vendor: VendorType, idx: number) => (
+            <Grid item key={idx}>
+              <VendorCard vendor={vendor} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </ErrorBoundary>

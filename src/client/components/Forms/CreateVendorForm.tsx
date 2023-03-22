@@ -99,8 +99,8 @@ export default function CreateVendorForm() {
         { withCredentials: true }
       )
 
-      console.log(response)
-      navigate('/')
+      const vendor_id = response.data?._id
+      navigate(`/vendors/${vendor_id}`)
     } catch (err) {
       console.error(err)
       alert(

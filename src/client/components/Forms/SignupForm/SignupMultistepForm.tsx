@@ -19,14 +19,16 @@ import { shallow } from 'zustand/shallow'
 import { useAuthStore, useNavStore } from '../../../state'
 
 export default function SignupMultistepForm() {
-  const { setIsLoggedIn, setUserData, setUserID } = useAuthStore(
-    (state) => ({
-      setIsLoggedIn: state.setIsLoggedIn,
-      setUserData: state.setUserData,
-      setUserID: state.setUserID,
-    }),
-    shallow
-  )
+  const { setIsLoggedIn, setUserData, setUserID, setIsVendorAccount } =
+    useAuthStore(
+      (state) => ({
+        setIsLoggedIn: state.setIsLoggedIn,
+        setUserData: state.setUserData,
+        setUserID: state.setUserID,
+        setIsVendorAccount: state.setIsVendorAccount,
+      }),
+      shallow
+    )
   const { fromRedirect, setFromRedirect } = useNavStore(
     (state) => ({
       fromRedirect: state.fromRedirect,
@@ -153,10 +155,11 @@ export default function SignupMultistepForm() {
         { withCredentials: true }
       )
 
-      const user_id = data.user_id
-      setUserID(user_id)
+      setUserID(data.user_id)
+      setIsVendorAccount(data.vendor_account)
       setUserData(data.new_user)
       setIsLoggedIn(true)
+
       if (fromRedirect) {
         setFromRedirect(false)
         return navigate(-1)

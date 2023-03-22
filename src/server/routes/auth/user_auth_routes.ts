@@ -43,7 +43,7 @@ router.post('/signup', async (req, res) => {
         sameSite: 'strict',
         secure: true,
       })
-      .json({ message: 'Sign up success!', user_id, new_user })
+      .json({ message: 'Sign up success!', user_id, vendor_account, new_user })
   } catch (err) {
     console.error(err)
     res.json(err)
@@ -64,6 +64,7 @@ router.post('/login', async (req, res) => {
     return res.status(401).json({ message: 'User credentials are incorrect.' })
 
   const user_id = user._id
+  const vendor_account = user.vendor_account
   const token = signToken(user_id)
   res
     .cookie('access_token', token, {
@@ -72,7 +73,7 @@ router.post('/login', async (req, res) => {
       sameSite: 'strict',
       secure: true,
     })
-    .json({ message: 'Log in success!', user_id, user })
+    .json({ message: 'Log in success!', user_id, vendor_account, user })
 })
 
 // Log out user

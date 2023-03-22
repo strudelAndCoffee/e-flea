@@ -2,6 +2,7 @@ import mongoose, { Schema, Types } from 'mongoose'
 import { UserModel } from './'
 
 export type VendorType = {
+  _id: Types.ObjectId
   owner_id: string | Types.ObjectId
   store_title: string
   store_description: string

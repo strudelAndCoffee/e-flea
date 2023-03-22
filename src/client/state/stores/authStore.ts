@@ -17,9 +17,11 @@ interface AuthState {
   isLoggedIn: boolean
   userData: UserDataType | null
   userID: string | null
+  isVendorAccount: boolean
   setIsLoggedIn: (value: boolean) => void
   setUserData: (userData: UserDataType) => void
   setUserID: (id: string | null) => void
+  setIsVendorAccount: (value: boolean) => void
 }
 
 const useAuthStore = create(
@@ -28,6 +30,7 @@ const useAuthStore = create(
       isLoggedIn: false,
       userData: null,
       userID: null,
+      isVendorAccount: false,
       setIsLoggedIn(value) {
         set((state) => ({ ...state, isLoggedIn: value }))
       },
@@ -36,6 +39,9 @@ const useAuthStore = create(
       },
       setUserID(id) {
         set((state) => ({ ...state, userID: id }))
+      },
+      setIsVendorAccount(value) {
+        set((state) => ({ ...state, isVendorAccount: value }))
       },
     }),
     {

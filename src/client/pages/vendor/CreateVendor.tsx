@@ -12,19 +12,24 @@ function RedirectMessage() {
   const setFromRedirect = useNavStore((state) => state.setFromRedirect)
   return (
     <Box display="flex" flexDirection="column" alignItems="center" pt={5}>
-      <Typography variant="h5" gutterBottom>
-        You must have a user account to create a new store!
+      <Typography variant="h6" align="center" gutterBottom>
+        You must have a vendor account to create a new store! You may go to
+        settings on your{' '}
+        <Link to="/account" onClick={() => setFromRedirect(true)}>
+          account page
+        </Link>{' '}
+        to change to a vendor account.
       </Typography>
-      <Typography variant="h5" gutterBottom>
-        Please{' '}
-        <Button variant="outlined" onClick={() => setFromRedirect(true)}>
-          <Link to={'/login'}>log in</Link>
-        </Button>{' '}
-        or{' '}
-        <Button variant="outlined" onClick={() => setFromRedirect(true)}>
-          <Link to={'/signup'}>sign up</Link>
-        </Button>{' '}
-        for an account.
+      <Typography variant="h6" align="center" gutterBottom>
+        If you already have an account, please{' '}
+        <Link to="/login" onClick={() => setFromRedirect(true)}>
+          log in
+        </Link>
+        , or{' '}
+        <Link to="/signup" onClick={() => setFromRedirect(true)}>
+          sign up{' '}
+        </Link>
+        to create a new account.
       </Typography>
     </Box>
   )
@@ -32,11 +37,16 @@ function RedirectMessage() {
 
 export default function CreateVendor() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+  const isVendorAccount = useAuthStore((state) => state.isVendorAccount)
 
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
-      <Container maxWidth={isLoggedIn ? 'sm' : 'md'}>
-        {isLoggedIn ? <CreateVendorForm /> : <RedirectMessage />}
+      <Container maxWidth={isLoggedIn || isVendorAccount ? 'sm' : 'md'}>
+        {isLoggedIn && isVendorAccount ? (
+          <CreateVendorForm />
+        ) : (
+          <RedirectMessage />
+        )}
       </Container>
     </ErrorBoundary>
   )
