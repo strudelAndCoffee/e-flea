@@ -30,11 +30,9 @@ router.get('/:id', async (req, res) => {
 // Get products by vendor ID
 router.get('/vendor-products/:vendor_id', async (req, res) => {
   const vendor_id = req.params.vendor_id
-  const vendor = await VendorModel.findById(vendor_id)
-  if (!vendor)
-    res.status(400).json({ message: 'No vendor found with that ID.' })
 
   try {
+    const vendor = await VendorModel.findById(vendor_id)
     const products = await ProductModel.find({ vendor_id })
     res.json({ vendor, products })
   } catch (err) {

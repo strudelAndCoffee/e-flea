@@ -7,17 +7,18 @@ import Rating from '@mui/material/Rating'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
-import {
-  ImageSchemaType,
-  RatingSchemaType,
-} from '../../../server/db/models/Product'
+import { ImageSchemaType } from '../../../server/db/models/Product'
 import formatCurrency from '../../utils/formatCurrency'
 import ProductHeader from './ProductHeader'
 
 interface ProductImgProps {
   name: string
   image: ImageSchemaType
-  rating: RatingSchemaType
+  rating: {
+    rating_total: number
+    rating_scores?: number[] | []
+    reviews: number
+  }
   description: string
   price: number
   vendor_id: string
@@ -66,24 +67,17 @@ export default function ProductContent({
       />
       <CardContent sx={{ paddingX: 1, paddingBottom: 0 }}>
         <ThemeProvider theme={ratingTheme}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'flex-end',
-            }}
-          >
-            {/* rating value={null} for no rating */}
-            <Rating
-              name="read-only"
-              value={rating.rating_total}
-              precision={0.5}
-              size="small"
-              readOnly
-            />
-            <Typography variant="body2" component="p">
-              {`(${rating.reviews} reviews)`}
-            </Typography>
-          </Box>
+          {/* rating value={null} for no rating */}
+          <Rating
+            name="read-only"
+            value={rating.rating_total}
+            precision={0.5}
+            size="small"
+            readOnly
+          />
+          <Typography variant="body2" component="p">
+            {`${rating.reviews} reviews`}
+          </Typography>
         </ThemeProvider>
         <Typography variant="body1" component="p" mt={2}>
           {description}

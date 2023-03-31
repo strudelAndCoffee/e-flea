@@ -7,10 +7,25 @@ const router = express.Router()
 
 // Create new vendor
 router.post('/', async (req, res) => {
-  const vendor_data: VendorType = req.body
+  const {
+    owner_id,
+    store_title,
+    store_description,
+    categories,
+    product_ids,
+    image,
+  } = req.body
+
+  const new_vendor = await new VendorModel({
+    owner_id,
+    store_title,
+    store_description,
+    categories,
+    product_ids,
+    image,
+  })
 
   try {
-    const new_vendor = await new VendorModel(vendor_data)
     const response = await new_vendor.save()
     res.json(response)
   } catch (err) {

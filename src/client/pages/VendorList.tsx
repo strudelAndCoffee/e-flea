@@ -24,7 +24,7 @@ export default function VendorList() {
     <ErrorBoundary fallback={<ErrorPage />}>
       <Container component="section">
         <Typography variant="h3" component="h1">
-          Vendor list
+          All Vendors
         </Typography>
         <Grid container spacing={4}>
           {data?.map((vendor: VendorType, idx: number) => (

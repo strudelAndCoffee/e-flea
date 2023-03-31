@@ -17,8 +17,8 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { name, description, price, image, rating } = product
-  const product_id = product._id.toString()
+  const { name, description, price, image, rating, _id } = product
+  const product_id = _id.toString()
   const vendor_id = product.vendor_id.toString()
   const cartStore = useCartStore()
 

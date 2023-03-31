@@ -12,7 +12,7 @@ interface ProductHeaderProps {
 export default function ProductHeader({ name, vendor_id }: ProductHeaderProps) {
   if (vendor_id) {
     const { isLoading, isError, data } = useQuery({
-      queryKey: ['products', 'all-products', 'vendor-products'],
+      queryKey: ['products', 'vendor-products'],
       queryFn: () => getVendorById(vendor_id),
     })
 
@@ -23,7 +23,7 @@ export default function ProductHeader({ name, vendor_id }: ProductHeaderProps) {
         subheader={
           <Link to={`/vendors/${vendor_id}`}>
             {isLoading && 'Loading store name...'}
-            {data && data.vendor.store_title}
+            {data?.store_title}
           </Link>
         }
       />

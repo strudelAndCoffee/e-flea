@@ -1,50 +1,27 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, Types } from 'mongoose'
 import { VendorModel } from '.'
 
-export type RatingSchemaType = {
-  rating_total: number
-  rating_scores?: number[] | []
-  reviews: number
-}
 export type ImageSchemaType = {
   image_url: string
   image_upload?: any
   image_alt: string
 }
 export type ProductType = {
+  _id: Types.ObjectId
   name: string
-  vendor_id: string | Schema.Types.ObjectId
+  vendor_id: string | Types.ObjectId
   description: string
   price: number
   categories: string[]
-  rating: RatingSchemaType
+  rating: {
+    rating_total: number
+    rating_scores?: number[] | []
+    reviews: number
+  }
   image: ImageSchemaType
   createdAt: Date | number
   updatedAt: Date | number
 }
-
-const RatingSchema = new Schema<RatingSchemaType>({
-  rating_total: {
-    type: Number,
-    min: 0,
-    max: 5,
-    default: 0,
-    required: true,
-  },
-  rating_scores: [
-    {
-      type: Number,
-      min: 1,
-      max: 5,
-    },
-  ],
-  reviews: {
-    type: Number,
-    min: 0,
-    default: 0,
-    required: true,
-  },
-})
 
 const ImageSchema = new Schema<ImageSchemaType>({
   image_url: {
@@ -79,7 +56,7 @@ const ProductSchema = new Schema<ProductType>({
     required: [true, 'Your product needs a name.'],
   },
   vendor_id: {
-    type: String || Schema.Types.ObjectId,
+    type: String || Types.ObjectId,
     ref: 'vendors',
     required: [true, 'Please provide the vendor ID.'],
   },
@@ -103,8 +80,26 @@ const ProductSchema = new Schema<ProductType>({
     },
   ],
   rating: {
-    type: RatingSchema,
-    required: true,
+    rating_total: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: 0,
+      required: true,
+    },
+    rating_scores: [
+      {
+        type: Number,
+        min: 1,
+        max: 5,
+      },
+    ],
+    reviews: {
+      type: Number,
+      min: 0,
+      default: 0,
+      required: true,
+    },
   },
   image: {
     type: ImageSchema,

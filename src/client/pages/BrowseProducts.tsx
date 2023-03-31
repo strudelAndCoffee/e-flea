@@ -10,9 +10,11 @@ import { getAllProducts } from '../api'
 
 export default function BrowseProducts() {
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['products', 'all-products'],
+    queryKey: ['products'],
     queryFn: () => getAllProducts(),
   })
+
+  if (data) console.log(data)
 
   if (isLoading) return <div>'Loading...'</div>
   if (isError) return <ErrorPage />
@@ -23,12 +25,11 @@ export default function BrowseProducts() {
           All Products
         </Typography>
         <Grid container spacing={4}>
-          {data.products &&
-            data.products.map((product: ProductType, idx: number) => (
-              <Grid item xs={3} key={idx}>
-                <Product product={product} />
-              </Grid>
-            ))}
+          {data?.map((product: ProductType, idx: number) => (
+            <Grid item xs={3} key={idx}>
+              <Product product={product} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </ErrorBoundary>

@@ -8,16 +8,24 @@ import cookieParser from 'cookie-parser'
 import { db_connection } from './db/connection'
 import routes from './routes'
 
-const app = express()
+mongoose
+  .connect(db_connection)
+  .then(() => {
+    console.log('Connected to MongoDB')
+    startServer()
+  })
+  .catch((err) => console.error(err))
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors({ credentials: true }))
-app.use(cookieParser())
-app.use(routes)
+function startServer() {
+  const app = express()
 
-if (typeof db_connection === 'string') mongoose.connect(db_connection!)
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
+  app.use(cors({ credentials: true }))
+  app.use(cookieParser())
+  app.use(routes)
 
-ViteExpress.listen(app, 3000, () =>
-  console.log('Server is listening on port 3000...')
-)
+  ViteExpress.listen(app, 3000, () =>
+    console.log('Server is listening on port 3000...')
+  )
+}

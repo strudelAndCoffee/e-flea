@@ -87,7 +87,6 @@ const UserSchema = new Schema<UserType>({
     {
       type: Types.ObjectId,
       ref: 'vendors',
-      required: true,
       default: [],
     },
   ],
@@ -95,7 +94,6 @@ const UserSchema = new Schema<UserType>({
     {
       type: Types.ObjectId,
       ref: 'products',
-      required: true,
       default: [],
     },
   ],
@@ -103,7 +101,6 @@ const UserSchema = new Schema<UserType>({
     {
       type: Types.ObjectId,
       ref: 'orders',
-      required: true,
       default: [],
     },
   ],

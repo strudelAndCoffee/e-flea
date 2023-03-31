@@ -14,7 +14,7 @@ export default function Vendor() {
   if (id == null || id === undefined) return <NotFound />
 
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['products', 'vendor-products'],
+    queryKey: ['products', 'vendor-products', 'vendors'],
     queryFn: () => getProductsByVendorId(id),
   })
 
@@ -23,14 +23,13 @@ export default function Vendor() {
   return (
     <ErrorBoundary fallback={<ErrorPage />}>
       <section>
-        <h2>Vendor {data.vendor.store_title}</h2>
+        <h2>{data.vendor.store_title}</h2>
         <Grid container spacing={4}>
-          {data.products &&
-            data.products.map((product: ProductType, idx: number) => (
-              <Grid item xs={4} key={idx}>
-                <Product product={product} />
-              </Grid>
-            ))}
+          {data?.products.map((product: ProductType, idx: number) => (
+            <Grid item xs={4} key={idx}>
+              <Product product={product} />
+            </Grid>
+          ))}
         </Grid>
       </section>
     </ErrorBoundary>
