@@ -5,7 +5,13 @@ export interface IUser {
   username: string
   email: string
   password: string
-  // isCorrectPw(pw: string): Promise<boolean>
+  dob: {
+    day: number
+    month: number
+    year: number
+  }
+  orders: string[]
+  isCorrectPw(pw: string): Promise<boolean>
 }
 
 export interface IUserModel extends IUser, Document {}
@@ -26,23 +32,45 @@ const UserSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    dob: {
+      day: {
+        type: Number,
+        required: true,
+      },
+      month: {
+        type: Number,
+        required: true,
+      },
+      year: {
+        type: Number,
+        required: true,
+      },
+    },
+    order: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
   },
   {
+    timestamps: true,
     versionKey: false,
+    password: false,
   }
 )
 
-// UserSchema.pre('save', async function (next) {
-//   if (this.isNew || this.isModified('password')) {
-//     const saltRounds = 10
-//     this.password = await bcrypt.hash(this.password, saltRounds)
-//   }
-//   this.updatedAt = Date.now()
-//   next()
-// })
+UserSchema.pre('save', async function (next) {
+  if (this.isNew || this.isModified('password')) {
+    const saltRounds = 10
+    this.password = await bcrypt.hash(this.password, saltRounds)
+  }
+  this.updatedAt = Date.now()
+  next()
+})
 
-// UserSchema.methods.isCorrectPw = async function (pw: string) {
-//   return await bcrypt.compare(pw, this.password)
-// }
+UserSchema.methods.isCorrectPw = async function (pw: string) {
+  return await bcrypt.compare(pw, this.password)
+}
 
 export default mongoose.model<IUserModel>('User', UserSchema)
