@@ -10,32 +10,38 @@ export interface IOrder {
 
 export interface IOrderModel extends IOrder, Document {}
 
-const OrderSchema: Schema = new Schema({
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    immutable: true,
-    required: true,
-  },
-  items: [
-    {
+const OrderSchema: Schema = new Schema(
+  {
+    user_id: {
       type: Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: 'User',
       immutable: true,
       required: true,
     },
-  ],
-  total_cost: {
-    type: Number,
-    immutable: true,
-    required: true,
+    items: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        immutable: true,
+        required: true,
+      },
+    ],
+    total_cost: {
+      type: Number,
+      immutable: true,
+      required: true,
+    },
+    purchase_date: {
+      type: Number,
+      immutable: true,
+      default: () => Date.now(),
+    },
   },
-  purchase_date: {
-    type: Number,
-    immutable: true,
-    default: () => Date.now(),
-  },
-})
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+)
 
 // OrderSchema.pre('save', async function (next) {
 //   if (this.isNew) {

@@ -25,7 +25,7 @@ const readUser = async (req: Request, res: Response, next: NextFunction) => {
   const user_id = req.params.user_id
 
   try {
-    const user = await UserModel.findById(user_id)
+    const user = await UserModel.findById(user_id).populate('orders')
     return user
       ? res.status(200).json({ user })
       : res.status(404).json({ message: 'User not found.' })
@@ -41,7 +41,7 @@ const readAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await UserModel.find()
+    const users = await UserModel.find().populate('orders')
     return users
       ? res.status(200).json({ users })
       : res.status(404).json({ message: 'No users found.' })

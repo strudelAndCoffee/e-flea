@@ -36,20 +36,24 @@ const UserSchema: Schema = new Schema(
       day: {
         type: Number,
         required: true,
+        immuatble: true,
       },
       month: {
         type: Number,
         required: true,
+        immuatble: true,
       },
       year: {
         type: Number,
         required: true,
+        immuatble: true,
       },
     },
     order: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Order',
+        default: [],
       },
     ],
   },

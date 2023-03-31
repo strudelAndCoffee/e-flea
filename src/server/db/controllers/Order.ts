@@ -25,7 +25,7 @@ const readOrder = async (req: Request, res: Response, next: NextFunction) => {
   const order_id = req.params.order_id
 
   try {
-    const order = await OrderModel.findById(order_id)
+    const order = await OrderModel.findById(order_id).populate('user_id')
     return order
       ? res.status(200).json({ order })
       : res.status(404).json({ message: 'Order not found.' })
@@ -41,7 +41,7 @@ const readAllOrders = async (
   next: NextFunction
 ) => {
   try {
-    const orders = await OrderModel.find()
+    const orders = await OrderModel.find().populate('user_id')
     return orders
       ? res.status(200).json({ orders })
       : res.status(404).json({ message: 'No orders found.' })
