@@ -6,7 +6,6 @@ export interface IOrder {
   items: string[]
   total_cost: number
   purchase_date: number
-  completed: boolean
 }
 
 export interface IOrderModel extends IOrder, Document {}
@@ -36,24 +35,20 @@ const OrderSchema: Schema = new Schema({
     immutable: true,
     default: () => Date.now(),
   },
-  completed: {
-    type: Boolean,
-    default: false,
-  },
 })
 
-OrderSchema.pre('save', async function (next) {
-  if (this.isNew) {
-    const user = await UserModel.findById(this.user_id)
-    const order_id = this._id
-    user?.orders.push(order_id as string)
-    await user?.save()
-  }
-  next()
-})
+// OrderSchema.pre('save', async function (next) {
+//   if (this.isNew) {
+//     const user = await UserModel.findById(this.user_id)
+//     const order_id = this._id
+//     user?.orders.push(order_id as string)
+//     await user?.save()
+//   }
+//   next()
+// })
 
-OrderSchema.statics.findUserOrders = async function (user_id: string) {
-  return await this.where('user_id').equals(user_id)
-}
+// OrderSchema.statics.findUserOrders = async function (user_id: string) {
+//   return await this.where('user_id').equals(user_id)
+// }
 
 export default mongoose.model<IOrderModel>('Order', OrderSchema)
