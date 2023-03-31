@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import { IUser } from '../db/models/User'
 import { IOrder } from '../db/models/Order'
 
-export default function validateSchema(schema: ObjectSchema) {
+export function validateSchema(schema: ObjectSchema) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await schema.validateAsync(req.body)

@@ -5,6 +5,14 @@ import UserModel from '../models/User'
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const { username, email, password } = req.body
 
+  const username_taken = await UserModel.findOne({ username })
+  const email_taken = await UserModel.findOne({ email })
+
+  if (username_taken != null || email_taken != null)
+    return res
+      .status(400)
+      .json({ message: 'The username or email provided are already in use.' })
+
   const user = await new UserModel({
     _id: new Types.ObjectId(),
     username,

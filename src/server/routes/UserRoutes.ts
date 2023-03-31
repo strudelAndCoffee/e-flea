@@ -6,13 +6,19 @@ import {
   updateUser,
   deleteUser,
 } from '../db/controllers/User'
+import userAuth from '../middleware/userAuth'
+import { validateSchema, Schemas } from '../middleware/validateSchema'
 
 const router = express.Router()
 
-router.post('/create', createUser)
+router.post('/create', validateSchema(Schemas.user.create), createUser)
 router.get('/', readAllUsers)
-router.get('/:user_id', readUser)
-router.put('/update/:user_id', updateUser)
-router.delete('/delete/:user_id', deleteUser)
+router.get('/:user_id', userAuth, readUser)
+router.put(
+  '/update/:user_id',
+  [userAuth, validateSchema(Schemas.user.update)],
+  updateUser
+)
+router.delete('/delete/:user_id', userAuth, deleteUser)
 
 export default router
