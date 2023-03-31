@@ -1,22 +1,27 @@
-import mongoose, { Schema } from 'mongoose'
-import { UserModel } from './User'
+import mongoose, { Document, Schema } from 'mongoose'
+import { UserModel } from './'
 
-export type OrderType = {
-  user_id: string | Schema.Types.ObjectId
-  item_ids: string[] | Schema.Types.ObjectId[]
+export interface IOrder {
+  user_id: string
+  items: string[]
   total_cost: number
-  createdAt: Date | number
+  purchase_date: number
+  completed: boolean
 }
 
-const OrderSchema = new Schema<OrderType>({
+export interface IOrderModel extends IOrder, Document {}
+
+const OrderSchema: Schema = new Schema({
   user_id: {
-    type: String || Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     immutable: true,
     required: true,
   },
-  item_ids: [
+  items: [
     {
-      type: String || Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
       immutable: true,
       required: true,
     },
@@ -26,10 +31,14 @@ const OrderSchema = new Schema<OrderType>({
     immutable: true,
     required: true,
   },
-  createdAt: {
-    type: Date || Number,
+  purchase_date: {
+    type: Number,
     immutable: true,
     default: () => Date.now(),
+  },
+  completed: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -37,7 +46,7 @@ OrderSchema.pre('save', async function (next) {
   if (this.isNew) {
     const user = await UserModel.findById(this.user_id)
     const order_id = this._id
-    user?.past_orders.push(order_id)
+    user?.orders.push(order_id as string)
     await user?.save()
   }
   next()
@@ -47,4 +56,4 @@ OrderSchema.statics.findUserOrders = async function (user_id: string) {
   return await this.where('user_id').equals(user_id)
 }
 
-export const OrderModel = mongoose.model<OrderType>('orders', OrderSchema)
+export default mongoose.model<IOrderModel>('Order', OrderSchema)
